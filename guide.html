@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Discovery Guide &bull; Enniscorthy &amp; County Wexford — EIA</title>
+  <meta name="description"
+    content="Curated 12-destination discovery guide and local blog by Enniscorthy Indian Association (EIA). Explore historical castles, scenic riverwalks, wildlife parks, and family day trips in County Wexford.">
+  <link rel="icon" href="logo.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #1C1917;
+      --ink-2: #292524;
+      --emerald: #2D2620;
+      --forest: #1F6B4A;
+      --forest-deep: #154C34;
+      --forest-soft: #EAF5EE;
+      --amber: #C59B27;
+      --amber-deep: #9E7A10;
+      --amber-pale: #FAF0D0;
+      --saffron: #D97706;
+      --cream: #F7F5F0;
+      --paper: #FDFCF9;
+      --warm-grey: #78716C;
+      --line: #E7E2D9;
+      --shadow: 0 24px 48px -16px rgba(28, 25, 23, 0.18);
+      --shadow-sm: 0 10px 28px -10px rgba(28, 25, 23, 0.14);
+      --r: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--ink);
+      background: var(--cream);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .serif {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2.5px solid var(--amber);
+      outline-offset: 3px;
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* ── BUTTONS ──────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 14.5px;
+      padding: 12px 24px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: all .25s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-amber {
+      background: var(--amber);
+      color: var(--ink);
+    }
+
+    .btn-amber:hover {
+      background: var(--amber-deep);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-dark {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .btn-dark:hover {
+      background: var(--ink-2);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid var(--line);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--amber);
+      color: var(--amber-deep);
+      transform: translateY(-2px);
+    }
+
+    .btn-sm {
+      padding: 8px 18px;
+      font-size: 13px;
+    }
+
+    /* ── KICKER ───────────────────────────────── */
+    .kicker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--amber-deep);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 18px;
+      height: 1.5px;
+      background: var(--amber);
+      display: inline-block;
+    }
+
+    .kicker.forest {
+      color: var(--forest);
+    }
+
+    .kicker.forest::before {
+      background: var(--forest);
+    }
+
+    /* ── HEADER & NAVIGATION ─────────────────── */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(253, 252, 249, 0.96);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 2px 20px rgba(28, 25, 23, 0.08);
+      border-bottom: 1px solid var(--line);
+      transition: all .3s;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--amber);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .brand-text .name {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 16.5px;
+      color: var(--ink);
+      line-height: 1.15;
+      white-space: nowrap;
+    }
+
+    .brand-text .sub {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--warm-grey);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      justify-content: center;
+    }
+
+    nav ul {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      list-style: none;
+      white-space: nowrap;
+    }
+
+    nav a {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink);
+      position: relative;
+      padding: 4px 0;
+      transition: color .2s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--amber-deep);
+    }
+
+    nav a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      height: 2px;
+      width: 100%;
+      background: var(--amber);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 13px;
+      padding: 8px 18px;
+      background: var(--amber);
+      color: var(--ink);
+      border-radius: 999px;
+      transition: all .25s ease;
+      white-space: nowrap;
+    }
+
+    .nav-cta:hover {
+      background: var(--amber-deep);
+      color: #fff;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+    }
+
+    /* ── DRAWER ───────────────────────────────── */
+    .drawer-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(18, 14, 10, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 150;
+      opacity: 0;
+      transition: opacity .35s ease;
+    }
+
+    .drawer-backdrop.open {
+      display: block;
+      opacity: 1;
+    }
+
+    .drawer {
+      display: flex;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(85vw, 320px);
+      background: var(--paper);
+      padding: 24px 20px 36px;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+      transform: translateX(100%);
+      transition: transform .35s ease;
+      z-index: 200;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 6px;
+    }
+
+    .drawer-close {
+      background: var(--cream);
+      border: 1px solid var(--line);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--ink);
+    }
+
+    .drawer a {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      padding: 10px 4px;
+      border-bottom: 1px solid var(--line);
+      transition: color .2s;
+    }
+
+    .drawer a:hover,
+    .drawer a.active {
+      color: var(--amber-deep);
+    }
+
+    /* ── EDITORIAL HERO BANNER ─────────────────── */
+    .guide-hero {
+      padding-top: 120px;
+      padding-bottom: 50px;
+      background: linear-gradient(180deg, #F0ECE1 0%, var(--cream) 100%);
+      border-bottom: 1px solid var(--line);
+      position: relative;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      color: var(--warm-grey);
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--amber-deep);
+      text-decoration: underline;
+    }
+
+    .guide-hero-inner {
+      max-width: 860px;
+    }
+
+    .guide-hero h1 {
+      font-size: clamp(32px, 5.5vw, 54px);
+      color: var(--ink);
+      margin-bottom: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .guide-hero-lead {
+      font-size: clamp(16px, 2vw, 18.5px);
+      color: var(--ink-2);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .editorial-badge-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--warm-grey);
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    .editorial-badge-strip span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--paper);
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      font-weight: 500;
+    }
+
+    .editorial-badge-strip span b {
+      color: var(--ink);
+    }
+
+    /* ── FILTER & SEARCH BAR ──────────────────── */
+    .filter-sticky-bar {
+      position: sticky;
+      top: 67px;
+      z-index: 80;
+      background: rgba(253, 252, 249, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      padding: 16px 0;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    }
+
+    .filter-bar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .filter-pills {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+
+    .filter-pills button {
+      background: var(--cream);
+      border: 1.5px solid var(--line);
+      color: var(--ink-2);
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s ease;
+      white-space: nowrap;
+    }
+
+    .filter-pills button:hover {
+      border-color: var(--amber);
+      color: var(--amber-deep);
+    }
+
+    .filter-pills button.active {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-box {
+      position: relative;
+      min-width: 240px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 8px 14px 8px 36px;
+      border-radius: 999px;
+      border: 1.5px solid var(--line);
+      background: var(--paper);
+      font-size: 13px;
+      color: var(--ink);
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--amber);
+    }
+
+    .search-box svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--warm-grey);
+      pointer-events: none;
+    }
+
+    /* ── LAYOUT WITH SIDEBAR ──────────────────── */
+    .guide-main-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 48px;
+      padding: 48px 0 80px;
+      align-items: start;
+    }
+
+    /* ── BLOG CARDS FEED ──────────────────────── */
+    .blog-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .blog-article {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+    }
+
+    .blog-article:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+      border-color: var(--amber);
+    }
+
+    .blog-media {
+      position: relative;
+      background: var(--line);
+      overflow: hidden;
+      min-height: 260px;
+    }
+
+    .blog-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s ease;
+    }
+
+    .blog-article:hover .blog-media img {
+      transform: scale(1.04);
+    }
+
+    .blog-number-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--paper);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fraunces', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .blog-cat-badge {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      background: rgba(28, 25, 23, 0.88);
+      backdrop-filter: blur(6px);
+      color: #fff;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .blog-content {
+      padding: 32px 30px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .blog-meta-strip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--warm-grey);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+
+    .blog-meta-strip .dist {
+      color: var(--forest);
+      background: var(--forest-soft);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .blog-article h3 {
+      font-size: 24px;
+      color: var(--ink);
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+
+    .blog-lead {
+      font-size: 14.5px;
+      color: var(--ink-2);
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .blog-tip-box {
+      background: var(--cream);
+      border-left: 3px solid var(--amber);
+      padding: 12px 16px;
+      border-radius: 0 10px 10px 0;
+      font-size: 13px;
+      color: var(--ink-2);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .blog-tip-box strong {
+      color: var(--amber-deep);
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .blog-tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .blog-tag {
+      font-size: 11.5px;
+      background: var(--cream);
+      color: var(--warm-grey);
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+    }
+
+    .blog-footer-row {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      flex-wrap: wrap;
+    }
+
+    .blog-map-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--forest-deep);
+      background: var(--forest-soft);
+      padding: 8px 16px;
+      border-radius: 999px;
+      transition: all .2s;
+    }
+
+    .blog-map-btn:hover {
+      background: var(--forest);
+      color: #fff;
+    }
+
+    .blog-hours-info {
+      font-size: 12.5px;
+      color: var(--warm-grey);
+    }
+
+    /* ── SIDEBAR WIDGETS ──────────────────────── */
+    .guide-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      position: sticky;
+      top: 145px;
+    }
+
+    .side-card {
+      background: var(--paper);
+      border-radius: var(--r);
+      border: 1px solid var(--line);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .side-card h4 {
+      font-size: 18px;
+      color: var(--ink);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .side-card p {
+      font-size: 13.5px;
+      color: var(--warm-grey);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .quick-dist-list {
+      list-style: none;
+      font-size: 13px;
+    }
+
+    .quick-dist-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--line);
+      color: var(--ink-2);
+    }
+
+    .quick-dist-list li:last-child {
+      border-bottom: none;
+    }
+
+    .quick-dist-list .time {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 600;
+      color: var(--amber-deep);
+    }
+
+    .itinerary-step {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+      font-size: 13px;
+    }
+
+    .itinerary-step:last-child {
+      margin-bottom: 0;
+    }
+
+    .itinerary-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--amber-pale);
+      color: var(--amber-deep);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .transport-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .transport-links a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: var(--cream);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-weight: 500;
+      transition: all .2s;
+    }
+
+    .transport-links a:hover {
+      background: var(--amber-pale);
+      border-color: var(--amber);
+      color: var(--amber-deep);
+    }
+
+    /* ── COMMUNITY NOTE STRIP ─────────────────── */
+    .community-note-strip {
+      background: linear-gradient(135deg, #1C1917 0%, #2D2620 100%);
+      border-radius: var(--r);
+      padding: 40px;
+      color: #fff;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 60px;
+      border: 1px solid rgba(197, 155, 39, 0.3);
+    }
+
+    .community-note-strip h3 {
+      font-size: 26px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .community-note-strip p {
+      font-size: 14.5px;
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    /* ── FOOTER ───────────────────────────────── */
+    footer {
+      background: var(--ink);
+      color: rgba(255, 255, 255, 0.75);
+      padding: 60px 0 28px;
+    }
+
+    .foot-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 48px;
+      margin-bottom: 40px;
+    }
+
+    .foot-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .foot-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+    }
+
+    .foot-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .foot-bottom {
+      text-align: center;
+      padding: 20px 0;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      line-height: 1.5;
+    }
+
+    /* ── FLOATING BACK TO TOP ─────────────────── */
+    .back-to-top {
+      position: fixed;
+      bottom: 24px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff;
+      border: 1px solid var(--amber);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow);
+      z-index: 90;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(12px);
+      transition: all .25s ease;
+      cursor: pointer;
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .back-to-top:hover {
+      background: var(--amber-deep);
+      color: #fff;
+    }
+
+    /* ── RESPONSIVE MOBILE ────────────────────── */
+    @media (max-width: 1024px) {
+      nav ul {
+        display: none;
+      }
+      .hamburger {
+        display: flex;
+      }
+      .guide-main-layout {
+        grid-template-columns: 1fr;
+        gap: 36px;
+        padding-top: 32px;
+      }
+      .guide-sidebar {
+        position: static;
+        order: 2;
+      }
+      .blog-feed {
+        order: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .wrap {
+        padding: 0 16px;
+      }
+      .nav {
+        padding: 10px 14px;
+      }
+      .brand-logo {
+        width: 36px;
+        height: 36px;
+      }
+      .brand-text .name {
+        font-size: 13.5px;
+      }
+      .brand-text .sub {
+        font-size: 8.5px;
+      }
+      .nav-cta {
+        padding: 7px 12px;
+        font-size: 11.5px;
+      }
+
+      /* Hero */
+      .guide-hero {
+        padding-top: 92px;
+        padding-bottom: 28px;
+      }
+      .breadcrumbs {
+        font-size: 11px;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+      .guide-hero h1 {
+        font-size: 27px;
+        line-height: 1.22;
+        margin-bottom: 12px;
+      }
+      .guide-hero-lead {
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+      .editorial-badge-strip {
+        gap: 8px;
+        padding-top: 14px;
+        font-size: 11.5px;
+      }
+      .editorial-badge-strip span {
+        padding: 5px 11px;
+      }
+
+      /* Sticky filter bar */
+      .filter-sticky-bar {
+        top: 56px;
+        padding: 10px 0;
+        background: rgba(253, 252, 249, 0.97);
+        width: 100%;
+        overflow: hidden;
+      }
+      .filter-bar-inner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+      }
+      .search-box {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+      }
+      .search-box input {
+        font-size: 16px; /* Prevents auto-zoom in iOS Safari */
+        padding: 9px 14px 9px 38px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .filter-pills {
+        display: flex;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        gap: 6px;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+      }
+      .filter-pills::-webkit-scrollbar {
+        display: none;
+      }
+      .filter-pills button {
+        padding: 7px 14px;
+        font-size: 12px;
+        flex-shrink: 0;
+        min-height: 36px;
+      }
+
+      /* Main layout */
+      .guide-main-layout {
+        gap: 32px;
+        padding: 24px 0 60px;
+      }
+      .blog-feed {
+        gap: 24px;
+      }
+      .blog-article {
+        grid-template-columns: 1fr;
+        border-radius: 16px;
+      }
+      .blog-media {
+        min-height: 200px;
+        height: 200px;
+      }
+      .blog-number-badge {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+        top: 10px;
+        left: 10px;
+      }
+      .blog-cat-badge {
+        bottom: 10px;
+        left: 10px;
+        font-size: 9.5px;
+        padding: 3px 10px;
+      }
+      .blog-content {
+        padding: 20px 16px;
+      }
+      .blog-meta-strip {
+        font-size: 11px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .blog-article h3 {
+        font-size: 21px;
+        line-height: 1.25;
+        margin-bottom: 10px;
+      }
+      .blog-lead {
+        font-size: 14px;
+        line-height: 1.65;
+        margin-bottom: 14px;
+      }
+      .blog-tip-box {
+        padding: 10px 12px;
+        font-size: 12.5px;
+        margin-bottom: 14px;
+      }
+      .blog-tags-row {
+        gap: 5px;
+        margin-bottom: 16px;
+      }
+      .blog-tag {
+        font-size: 11px;
+        padding: 2.5px 8px;
+      }
+      .blog-footer-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding-top: 14px;
+      }
+      .blog-map-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 11px 16px;
+        font-size: 13.5px;
+      }
+      .blog-hours-info {
+        text-align: center;
+        font-size: 12px;
+      }
+
+      /* Sidebar widgets */
+      .side-card {
+        padding: 18px 16px;
+        border-radius: 16px;
+      }
+      .side-card h4 {
+        font-size: 16.5px;
+        margin-bottom: 10px;
+      }
+      .side-card p {
+        font-size: 13px;
+        margin-bottom: 12px;
+      }
+      .quick-dist-list {
+        font-size: 12.5px;
+      }
+      .transport-links a {
+        padding: 10px 12px;
+        font-size: 12.5px;
+      }
+
+      /* Callout banner */
+      .community-note-strip {
+        padding: 24px 18px;
+        border-radius: 16px;
+        margin-bottom: 40px;
+      }
+      .community-note-strip h3 {
+        font-size: 20px;
+        line-height: 1.3;
+      }
+      .community-note-strip p {
+        font-size: 13.5px;
+      }
+      .community-note-strip .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      /* Footer */
+      footer {
+        padding: 44px 0 24px;
+      }
+      .foot-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      .foot-brand {
+        margin-bottom: 12px;
+      }
+      .foot-desc {
+        font-size: 13.5px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .brand-text .sub {
+        display: none;
+      }
+      .brand-text .name {
+        font-size: 12.5px;
+      }
+      .guide-hero h1 {
+        font-size: 24px;
+      }
+      .blog-content {
+        padding: 18px 13px;
+      }
+      .blog-article h3 {
+        font-size: 19px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══ NAVIGATION ═══════════════════════════════════ -->
+  <header id="hdr">
+    <div class="nav">
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="EIA Logo" class="brand-logo">
+        <div class="brand-text">
+          <div class="name">Enniscorthy Indian Association</div>
+          <div class="sub">Co. Wexford, Ireland</div>
+        </div>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#committee">Committee</a></li>
+          <li><a href="index.html#programs">Culture</a></li>
+          <li><a href="index.html#events">Events</a></li>
+          <li><a href="membership.html">Membership</a></li>
+          <li><a href="guide.html" class="active">Local Guide</a></li>
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="index.html#gallery">Gallery</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="nav-right">
+        <a href="membership.html" class="nav-cta">Join EIA</a>
+        <button class="hamburger" id="ham" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Backdrop -->
+  <div class="drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()"></div>
+
+  <!-- Mobile Drawer -->
+  <div class="drawer" id="drawer">
+    <div class="drawer-header">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <img src="logo.png" alt="EIA" style="width:32px; height:32px; border-radius:50%; object-fit:cover;">
+        <div>
+          <div style="font-family:'Fraunces', serif; font-weight:700; font-size:15px; color:var(--ink); line-height:1.2;">EIA Wexford</div>
+          <div style="font-size:9.5px; color:var(--warm-grey); text-transform:uppercase; letter-spacing:0.06em;">Enniscorthy</div>
+        </div>
+      </div>
+      <button class="drawer-close" onclick="closeDrawer()" aria-label="Close menu">&times;</button>
+    </div>
+    <a href="index.html" onclick="closeDrawer()">Home</a>
+    <a href="index.html#about" onclick="closeDrawer()">About EIA</a>
+    <a href="index.html#committee" onclick="closeDrawer()">Committee 2026</a>
+    <a href="index.html#programs" onclick="closeDrawer()">Culture &amp; Pillars</a>
+    <a href="index.html#events" onclick="closeDrawer()">Events &amp; Festivals</a>
+    <a href="membership.html" onclick="closeDrawer()">Membership Hub</a>
+    <a href="guide.html" class="active" onclick="closeDrawer()">Local Discovery Guide</a>
+    <a href="index.html#services" onclick="closeDrawer()">Community Support</a>
+    <a href="index.html#gallery" onclick="closeDrawer()">Photo Gallery</a>
+    <a href="index.html#contact" onclick="closeDrawer()">Contact Us</a>
+    <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--line);">
+      <a href="membership.html" class="btn btn-amber" style="width:100%; text-align:center; justify-content:center; color:var(--ink); border-bottom:none; padding:12px 20px;">Join EIA 2026 &rarr;</a>
+    </div>
+  </div>
+
+  <!-- ═══ EDITORIAL HERO ═══════════════════════════════ -->
+  <section class="guide-hero">
+    <div class="wrap">
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a>
+        <span>&bull;</span>
+        <span>Community Journal</span>
+        <span>&bull;</span>
+        <span style="color:var(--ink); font-weight:600;">Enniscorthy &amp; Wexford Local Guide</span>
+      </div>
+
+      <div class="guide-hero-inner">
+        <div class="kicker">Local Discovery Editorial &bull; 12 Locations</div>
+        <h1>Enniscorthy &amp; County Wexford: The Community Discovery Journal</h1>
+        <p class="guide-hero-lead">
+          Curated by Enniscorthy Indian Association for our families, healthcare professionals, new residents, and visiting friends. From historic riverside fortresses and 1798 battlefields in town, to coastal sand dunes, Victorian gardens, and wildlife reserves across sunny South East Ireland.
+        </p>
+
+        <div class="editorial-badge-strip">
+          <span><b>12</b> Standout Sites</span>
+          <span><b>6</b> Town Centre Walks</span>
+          <span><b>6</b> County Day Trips</span>
+          <span><b>100%</b> Family Friendly</span>
+          <span>Updated for <b>2026</b></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ STICKY FILTER & SEARCH BAR ═══════════════════ -->
+  <div class="filter-sticky-bar">
+    <div class="wrap">
+      <div class="filter-bar-inner">
+        <div class="filter-pills" id="guideFilters">
+          <button class="active" data-filter="all">All 12 Highlights</button>
+          <button data-filter="town">In Enniscorthy Town (1–6)</button>
+          <button data-filter="daytrip">Family Day Trips (7–12)</button>
+          <button data-filter="history">History &amp; Castles</button>
+          <button data-filter="nature">Nature &amp; Outdoors</button>
+        </div>
+
+        <div class="search-box">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="guideSearchInput" placeholder="Filter by site, town, feature..." oninput="handleGuideSearch()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MAIN EDITORIAL FEED & SIDEBAR ════════════════ -->
+  <div class="wrap">
+    <div class="guide-main-layout">
+
+      <!-- Blog Articles Feed -->
+      <div class="blog-feed" id="blogFeed">
+
+        <!-- 1. Enniscorthy Castle -->
+        <article class="blog-article" data-cat="town history">
+          <div class="blog-media">
+            <img src="guide_enniscorthy_castle.jpg" alt="Enniscorthy Castle" loading="lazy">
+            <div class="blog-number-badge">1</div>
+            <span class="blog-cat-badge">Town Centre Landmark</span>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta-strip">
+              <span class="dist">0.2 km from Town Centre</span>
+              <span>Castle Hill &bull; Est. 1205</span>
+            </div>
+            <h3>Enniscorthy Castle</h3>
+            <p class="blog-lead">
+              Dominating the town skyline above the River Slaney, this Norman castle has witnessed over 800 years of turbulent Irish history. Visitors can climb to the battlements for panoramic 360-degree views across Enniscorthy's rooftops, Vinegar Hill, and the winding river below.
+            </p>
+            <div class="blog-tip-box">
+              <strong>Family &amp; Visitor Tip</strong>
+              Excellent indoor exhibition exploring local Wexford crafts, the Norman invasion, and famous Enniscorthy designer Eileen Gray. Ideal on a rainy morning, with safe stairs for children and welcoming staff.
+            </div>
+            <div class="blog-tags-row">
+              <span class="blog-tag">Rooftop Battlements</span>
+              <span class="blog-tag">River Slaney Views</span>
+              <span class="blog-tag">Norman Heritage</span>
+              <span class="blog-tag">Exhibition</span>
+            </div>
+            <div class="blog-footer-row">
+              <span class="blog-hours-info">Open daily 10:00 &ndash; 17:00</span>
+              <a href="https://maps.google.com/?q=Enniscorthy+Castle" target="_blank" rel="noopener" class="blog-map-btn">
+                <span>Google Maps Directions &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2. Vinegar Hill -->
+        <article class="blog-article" data-cat="town history nature">
+          <div class="blog-media">
+            <img src="guide_vinegar_hill.jpg" alt="Vinegar Hill historic battlefield" loading="lazy">
+            <div class="blog-number-badge">2</div>
+            <span class="blog-cat-badge">Panoramic Battlefield</span>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta-strip">
+              <span class="dist">1.6 km from Centre</span>
+              <span>Historic 1798 Site</span>
+            </div>
+            <h3>Vinegar Hill (Cnoc Fíodh na gCaor)</h3>
+            <p class="blog-lead">
+              Vinegar Hill was the pivotal battleground and command post during the Wexford 1798 Rebellion. Today, this gentle volcanic hill offers one of the most stunning viewing points in County Wexford, looking out over the Slaney Valley, Mount Leinster, and the Blackstairs Mountains.
+            </p>
+            <div class="blog-tip-box">
+              <strong>Family &amp; Visitor Tip</strong>
+              Paved parking lot available halfway up. The final grassy climb takes just 5 minutes and is great for kids and evening sunsets. Free 24/7 public access; bring a windbreaker jacket.
+            </div>
+            <div class="blog-tags-row">
+              <span class="blog-tag">Free Entry</span>
+              <span class="blog-tag">Sunset Panorama</span>
+              <span class="blog-tag">Windmill Ruins</span>
+              <span class="blog-tag">Short Walk</span>
+            </div>
+            <div class="blog-footer-row">
+              <span class="blog-hours-info">Open 24 hours &bull; Free Admission</span>
+              <a href="https://maps.google.com/?q=Vinegar+Hill+Enniscorthy" target="_blank" rel="noopener" class="blog-map-btn">
+                <span>Google Maps Directions &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3. National 1798 Rebellion Centre -->
+        <article class="blog-article" data-cat="town history">
+          <div class="blog-media">
+            <img src="guide_1798_centre.jpg" alt="The National 1798 Rebellion Centre" loading="lazy">
+            <div class="blog-number-badge">3</div>
+            <span class="blog-cat-badge">Interactive Heritage</span>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta-strip">
+              <span class="dist">0.8 km from Centre</span>
+              <span>Parnell Road</span>
+            </div>
+            <h3>The National 1798 Rebellion Centre</h3>
+            <p class="blog-lead">
+              An award-winning national museum chronicling the dramatic 1798 uprising through immersive state-of-the-art 4D audiovisual presentations, battle dioramas, artifacts, and interactive touchscreen displays detailing Ireland’s struggle for independence.
+            </p>
+            <div class="blog-tip-box">
+              <strong>Family &amp; Visitor Tip</strong>
+              Combo tickets are available covering both Enniscorthy Castle and the 1798 Centre at a discounted rate. Highly recommended for school-age children learning Irish history.
+            </div>
+            <div class="blog-tags-row">
+              <span class="blog-tag">4D Battle Theatre</span>
+              <span class="blog-tag">Interactive Screens</span>
+              <span class="blog-tag">Gift Shop &amp; Cafe</span>
+              <span class="blog-tag">Indoor Attraction</span>
+            </div>
+            <div class="blog-footer-row">
+              <span class="blog-hours-info">Tue &ndash; Sun 10:00 &ndash; 16:30</span>
+              <a href="https://maps.google.com/?q=National+1798+Rebellion+Centre+Enniscorthy" target="_blank" rel="noopener" class="blog-map-btn">
+                <span>Google Maps Directions &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4. St Aidan's Cathedral -->
+        <article class="blog-article" data-cat="town history">
+          <div class="blog-media">
+            <img src="guide_st_aidans.jpg" alt="St Aidan's Cathedral Enniscorthy" loading="lazy">
+            <div class="blog-number-badge">4</div>
+            <span class="blog-cat-badge">Gothic Revival Masterpiece</span>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta-strip">
+              <span class="dist">0.4 km from Centre</span>
+              <span>Cathedral Street &bull; Built 1843</span>
+            </div>
+            <h3>St Aidan’s Cathedral</h3>
+            <p class="blog-lead">
+              Designed by renowned Gothic Revival architect Augustus Welby Pugin (who also designed the interior of the Palace of Westminster and Big Ben in London), St Aidan's Cathedral is constructed from local dressed granite and features soaring arches and intricate stained glass windows.
+            </p>
+            <div class="blog-tip-box">
+              <strong>Family &amp; Visitor Tip</strong>
+              Step inside for a moment of peaceful reflection and admire the hand-carved stone capitals and acoustic vaulting. Free to enter outside of service times. Respectful quiet is appreciated.
+            </div>
+            <div class="blog-tags-row">
+              <span class="blog-tag">Pugin Architecture</span>
+              <span class="blog-tag">Granite Masonry</span>
+              <span class="blog-tag">Free Entry</span>
+              <span class="blog-tag">Town Centre</span>
+            </div>
+            <div class="blog-footer-row">
+              <span class="blog-hours-info">Open daily for visitors</span>
+              <a href="https://maps.google.com/?q=St+Aidans+Cathedral+Enniscorthy" target="_blank" rel="noopener" class="blog-map-btn">
+                <span>Google Maps Directions &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5. The Riverwalk Enniscorthy -->
+        <article class="blog-article" data-cat="town nature">
+          <div class="blog-media">
+            <img src="guide_river_slaney.jpg" alt="The Riverwalk along the Slaney" loading="lazy">
+            <div class="blog-number-badge">5</div>
+            <span class="blog-cat-badge">River Slaney Scenic Trail</span>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta-strip">
+              <span class="dist">Starts at Promenade</span>
+              <span>3.5 km Trail &bull; Flat Paved</span>
+            </div>
+            <h3>The Riverwalk Enniscorthy</h3>
+            <p class="blog-lead">
+              A peaceful walking path winding along the wooded banks of the River Slaney south of Enniscorthy town. Known for its serene atmosphere, weeping willows, leaping salmon, and diverse birdlife including swans, herons, and kingfishers.
+            </p>
+            <div class="blog-tip-box">
+              <strong>Family &amp; Visitor Tip</strong>
+              Completely flat and paved, making it ideal for pushchairs, jogging, and evening walks with elderly relatives. Parking available at the riverside promenade near Riverside Park Hotel.
+            </div>
+            <div class="blog-tags-row">
+              <span class="blog-tag">Stroller Friendly</span>
+              <span class="blog-tag">Birdwatching</span>
+              <span class="blog-tag">Salmon River</span>
+              <span class="blog-tag">Dog Walking</span>
+            </div>
+            <div class="blog-footer-row">
+              <span class="blog-hours-info">Open year-round &bull; Daylight hours</span>
+              <a href="https://maps.google.com/?q=The+Riverwalk+Enniscorthy" target="_blank" rel="noopener" class="blog-map-btn">
+                <span>Google Maps Directions &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6. Kids Park Enniscorthy -->
+        <article class="blog-article" data-cat="town nature">
+          <div class="blog-media">
+            <img src="guide_kids_park.jpg" alt="Enniscorthy Kids Playground & Park" loading="lazy">
+            <div class="blog-number-badge">6</div>
+            <span class="blog-cat-badge">Community Playground</span>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta-strip">
+              <span class="dist">0.7 km from Centre</span>
+              <span>Abbey Square / Island Road</span>
+            </div>
+            <h3>Kids Park Enniscorthy</h3>
+            <p class="blog-lead">
+              A modern, fenced-in community playground equipped with safe climbing frames, swings, zip-lines, and sensory play equipment suitable for toddlers to pre-teens. Set beside open green lawns where families can relax on sunny afternoons.
+            </p>
+            <div class="blog-tip-box">
+              <strong>Family &amp; Visitor Tip</strong>
+              Benches and picnic tables provided inside the enclosed play area. Close to coffee shops and bakeries in town, making it an easy 1–2 hour break for young kids before or after school.
+            </div>
+            <div class="blog-tags-row">
+              <span class="blog-tag">Enclosed Safety</span>
+              <span class="blog-tag">Toddler Friendly</span>
+              <span class="blog-tag">Picnic Tables</span>
+              <span class="blog-tag">Free Community Facility</span>
+            </div>
+            <div class="blog-footer-row">
+              <span class="blog-hours-info">Open daily from 08:30 till dusk</span>
+              <a href="https://maps.google.com/?q=Kids+Park+Enniscorthy" target="_blank" rel="noopener" class="blog-map-btn">
+                <span>Google Maps Directions &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 7. Irish National Heritage Park -->
+        <article class="blog-article" data-cat="daytrip history nature">
+          <div class="blog-media">
+            <img src="guide_heritage_park.jpg" alt="Irish National Heritage Park Ferrycarrig" loading="lazy">
+            <div class="blog-number-badge">7</div>
+            <span class="blog-cat-badge">Outdoor Living Museum</span>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta-strip">
+              <span class="dist">19 km &bull; 18 min drive</span>
+              <span>Ferrycarrig, Wexford</span>
+            </div>
+            <h3>Irish National Heritage Park</h3>
+            <p class="blog-lead">
+              One of Ireland's premiere outdoor heritage attractions, covering 35 acres of native woodland and estuary marsh. Wander through 9,000 years of reconstructed history, featuring authentic Stone Age campsites, Ringforts, Crannógs on water, Viking shipyards, and Norman forts.
+            </p>
+            <div class="blog-tip-box">
+              <strong>Family &amp; Visitor Tip</strong>
+              Allow 2.5 to 3 hours for a complete visit. Live falconry displays, archery workshops, and a woodland playground are great for kids. Beautiful café overlooking the River Slaney estuary.
+            </div>
+            <div class="blog-tags-row">
+              <span class="blog-tag">35 Acres Woodland</span>
+              <span class="blog-tag">Crannog on Lake</span>
+              <span class="blog-tag">Falconry Birds</span>
+              <span class="blog-tag">Full Day Trip</span>
+            </div>
+            <div class="blog-footer-row">
+              <span class="blog-hours-info">Open daily 09:30 &ndash; 17:30</span>
+              <a href="https://maps.google.com/?q=Irish+National+Heritage+Park+Ferrycarrig" target="_blank" rel="noopener" class="blog-map-btn">
+                <span>Google Maps Directions &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 8. Secret Valley Wildlife Park -->
+        <article class="blog-article" data-cat="daytrip nature">
+          <div class="blog-media">
+            <img src="guide_secret_valley.jpg" alt="Secret Valley Wildlife Park" loading="lazy">
+            <div class="blog-number-badge">8</div>
+            <span class="blog-cat-badge">Family Animal Park</span>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta-strip">
+              <span class="dist">14 km &bull; 14 min drive</span>
+              <span>Clonroche, Co. Wexford</span>
+            </div>
+            <h3>Secret Valley Wildlife Park</h3>
+            <p class="blog-lead">
+              A 14-acre family-run rescue sanctuary and farm park set in scenic Clonroche countryside. Home to over 200 animals including meerkats, lemurs, alpacas, reptiles, wallabies, and farm animals with interactive keeper talks and bottle-feeding sessions.
+            </p>
+            <div class="blog-tip-box">
+              <strong>Family &amp; Visitor Tip</strong>
+              Check feeding times at arrival! Kids can pet bunnies, feed goats, ride quad trains, and tackle the outdoor obstacle course. Free on-site parking and picnic barns.
+            </div>
+            <div class="blog-tags-row">
+              <span class="blog-tag">Animal Feeding</span>
+              <span class="blog-tag">Pony Rides</span>
+              <span class="blog-tag">Indoor Play Barn</span>
+              <span class="blog-tag">Toddler Favorite</span>
+            </div>
+            <div class="blog-footer-row">
+              <span class="blog-hours-info">Open weekends &amp; school holidays 10:00 &ndash; 17:00</span>
+              <a href="https://maps.google.com/?q=Secret+Valley+Wildlife+Park+Clonroche" target="_blank" rel="noopener" class="blog-map-btn">
+                <span>Google Maps Directions &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 9. Wells House & Gardens -->
+        <article class="blog-article" data-cat="daytrip history nature">
+          <div class="blog-media">
+            <img src="guide_wells_house.jpg" alt="Wells House & Gardens" loading="lazy">
+            <div class="blog-number-badge">9</div>
+            <span class="blog-cat-badge">Victorian Estate &amp; Fairies</span>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta-strip">
+              <span class="dist">21 km &bull; 20 min drive</span>
+              <span>Ballyedmond, Gorey</span>
+            </div>
+            <h3>Wells House &amp; Gardens</h3>
+            <p class="blog-lead">
+              A grand 17th-century Victorian Tudor-Gothic estate surrounded by 450 acres of historic gardens, formal terraces, woodland fairy trails, an animal farm, and an artisan craft courtyard. The mansion house itself offers guided living history tours.
+            </p>
+            <div class="blog-tip-box">
+              <strong>Family &amp; Visitor Tip</strong>
+              The woodland 'Fairy Trail' and 'Mogue's Walk' feature charming wooden sculptures that delight young children. High ropes adventure and archery available for older youth.
+            </div>
+            <div class="blog-tags-row">
+              <span class="blog-tag">Fairy Woodland Trail</span>
+              <span class="blog-tag">Mansion Tours</span>
+              <span class="blog-tag">Animal Corner</span>
+              <span class="blog-tag">Coffee Courtyard</span>
+            </div>
+            <div class="blog-footer-row">
+              <span class="blog-hours-info">Open daily 10:00 &ndash; 17:00</span>
+              <a href="https://maps.google.com/?q=Wells+House+and+Gardens+Gorey" target="_blank" rel="noopener" class="blog-map-btn">
+                <span>Google Maps Directions &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 10. Johnstown Castle -->
+        <article class="blog-article" data-cat="daytrip history nature">
+          <div class="blog-media">
+            <img src="guide_johnstown_castle.jpg" alt="Johnstown Castle Estate & Gardens" loading="lazy">
+            <div class="blog-number-badge">10</div>
+            <span class="blog-cat-badge">Castle Lakes &amp; Museum</span>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta-strip">
+              <span class="dist">28 km &bull; 25 min drive</span>
+              <span>Murntown, Wexford</span>
+            </div>
+            <h3>Johnstown Castle Estate &amp; Gardens</h3>
+            <p class="blog-lead">
+              A Gothic Revival castle set beside three tranquil ornamental lakes teeming with peacocks, swans, and rare champion trees. The estate houses the Irish Agricultural Museum, Ireland's largest transport and rural heritage collection, and scenic lakeside pathways.
+            </p>
+            <div class="blog-tip-box">
+              <strong>Family &amp; Visitor Tip</strong>
+              Book the castle servant tunnel tour — kids love walking through the 86-metre underground brick servant passageway. Excellent visitor centre café and playground on-site.
+            </div>
+            <div class="blog-tags-row">
+              <span class="blog-tag">Servant Tunnels</span>
+              <span class="blog-tag">Lake Walks</span>
+              <span class="blog-tag">Irish Agri Museum</span>
+              <span class="blog-tag">Peacock Gardens</span>
+            </div>
+            <div class="blog-footer-row">
+              <span class="blog-hours-info">Open 7 days 09:00 &ndash; 17:30</span>
+              <a href="https://maps.google.com/?q=Johnstown+Castle+Wexford" target="_blank" rel="noopener" class="blog-map-btn">
+                <span>Google Maps Directions &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 11. Curracloe Beach -->
+        <article class="blog-article" data-cat="daytrip nature">
+          <div class="blog-media">
+            <img src="guide_curracloe_beach.jpg" alt="Curracloe Beach Wexford" loading="lazy">
+            <div class="blog-number-badge">11</div>
+            <span class="blog-cat-badge">Blue Flag Sand Dunes</span>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta-strip">
+              <span class="dist">24 km &bull; 24 min drive</span>
+              <span>Curracloe, Co. Wexford</span>
+            </div>
+            <h3>Curracloe Beach &amp; Raven Wood</h3>
+            <p class="blog-lead">
+              Famous worldwide as the opening landing location in the film <em>Saving Private Ryan</em>, Curracloe Beach stretches for miles of soft golden sand backed by wild dune systems. Directly adjacent is the Raven Nature Reserve, a pine forest trail where you can spot red squirrels.
+            </p>
+            <div class="blog-tip-box">
+              <strong>Family &amp; Visitor Tip</strong>
+              Blue Flag designated beach with lifeguards on duty during summer months. Surf schools operate nearby, and the forest trail offers shelter if the beach is windy.
+            </div>
+            <div class="blog-tags-row">
+              <span class="blog-tag">Blue Flag Waters</span>
+              <span class="blog-tag">Miles of Golden Sand</span>
+              <span class="blog-tag">Pine Forest Walks</span>
+              <span class="blog-tag">Summer Swimming</span>
+            </div>
+            <div class="blog-footer-row">
+              <span class="blog-hours-info">Public beach &bull; Free access year-round</span>
+              <a href="https://maps.google.com/?q=Curracloe+Beach+Wexford" target="_blank" rel="noopener" class="blog-map-btn">
+                <span>Google Maps Directions &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 12. Ferns Castle -->
+        <article class="blog-article" data-cat="daytrip history">
+          <div class="blog-media">
+            <img src="guide_ferns_castle.jpg" alt="Ferns Castle & Medieval Heritage" loading="lazy">
+            <div class="blog-number-badge">12</div>
+            <span class="blog-cat-badge">Medieval Capital of Leinster</span>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta-strip">
+              <span class="dist">11 km &bull; 10 min drive</span>
+              <span>Ferns, North Wexford</span>
+            </div>
+            <h3>Ferns Castle &amp; Medieval Monasteries</h3>
+            <p class="blog-lead">
+              Once the ancient capital of Leinster, historic Ferns contains an impressive 13th-century Norman castle with a rare circular private chapel on the second floor, St Mary's Augustinian Abbey, and ancient high crosses.
+            </p>
+            <div class="blog-tip-box">
+              <strong>Family &amp; Visitor Tip</strong>
+              The OPW visitor centre houses the hand-stitched <em>Ferns Tapestry</em> detailing the arrival of the Normans. Free entry into the castle grounds; combined easily with a short drive to Gorey.
+            </div>
+            <div class="blog-tags-row">
+              <span class="blog-tag">Ancient Capital</span>
+              <span class="blog-tag">Norman Chapel</span>
+              <span class="blog-tag">OPW Tapestry</span>
+              <span class="blog-tag">10 Min from Town</span>
+            </div>
+            <div class="blog-footer-row">
+              <span class="blog-hours-info">Open Easter to autumn 10:00 &ndash; 17:00</span>
+              <a href="https://maps.google.com/?q=Ferns+Castle+Wexford" target="_blank" rel="noopener" class="blog-map-btn">
+                <span>Google Maps Directions &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="guide-sidebar">
+
+        <!-- Quick Travel Times Widget -->
+        <div class="side-card">
+          <h4>Distances from Town</h4>
+          <p>Key road travel times starting from Market Square, Enniscorthy:</p>
+          <ul class="quick-dist-list">
+            <li><span>Enniscorthy Castle</span> <span class="time">3 min walk</span></li>
+            <li><span>Vinegar Hill</span> <span class="time">5 min drive</span></li>
+            <li><span>Riverwalk Slaney</span> <span class="time">2 min walk</span></li>
+            <li><span>Ferns Medieval Castle</span> <span class="time">10 min drive</span></li>
+            <li><span>Secret Valley Park</span> <span class="time">14 min drive</span></li>
+            <li><span>Heritage Park Ferrycarrig</span> <span class="time">18 min drive</span></li>
+            <li><span>Wells House Gardens</span> <span class="time">20 min drive</span></li>
+            <li><span>Curracloe Beach Dunes</span> <span class="time">24 min drive</span></li>
+            <li><span>Johnstown Castle Estate</span> <span class="time">25 min drive</span></li>
+          </ul>
+        </div>
+
+        <!-- Weekend Itineraries Widget -->
+        <div class="side-card">
+          <h4>Suggested Day Trips</h4>
+          <p style="font-weight:600; color:var(--amber-deep); margin-bottom:6px;">Tour 1: Town Heritage (Half Day)</p>
+          <div class="itinerary-step">
+            <div class="itinerary-num">1</div>
+            <div>Morning tour of Enniscorthy Castle &amp; Slaney views.</div>
+          </div>
+          <div class="itinerary-step">
+            <div class="itinerary-num">2</div>
+            <div>Stroll to 1798 Rebellion Centre &amp; Pugin Cathedral.</div>
+          </div>
+          <div class="itinerary-step">
+            <div class="itinerary-num">3</div>
+            <div>Sunset walk atop Vinegar Hill.</div>
+          </div>
+
+          <p style="font-weight:600; color:var(--forest); margin:18px 0 6px;">Tour 2: Coastal &amp; Nature (Full Day)</p>
+          <div class="itinerary-step">
+            <div class="itinerary-num">1</div>
+            <div>Morning at Heritage Park Ferrycarrig.</div>
+          </div>
+          <div class="itinerary-step">
+            <div class="itinerary-num">2</div>
+            <div>Picnic lunch &amp; dune walks at Curracloe Beach.</div>
+          </div>
+          <div class="itinerary-step">
+            <div class="itinerary-num">3</div>
+            <div>Afternoon tea at Johnstown Castle peacock gardens.</div>
+          </div>
+        </div>
+
+        <!-- Public Transport & Parking Widget -->
+        <div class="side-card">
+          <h4>Transport &amp; Connections</h4>
+          <p>Getting around Enniscorthy and surrounding County Wexford:</p>
+          <div class="transport-links">
+            <a href="https://www.irishrail.ie" target="_blank" rel="noopener">
+              <span>Irish Rail (Enniscorthy Station)</span>
+              <span>&rarr;</span>
+            </a>
+            <a href="https://www.wexfordbus.com" target="_blank" rel="noopener">
+              <span>Wexford Bus (Route 740)</span>
+              <span>&rarr;</span>
+            </a>
+            <a href="https://www.buseireann.ie" target="_blank" rel="noopener">
+              <span>Bus Éireann (Routes 2 &amp; 132)</span>
+              <span>&rarr;</span>
+            </a>
+            <a href="https://wexfordcoco.ie" target="_blank" rel="noopener">
+              <span>Wexford Co. Council Parking Info</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Association Connect Widget -->
+        <div class="side-card" style="background:var(--forest-soft); border-color:rgba(31,107,74,0.2);">
+          <h4 style="color:var(--forest-deep);">Have a Recommendation?</h4>
+          <p style="color:var(--forest-deep);">
+            Know a hidden scenic trail, family gem, or historical site in County Wexford? Share it with the EIA Community Committee to feature in this journal.
+          </p>
+          <a href="index.html#contact" class="btn btn-dark btn-sm" style="width:100%; text-align:center;">
+            Send Recommendation &rarr;
+          </a>
+        </div>
+
+      </aside>
+
+    </div>
+
+    <!-- Community Mission Banner -->
+    <div class="community-note-strip">
+      <div>
+        <div class="kicker" style="color:var(--amber); margin-bottom:8px;">EIA Community Heritage Mission</div>
+        <h3>Connecting Heritage &bull; Embracing Ireland</h3>
+        <p>
+          Enniscorthy Indian Association is proud to foster friendship, integration, and cultural pride. We invite Indian families, Irish friends, and residents across County Wexford to explore this extraordinary corner of Ireland together.
+        </p>
+      </div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="membership.html" class="btn btn-amber">Join Association &rarr;</a>
+        <a href="index.html" class="btn btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.35);">Return Home</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══════════════════════════════════════ -->
+  <footer id="contact">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <div class="foot-brand">
+            <img class="foot-logo" src="logo.png" alt="EIA Logo">
+            <div>
+              <div class="name" style="font-family:'Fraunces', serif; font-size:18px; color:#fff; font-weight:700;">Enniscorthy Indian Association</div>
+              <div class="sub" style="font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--amber);">Co. Wexford, Ireland</div>
+            </div>
+          </div>
+          <p class="foot-desc">
+            Celebrating Our Heritage &bull; Embracing Diversity &bull; Building Community. Connecting Indian families, individuals, and friends in Enniscorthy and surrounding County Wexford.
+          </p>
+        </div>
+        <div style="display:flex; flex-direction:column; justify-content:center; gap:10px;">
+          <div style="font-size:13px; color:rgba(255,255,255,0.85);">
+            Enniscorthy, County Wexford, Republic of Ireland
+          </div>
+          <div style="font-size:13px; color:var(--amber);">
+            info@enniscorthyindians.ie &bull; contact@eiawexford.org
+          </div>
+          <div style="margin-top:8px;">
+            <a href="index.html" style="font-size:13px; color:#fff; text-decoration:underline;">&larr; Back to Main Association Pitch</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="foot-bottom">
+        &copy; 2026 Enniscorthy Indian Association (EIA). All Rights Reserved. &bull; Enniscorthy, County Wexford, Ireland.
+        <br><span style="font-size:11px; opacity:0.7;">Together, We Celebrate. Together, We Connect. Together, We Grow.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Back to Top Button -->
+  <button class="back-to-top" id="backToTop" onclick="scrollToTop()" aria-label="Back to top">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <script>
+    // Header scroll state
+    const hdr = document.getElementById('hdr');
+    window.addEventListener('scroll', () => hdr.classList.toggle('sc', window.scrollY > 30));
+
+    // Back to top button
+    const backToTopBtn = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if (backToTopBtn) {
+        backToTopBtn.classList.toggle('show', window.scrollY > 350);
+      }
+    });
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Drawer handling
+    const ham = document.getElementById('ham');
+    const drawer = document.getElementById('drawer');
+    const drawerBackdrop = document.getElementById('drawerBackdrop');
+    function toggleDrawer() {
+      const isOpen = drawer.classList.toggle('open');
+      if (drawerBackdrop) drawerBackdrop.classList.toggle('open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      if (drawerBackdrop) drawerBackdrop.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    ham.addEventListener('click', toggleDrawer);
+    if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeDrawer);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDrawer();
+    });
+
+    // Category Filter Buttons
+    const filterBtns = document.querySelectorAll('#guideFilters button');
+    const blogArticles = document.querySelectorAll('.blog-article');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-filter');
+        applyFilters();
+      });
+    });
+
+    // Search and Filter Logic
+    function handleGuideSearch() {
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const activeBtn = document.querySelector('#guideFilters button.active');
+      const filter = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
+      const query = (document.getElementById('guideSearchInput').value || '').toLowerCase().trim();
+
+      blogArticles.forEach(article => {
+        const cat = article.getAttribute('data-cat') || '';
+        const text = article.textContent.toLowerCase();
+
+        const matchesCat = (filter === 'all') || cat.includes(filter);
+        const matchesSearch = !query || text.includes(query);
+
+        if (matchesCat && matchesSearch) {
+          article.style.display = 'grid';
+        } else {
+          article.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>
