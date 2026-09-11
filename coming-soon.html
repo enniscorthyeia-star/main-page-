@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coming Soon | Enniscorthy Indian Association</title>
+  <meta name="description" content="Enniscorthy Indian Association (EIA) — Coming Soon. Co. Wexford, Ireland.">
+  <link rel="icon" href="logo.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700;1,800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,600;1,9..144,700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #110E0C;
+      --amber: #C59B27;
+      --amber-pale: #FAF0D0;
+      --forest: #1F6B4A;
+      --font-main: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: "Fraunces", Georgia, serif;
+      --font-malayalam: "Noto Sans Malayalam", sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100vh;
+      height: 100svh;
+      background-color: var(--ink);
+      color: #fff;
+      font-family: var(--font-main);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Ambient Video / Backdrop (Brighter & Transparent) */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .bg-layer video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.55;
+      filter: saturate(1.15) brightness(0.98);
+      pointer-events: none;
+    }
+
+    /* Hide any native browser controls/pause overlays on mobile */
+    .bg-layer video::-webkit-media-controls,
+    .bg-layer video::-webkit-media-controls-enclosure,
+    .bg-layer video::-webkit-media-controls-panel,
+    .bg-layer video::-webkit-media-controls-play-button,
+    .bg-layer video::-webkit-media-controls-start-playback-button {
+      display: none !important;
+      -webkit-appearance: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+    }
+
+    .bg-layer::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at center, rgba(197, 155, 39, 0.18) 0%, transparent 60%),
+        linear-gradient(180deg, rgba(17, 14, 12, 0.44) 0%, rgba(17, 14, 12, 0.60) 50%, rgba(17, 14, 12, 0.82) 100%);
+    }
+
+    /* Top Accent Stripe */
+    .top-accent {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #1F6B4A 0%, #C59B27 50%, #1F6B4A 100%);
+      z-index: 10;
+    }
+
+    /* Main Centered Stage */
+    .stage {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      max-width: 680px;
+      margin: auto;
+    }
+
+    /* Bigger Glowing Crest Logo */
+    .logo-wrap {
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .logo-glow {
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(197, 155, 39, 0.45) 0%, transparent 70%);
+      animation: pulseGlow 3.5s infinite ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 0.5;
+      }
+
+      50% {
+        transform: scale(1.15);
+        opacity: 0.85;
+      }
+    }
+
+    .big-logo {
+      position: relative;
+      width: clamp(180px, 25vw, 240px);
+      height: clamp(180px, 25vw, 240px);
+      border-radius: 50%;
+      background: #ffffff;
+      padding: 7px;
+      border: 4px solid var(--amber);
+      box-shadow: 0 20px 56px rgba(0, 0, 0, 0.7), 0 0 36px rgba(197, 155, 39, 0.45);
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .big-logo:hover {
+      transform: scale(1.05);
+    }
+
+    /* Association Name */
+    .org-name {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(24px, 3.8vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: #ffffff;
+      margin-bottom: 8px;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+    }
+
+    .org-sub {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(15px, 2vw, 18px);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber-pale);
+      font-weight: 600;
+      margin-bottom: 28px;
+      opacity: 0.95;
+    }
+
+    /* Coming Soon Heading */
+    .headline {
+      font-family: "Playfair Display", "Fraunces", Georgia, serif;
+      font-style: italic;
+      font-size: clamp(46px, 7.5vw, 76px);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      line-height: 1.05;
+      color: #ffffff;
+      margin-bottom: 8px;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+    }
+
+    .headline span.gold {
+      color: var(--amber);
+      background: linear-gradient(135deg, #FFF6DD 0%, #E5B23B 50%, #C59B27 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Malayalam Greeting */
+    .malayalam-script {
+      font-family: var(--font-malayalam);
+      font-size: clamp(15px, 2vw, 18px);
+      font-weight: 600;
+      color: var(--amber-pale);
+      letter-spacing: 0.05em;
+      opacity: 0.85;
+    }
+
+    /* Subtle Bottom Tagline */
+    .bottom-tag {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 11.5px;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.45);
+      z-index: 2;
+    }
+
+    /* Mobile: Center the historic stone tower ruin in frame */
+    @media (max-width: 768px) {
+      .bg-layer video {
+        object-position: 65% center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Accent Stripe -->
+  <div class="top-accent"></div>
+
+  <!-- Ambient Backdrop -->
+  <div class="bg-layer">
+    <video id="bgVideo" autoplay muted playsinline webkit-playsinline loop preload="auto" poster="hero-bg.jpg" controlslist="nodownload nofullscreen noremoteplayback" disablepictureinpicture disableremoteplayback>
+      <source src="hero-video.mp4" type="video/mp4">
+      <source src="Drone_orbiting_stone_ruin_202609011753.mp4" type="video/mp4">
+      <img src="hero-bg.jpg" alt="Enniscorthy Indian Association">
+    </video>
+  </div>
+
+  <!-- Main Centered Stage -->
+  <main class="stage">
+
+    <!-- Big Logo -->
+    <div class="logo-wrap">
+      <div class="logo-glow"></div>
+      <img src="logo.png" alt="Enniscorthy Indian Association Crest" class="big-logo">
+    </div>
+
+    <!-- Title & Location -->
+    <div class="org-name">Enniscorthy Indian Association</div>
+    <div class="org-sub">Wexford, Ireland</div>
+
+    <!-- Main Coming Soon -->
+    <h1 class="headline">Coming <span class="gold">Soon</span></h1>
+
+
+  </main>
+
+  <!-- Bottom Tag -->
+  <div class="bottom-tag">
+    &copy; 2026 Enniscorthy Indian Association (EIA) &bull; All rights reserved.
+  </div>
+
+  <script>
+    // Ensure muted autoplay works on mobile browsers & iOS Low Power Mode
+    const v = document.getElementById("bgVideo");
+    if (v) {
+      v.muted = true;
+      v.defaultMuted = true;
+      
+      const startPlay = () => {
+        const p = v.play();
+        if (p !== undefined) {
+          p.catch(() => {});
+        }
+      };
+
+      startPlay();
+      document.addEventListener("DOMContentLoaded", startPlay);
+      window.addEventListener("load", startPlay);
+      document.addEventListener("touchstart", startPlay, { once: true, passive: true });
+      document.addEventListener("click", startPlay, { once: true, passive: true });
+    }
+  </script>
+</body>
+
+</html>
