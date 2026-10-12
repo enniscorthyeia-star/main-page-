@@ -483,16 +483,22 @@
     const container = document.querySelector('.prog-cards');
     if (!container) return;
 
-    // Map of fallback images by display order
-    const fallbackImages = [
-      'manyu-varma-ef3A5EDR7Jk-unsplash.jpg',
-      'sateesh-reddy-patlolla-ds_bUqGISJA-unsplash.jpg',
-      'anand-s-CtqSoMZY7c8-unsplash.jpg',
-      'abhishek-prasad-N3VzleBhOvk-unsplash.jpg'
+    // Map of curated images by display order
+    const curatedPillarImages = [
+      'images/pillar-culture-arts.jpg',
+      'images/pillar-sports-activities.jpg',
+      'images/eia-st-patricks-parade.jpeg',
+      'images/eia-beats-chendamelam.jpeg'
     ];
 
     container.innerHTML = pillars.map((p, i) => {
-      const src = p.image ? imgUrl(p.image, 600) : fallbackImages[i] || '';
+      let src = p.imageUrl;
+      if (!src && p.image) {
+        src = imgUrl(p.image, 600);
+      }
+      if (!src) {
+        src = curatedPillarImages[i] || '';
+      }
       let descHtml = esc(p.description);
       if (descHtml.includes('EIA Sports and Arts Club (PPN-00677)')) {
         descHtml = descHtml.replace('EIA Sports and Arts Club (PPN-00677)', '<a href="#services" style="color:var(--amber);font-weight:600;">EIA Sports and Arts Club (PPN-00677)</a>');
