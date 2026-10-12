@@ -596,13 +596,16 @@
       const mo = d.toLocaleString('en', { month: 'short' }).toUpperCase() + ' ' + d.getFullYear();
       const dateStr = d.toLocaleDateString('en-US', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
 
-      // Fallback images
-      const fallbackEventImages = [
-        'anand-s-CtqSoMZY7c8-unsplash.jpg',
-        'sateesh-reddy-patlolla-ds_bUqGISJA-unsplash.jpg',
-        'divyanshi-verma-h3SyJYsqYSo-unsplash.jpg'
-      ];
-      const src = ev.imageUrl || (ev.image ? imgUrl(ev.image, 700) : fallbackEventImages[i] || '');
+      // Match event specific images
+      let src = ev.imageUrl;
+      if (!src && ev.title) {
+        if (ev.title.includes('Onam')) src = 'images/eia-onam-celebration.jpeg';
+        else if (ev.title.includes('Cultural') || ev.title.includes('Indo')) src = 'images/ambassador-manish-gupta.jpeg';
+        else if (ev.title.includes('Christmas') || ev.title.includes('New Year')) src = 'raimond-klavins-ac3W2sGLxf4-unsplash.jpg';
+      }
+      if (!src) src = ev.image ? imgUrl(ev.image, 700) : (fallbackEventImages[i] || '');
+
+      const ctaText = (ev.ctaLabel && !ev.ctaLabel.toLowerCase().includes('ticket')) ? ev.ctaLabel : 'RSVP / Register';
 
       return `
         <div class="event-card" data-r="${(i * 0.1).toFixed(1)}">
@@ -619,7 +622,7 @@
             <p>${esc(ev.description)}</p>
             <div class="event-foot">
               <span>${esc(ev.venue)}</span>
-              <button class="btn btn-amber btn-sm" onclick="openEventModal('${esc(ev.title).replace(/'/g, "\\'")}', '${dateStr}')">${esc(ev.ctaLabel || 'RSVP / Register')}</button>
+              <button class="btn btn-amber btn-sm" onclick="openEventModal('${esc(ev.title).replace(/'/g, "\\'")}', '${esc(ev.venue || dateStr).replace(/'/g, "\\'")}')">${esc(ctaText)}</button>
             </div>
           </div>
         </div>`;
