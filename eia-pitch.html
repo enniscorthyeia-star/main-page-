@@ -12,7 +12,9 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
 
   <style>
     :root {
@@ -586,7 +588,7 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(90deg, rgba(15, 12, 10, 0.94) 0%, rgba(15, 12, 10, 0.82) 46%, rgba(15, 12, 10, 0.32) 80%, rgba(15, 12, 10, 0.15) 100%),
-                  linear-gradient(180deg, rgba(15, 12, 10, 0.3) 0%, rgba(15, 12, 10, 0.75) 100%);
+        linear-gradient(180deg, rgba(15, 12, 10, 0.3) 0%, rgba(15, 12, 10, 0.75) 100%);
     }
 
     .hero-wrap {
@@ -1429,7 +1431,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 32px;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
       border: 1px solid rgba(197, 155, 39, 0.3);
     }
 
@@ -1444,7 +1446,7 @@
 
     .membership-cta-card p {
       font-size: 16px;
-      color: rgba(255,255,255,0.85);
+      color: rgba(255, 255, 255, 0.85);
       line-height: 1.65;
       margin: 0 0 20px 0;
     }
@@ -2053,7 +2055,8 @@
     /* ══════════════════════════════════════════
        RESPONSIVE DESIGN SYSTEM (MOBILE COMPATIBLE)
     ══════════════════════════════════════════ */
-    html, body {
+    html,
+    body {
       overflow-x: hidden;
       max-width: 100%;
     }
@@ -2062,12 +2065,15 @@
       nav ul {
         gap: 12px;
       }
+
       nav a {
         font-size: 12.5px;
       }
+
       .brand-text .name {
         font-size: 15px;
       }
+
       .nav {
         padding: 14px 20px;
       }
@@ -2077,23 +2083,29 @@
       nav ul {
         display: none;
       }
+
       .hamburger {
         display: flex;
       }
+
       .hero h1 {
         font-size: 44px;
       }
+
       .prog-cards {
         grid-template-columns: repeat(2, 1fr);
       }
+
       .about-grid,
       .mem-form-grid,
       .foot-grid {
         grid-template-columns: 1fr;
       }
+
       .stats-inner {
         grid-template-columns: repeat(2, 1fr);
       }
+
       .gal-grid,
       .test-grid {
         grid-template-columns: 1fr;
@@ -2101,20 +2113,25 @@
     }
 
     @media (max-width: 768px) {
+
       /* Base & Section Spacing */
       .wrap {
         padding: 0 18px;
       }
+
       section {
         padding: 56px 0;
       }
+
       .section-head {
         margin-bottom: 32px;
       }
+
       .section-head h2 {
         font-size: 28px;
         margin-bottom: 10px;
       }
+
       .section-head p {
         font-size: 15px;
         line-height: 1.6;
@@ -2125,23 +2142,29 @@
         padding: 10px 16px;
         gap: 10px;
       }
+
       header.sc .nav {
         padding: 8px 16px;
       }
+
       .brand {
         gap: 8px;
       }
+
       .brand-logo {
         width: 38px;
         height: 38px;
       }
+
       .brand-text .name {
         font-size: 14px;
       }
+
       .brand-text .sub {
         font-size: 9px;
         letter-spacing: 0.06em;
       }
+
       .nav-cta {
         padding: 6px 13px;
         font-size: 12px;
@@ -2152,9 +2175,11 @@
         display: block;
         pointer-events: none;
       }
+
       .drawer-backdrop.open {
         pointer-events: auto;
       }
+
       .drawer {
         display: flex;
       }
@@ -2164,41 +2189,49 @@
         min-height: auto;
         padding: 105px 0 46px;
       }
+
       .hero h1 {
         font-size: clamp(30px, 8.5vw, 42px);
         line-height: 1.12;
       }
+
       .hero-motto-strip {
         font-size: 13px;
         gap: 6px;
         margin-bottom: 14px;
       }
+
       .hero-lead {
         font-size: 14.5px;
         line-height: 1.6;
         margin-bottom: 24px;
       }
+
       .hero-actions {
         flex-direction: column;
         width: 100%;
         gap: 10px;
         margin-bottom: 28px;
       }
+
       .hero-actions .btn {
         width: 100%;
         padding: 13px 20px;
         font-size: 14px;
         justify-content: center;
       }
+
       .hero-stats {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 18px 14px;
         padding-top: 20px;
       }
+
       .hero-stat .num {
         font-size: 24px;
       }
+
       .hero-stat .txt {
         font-size: 11px;
       }
@@ -2207,21 +2240,26 @@
       .about-grid {
         gap: 32px;
       }
+
       .about-main h2 {
         font-size: 27px;
         margin-bottom: 14px;
       }
+
       .about-main p {
         font-size: 15px;
         margin-bottom: 14px;
       }
+
       .about-vision-box {
         padding: 18px 16px;
         margin: 20px 0;
       }
+
       .about-media img {
         height: 250px;
       }
+
       .about-stat {
         position: static;
         margin-top: 14px;
@@ -2232,10 +2270,12 @@
         border-radius: 14px;
         border: none;
       }
+
       .about-stat .big {
         font-size: 28px;
         line-height: 1;
       }
+
       .about-stat .lbl {
         font-size: 11px;
       }
@@ -2245,36 +2285,45 @@
         padding: 22px 18px 20px;
         margin-bottom: 28px;
       }
+
       .comm-quote-card::before {
         font-size: 48px;
         top: -8px;
         left: 12px;
       }
+
       .comm-quote-card p {
         font-size: 15.5px;
         line-height: 1.45;
       }
+
       .filter-pills {
         gap: 8px;
         margin-bottom: 24px;
       }
+
       .filter-pills button {
         padding: 7px 14px;
         font-size: 12px;
       }
+
       .comm-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
       }
+
       .comm-info {
         padding: 12px 10px 14px;
       }
+
       .comm-info h4 {
         font-size: 14px;
       }
+
       .comm-info .designation {
         font-size: 11px;
       }
+
       .comm-role-badge {
         font-size: 9.5px;
         padding: 2px 8px;
@@ -2285,18 +2334,22 @@
       .programs-strip h2 {
         font-size: 26px;
       }
+
       .prog-cards {
         grid-template-columns: 1fr;
         gap: 16px;
         margin-top: 26px;
       }
+
       .prog-card img {
         height: 160px;
       }
+
       .prog-card .label {
         font-size: 16px;
         padding: 14px 18px 4px;
       }
+
       .prog-card p {
         padding: 0 18px 18px !important;
         font-size: 13px;
@@ -2307,9 +2360,11 @@
         grid-template-columns: 1fr;
         gap: 16px;
       }
+
       .guide-card {
         padding: 20px 18px;
       }
+
       .guide-card h4 {
         font-size: 17px;
       }
@@ -2318,13 +2373,16 @@
       .stats-band {
         padding: 40px 0;
       }
+
       .stats-inner {
         grid-template-columns: repeat(2, 1fr);
         gap: 20px 14px;
       }
+
       .stat-box .big {
         font-size: 32px;
       }
+
       .stat-box .lbl {
         font-size: 11px;
       }
@@ -2336,31 +2394,39 @@
         gap: 14px;
         margin-bottom: 28px;
       }
+
       .events-head h2 {
         font-size: 27px;
       }
+
       .events-head .btn {
         width: 100%;
         justify-content: center;
       }
+
       .event-grid {
         grid-template-columns: 1fr;
         gap: 20px;
       }
+
       .event-art {
         height: 170px;
       }
+
       .event-body {
         padding: 20px 18px;
       }
+
       .event-body h3 {
         font-size: 18px;
       }
+
       .event-foot {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
       }
+
       .event-foot .btn {
         width: 100%;
         justify-content: center;
@@ -2370,29 +2436,36 @@
       .membership-section {
         padding: 48px 0;
       }
+
       .membership-card-wrap {
         padding: 24px 16px;
       }
+
       .membership-cta-card {
         padding: 28px 18px !important;
         border-radius: 16px !important;
         gap: 22px !important;
       }
+
       .membership-cta-card h2 {
         font-size: 24px !important;
       }
+
       .membership-cta-card p {
         font-size: 14px !important;
         margin-bottom: 16px !important;
       }
+
       .membership-checklist {
         gap: 10px;
         font-size: 12.5px;
       }
+
       .membership-cta-btns {
         width: 100% !important;
         min-width: 0 !important;
       }
+
       .membership-cta-btns .btn {
         width: 100% !important;
         justify-content: center !important;
@@ -2403,6 +2476,7 @@
         grid-template-columns: 1fr;
         gap: 16px;
       }
+
       .service-card {
         padding: 22px 18px;
       }
@@ -2414,16 +2488,20 @@
         gap: 14px;
         margin-bottom: 24px;
       }
+
       .gal-head h2 {
         font-size: 27px;
       }
+
       .gal-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
       }
+
       .gal-item {
         height: 160px;
       }
+
       .gal-item .cap {
         opacity: 1;
         background: linear-gradient(180deg, transparent 20%, rgba(28, 25, 23, 0.9) 100%);
@@ -2436,10 +2514,12 @@
         font-size: 27px;
         margin-bottom: 20px;
       }
+
       .test-grid {
         grid-template-columns: 1fr;
         gap: 16px;
       }
+
       .test-card {
         padding: 22px 18px;
       }
@@ -2448,9 +2528,11 @@
       .partners-section {
         padding: 36px 0;
       }
+
       .partner-badges {
         gap: 10px;
       }
+
       .partner-badge {
         font-size: 13.5px;
         padding: 8px 14px;
@@ -2460,20 +2542,25 @@
       footer {
         padding: 48px 0 24px;
       }
+
       .foot-grid {
         gap: 32px;
         margin-bottom: 32px;
       }
+
       .foot-form-card {
         padding: 22px 18px;
       }
+
       .foot-form-card h4 {
         font-size: 18px;
       }
+
       .foot-contact-item {
         font-size: 13px;
         word-break: break-word;
       }
+
       .foot-bottom {
         padding: 20px 0;
         font-size: 12px;
@@ -2484,19 +2571,23 @@
       .eia-modal-backdrop {
         padding: 14px;
       }
+
       .eia-modal-box {
         padding: 22px 16px;
         max-height: 86vh;
         border-radius: 16px;
       }
+
       .eia-modal-box h3 {
         font-size: 19px !important;
         padding-right: 28px;
       }
+
       .form-row {
         grid-template-columns: 1fr;
         gap: 0;
       }
+
       .toast {
         left: 14px;
         right: 14px;
@@ -2512,19 +2603,24 @@
       .wrap {
         padding: 0 14px;
       }
+
       .brand-text .sub {
         display: none;
       }
+
       .brand-text .name {
         font-size: 13.5px;
       }
+
       .nav-cta {
         padding: 5px 10px;
         font-size: 11px;
       }
+
       .gal-grid {
         grid-template-columns: 1fr;
       }
+
       .gal-item {
         height: 200px;
       }
@@ -2534,6 +2630,7 @@
       .nav-right .nav-cta {
         display: none;
       }
+
       .comm-grid {
         grid-template-columns: 1fr;
         max-width: 250px;
@@ -2566,11 +2663,10 @@
           <li><a href="guide.html">Local Guide</a></li>
           <li><a href=#services>Services</a></li>
           <li><a href=#gallery>Gallery</a></li>
-          <li><a href=#contact>Contact</a></li>
         </ul>
       </nav>
       <div class="nav-right">
-        <a href="membership.html" class="nav-cta">Join EIA</a>
+        <a href="membership.html" class="nav-cta">Join EIA 2027</a>
         <button class="hamburger" id="ham" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
@@ -2587,8 +2683,11 @@
       <div style="display:flex; align-items:center; gap:8px;">
         <img src="logo.png" alt="EIA" style="width:32px; height:32px; border-radius:50%; object-fit:cover;">
         <div>
-          <div style="font-family:'Fraunces', serif; font-weight:700; font-size:15px; color:var(--ink); line-height:1.2;">EIA Wexford</div>
-          <div style="font-size:9.5px; color:var(--warm-grey); text-transform:uppercase; letter-spacing:0.06em;">Enniscorthy</div>
+          <div
+            style="font-family:'Fraunces', serif; font-weight:700; font-size:15px; color:var(--ink); line-height:1.2;">
+            EIA Wexford</div>
+          <div style="font-size:9.5px; color:var(--warm-grey); text-transform:uppercase; letter-spacing:0.06em;">
+            Enniscorthy</div>
         </div>
       </div>
       <button class="drawer-close" onclick="closeDrawer()" aria-label="Close menu">&times;</button>
@@ -2602,9 +2701,10 @@
     <a href="guide.html" onclick="closeDrawer()">Local Guide</a>
     <a href="#services" onclick="closeDrawer()">Community Support</a>
     <a href="#gallery" onclick="closeDrawer()">Photo Gallery</a>
-    <a href="#contact" onclick="closeDrawer()">Contact Us</a>
     <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--line);">
-      <a href="membership.html" class="btn btn-amber" style="width:100%; text-align:center; justify-content:center; color:var(--ink); border-bottom:none; padding:12px 20px;">Join EIA 2026 &rarr;</a>
+      <a href="membership.html" class="btn btn-amber"
+        style="width:100%; text-align:center; justify-content:center; color:var(--ink); border-bottom:none; padding:12px 20px;">Join
+        EIA 2027 &rarr;</a>
     </div>
   </div>
 
@@ -2634,13 +2734,16 @@
         </div>
 
         <p class="hero-lead" data-r="0.15">
-          Bringing together Indian families, individuals, and friends in Enniscorthy and surrounding areas of County Wexford. Celebrating traditions, fostering friendships, and connecting with the wider Irish community on the scenic banks of River Slaney.
+          Bringing together Indian families, individuals, and friends in Enniscorthy and surrounding areas of County
+          Wexford. Celebrating traditions, fostering friendships, and connecting with the wider Irish community on the
+          scenic banks of River Slaney.
         </p>
 
         <div class="hero-actions" data-r="0.2">
           <a href="membership.html" class="btn btn-amber">Join Association &rarr;</a>
           <a href="#committee" class="btn btn-dark">Meet Committee 2026</a>
-          <a href="guide.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,0.35);">Explore Local Guide &rarr;</a>
+          <a href="guide.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,0.35);">Explore
+            Local Guide &rarr;</a>
         </div>
 
         <div class="hero-stats" data-r="0.25">
@@ -2672,24 +2775,34 @@
         <div class="kicker">About Our Association</div>
         <h2>Together, We Celebrate. Together, We Connect. Together, We Grow.</h2>
         <p>
-          <strong>Enniscorthy Indian Association (EIA)</strong> is a community organisation established to bring together Indian families, individuals and friends living in Enniscorthy and the surrounding areas of County Wexford.
+          <strong>Enniscorthy Indian Association (EIA)</strong> is a community organisation established to bring
+          together Indian families, individuals and friends living in Enniscorthy and the surrounding areas of County
+          Wexford.
         </p>
         <p>
-          EIA is committed to celebrating the rich cultural heritage of India while creating meaningful connections with the wider Irish community. Our aim is to provide a welcoming and inclusive environment where people from different backgrounds can come together, share traditions, build friendships and create lasting memories.
+          EIA is committed to celebrating the rich cultural heritage of India while creating meaningful connections with
+          the wider Irish community. Our aim is to provide a welcoming and inclusive environment where people from
+          different backgrounds can come together, share traditions, build friendships and create lasting memories.
         </p>
 
         <div class="about-vision-box">
           <h4>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
             Our Vision
           </h4>
           <p>
-            “Our vision is to create a strong, united and inclusive community where Indian culture and traditions can be proudly celebrated while embracing the diversity and values of Ireland.”
+            “Our vision is to create a strong, united and inclusive community where Indian culture and traditions can be
+            proudly celebrated while embracing the diversity and values of Ireland.”
           </p>
         </div>
 
         <p>
-          Throughout the year, EIA organises a wide range of cultural, social, sporting and family-oriented activities. Our celebrations include major Indian festivals such as Onam, Vishu and Diwali, alongside community gatherings, family events and multicultural programmes.
+          Throughout the year, EIA organises a wide range of cultural, social, sporting and family-oriented activities.
+          Our celebrations include major Indian festivals such as Onam, Vishu and Diwali, alongside community
+          gatherings, family events and multicultural programmes.
         </p>
         <div style="margin-top:24px;">
           <a href="#committee" class="ghost">View 2026 Executive Committee &rarr;</a>
@@ -2697,7 +2810,8 @@
       </div>
 
       <div class="about-media" data-r="0.2">
-        <img src="anand-s-CtqSoMZY7c8-unsplash.jpg" alt="Traditional Onam festival celebration" loading="lazy" decoding="async">
+        <img src="anand-s-CtqSoMZY7c8-unsplash.jpg" alt="Traditional Onam festival celebration" loading="lazy"
+          decoding="async">
         <div class="about-stat">
           <div class="big">100%</div>
           <div class="lbl">Community Driven &bull; Wexford</div>
@@ -2712,12 +2826,14 @@
       <div class="section-head" data-r>
         <div class="kicker forest">Leadership &bull; 2026</div>
         <h2>Executive Committee &amp; Office Bearers</h2>
-        <p>Introducing the newly elected Executive Committee of Enniscorthy Indian Association for 2026, serving our community with unity, passion, and dedicated volunteer governance.</p>
+        <p>Introducing the newly elected Executive Committee of Enniscorthy Indian Association for 2026, serving our
+          community with unity, passion, and dedicated volunteer governance.</p>
       </div>
 
       <!-- Committee Official Quote from PDF -->
       <div class="comm-quote-card" data-r>
-        <p>“We are proud to introduce the newly elected Executive Committee of Indian Association Enniscorthy for 2026. We look forward to serving our community with unity and dedication.”</p>
+        <p>“We are proud to introduce the newly elected Executive Committee of Indian Association Enniscorthy for 2026.
+          We look forward to serving our community with unity and dedication.”</p>
         <small>— Enniscorthy Indian Association (EIA) Executive Team</small>
       </div>
 
@@ -2922,30 +3038,31 @@
       <div style="text-align:center;max-width:700px;margin:0 auto;" data-r>
         <div class="kicker">Core Pillars</div>
         <h2>Empowering Culture, Sports &amp; Community</h2>
-        <p style="color:rgba(255,255,255,0.75);margin-top:12px;">Our four pillars define how EIA enriches family life and cross-cultural friendship in County Wexford.</p>
+        <p style="color:rgba(255,255,255,0.75);margin-top:12px;">Our four pillars define how EIA enriches family life
+          and cross-cultural friendship in County Wexford.</p>
       </div>
 
       <div class="prog-cards">
         <div class="prog-card" data-r>
-          <img src="manyu-varma-ef3A5EDR7Jk-unsplash.jpg" alt="Culture & Arts" loading="lazy" decoding="async">
+          <img src="images/pillar-culture-arts.jpg" alt="Culture & Arts" loading="lazy" decoding="async">
           <span class="label">Culture &amp; Arts</span>
-          <p style="padding:0 20px 20px;font-size:13px;color:rgba(255,255,255,0.7);">Music, dance, and traditional performances helping young generations cherish their heritage.</p>
+          <p style="padding:0 20px 20px;font-size:13px;color:rgba(255,255,255,0.7);">Music, dance, and traditional performances helping young generations cherish heritage.</p>
         </div>
 
         <div class="prog-card" data-r="0.1">
-          <img src="sateesh-reddy-patlolla-ds_bUqGISJA-unsplash.jpg" alt="Sports & Activities" loading="lazy" decoding="async">
+          <img src="images/pillar-sports-activities.jpg" alt="EIA Sports and Arts Club (PPN-00677)" loading="lazy" decoding="async">
           <span class="label">Sports &amp; Activities</span>
           <p style="padding:0 20px 20px;font-size:13px;color:rgba(255,255,255,0.7);"><a href="#services" style="color:var(--amber);font-weight:600;">EIA Sports and Arts Club (PPN-00677)</a> &mdash; EIA Summer Badminton / Tennis Championship, inter-county cricket, athletics, and active recreation for children and adults alike.</p>
         </div>
 
         <div class="prog-card" data-r="0.2">
-          <img src="anand-s-CtqSoMZY7c8-unsplash.jpg" alt="Community & Inclusion" loading="lazy" decoding="async">
+          <img src="images/eia-st-patricks-parade.jpeg" alt="Community & Inclusion" loading="lazy" decoding="async">
           <span class="label">Community &amp; Inclusion</span>
           <p style="padding:0 20px 20px;font-size:13px;color:rgba(255,255,255,0.7);">Welcoming all backgrounds, volunteering, and strengthening ties with local Irish organisations.</p>
         </div>
 
         <div class="prog-card" data-r="0.3">
-          <img src="abhishek-prasad-N3VzleBhOvk-unsplash.jpg" alt="Supporting Next Gen" loading="lazy" decoding="async">
+          <img src="images/eia-beats-chendamelam.jpeg" alt="Supporting Next Gen" loading="lazy" decoding="async">
           <span class="label">Next Generation</span>
           <p style="padding:0 20px 20px;font-size:13px;color:rgba(255,255,255,0.7);">Youth arts workshops, leadership mentorship, and fostering pride in Indian &amp; Irish values.</p>
         </div>
@@ -2959,7 +3076,8 @@
       <div class="section-head" data-r>
         <div class="kicker">Local Discovery &bull; 12 Attractions</div>
         <h2>Explore Enniscorthy &amp; County Wexford</h2>
-        <p>A curated guide of 12 standout landmarks and memorable family day trip destinations recommended for our community and visitors.</p>
+        <p>A curated guide of 12 standout landmarks and memorable family day trip destinations recommended for our
+          community and visitors.</p>
       </div>
 
       <!-- Guide Filter Tabs -->
@@ -2978,7 +3096,8 @@
             <span class="guide-tag">Town Centre</span>
           </div>
           <h4>Enniscorthy Castle</h4>
-          <p>Right in the town centre. A great place to learn about Enniscorthy’s history and enjoy views over the River Slaney.</p>
+          <p>Right in the town centre. A great place to learn about Enniscorthy’s history and enjoy views over the River
+            Slaney.</p>
           <a href="https://maps.google.com/?q=Enniscorthy+Castle" target="_blank" rel="noopener" class="guide-link">
             <span>View on Map &rarr;</span>
           </a>
@@ -2991,8 +3110,10 @@
             <span class="guide-tag">Panoramic Views</span>
           </div>
           <h4>Vinegar Hill</h4>
-          <p>Historic 1798 battlefield with panoramic views of Enniscorthy. A particularly nice short walk for families and morning strolls.</p>
-          <a href="https://maps.google.com/?q=Vinegar+Hill+Enniscorthy" target="_blank" rel="noopener" class="guide-link">
+          <p>Historic 1798 battlefield with panoramic views of Enniscorthy. A particularly nice short walk for families
+            and morning strolls.</p>
+          <a href="https://maps.google.com/?q=Vinegar+Hill+Enniscorthy" target="_blank" rel="noopener"
+            class="guide-link">
             <span>View on Map &rarr;</span>
           </a>
         </div>
@@ -3004,8 +3125,10 @@
             <span class="guide-tag">Interactive Heritage</span>
           </div>
           <h4>The National 1798 Rebellion Centre</h4>
-          <p>Interactive exhibitions about the 1798 rebellion. Close to Enniscorthy Castle, so both can easily be combined in one visit.</p>
-          <a href="https://maps.google.com/?q=National+1798+Rebellion+Centre+Enniscorthy" target="_blank" rel="noopener" class="guide-link">
+          <p>Interactive exhibitions about the 1798 rebellion. Close to Enniscorthy Castle, so both can easily be
+            combined in one visit.</p>
+          <a href="https://maps.google.com/?q=National+1798+Rebellion+Centre+Enniscorthy" target="_blank" rel="noopener"
+            class="guide-link">
             <span>View on Map &rarr;</span>
           </a>
         </div>
@@ -3017,8 +3140,10 @@
             <span class="guide-tag">Gothic Revival</span>
           </div>
           <h4>St Aidan’s Cathedral</h4>
-          <p>Beautiful historic cathedral in the centre of Enniscorthy designed by renowned architect Augustus Welby Pugin.</p>
-          <a href="https://maps.google.com/?q=St+Aidans+Cathedral+Enniscorthy" target="_blank" rel="noopener" class="guide-link">
+          <p>Beautiful historic cathedral in the centre of Enniscorthy designed by renowned architect Augustus Welby
+            Pugin.</p>
+          <a href="https://maps.google.com/?q=St+Aidans+Cathedral+Enniscorthy" target="_blank" rel="noopener"
+            class="guide-link">
             <span>View on Map &rarr;</span>
           </a>
         </div>
@@ -3030,8 +3155,10 @@
             <span class="guide-tag">River Slaney</span>
           </div>
           <h4>The Riverwalk Enniscorthy</h4>
-          <p>A pleasant option for a relaxed family walk along the River Slaney with scenic views, flora, and birdlife.</p>
-          <a href="https://maps.google.com/?q=The+Riverwalk+Enniscorthy" target="_blank" rel="noopener" class="guide-link">
+          <p>A pleasant option for a relaxed family walk along the River Slaney with scenic views, flora, and birdlife.
+          </p>
+          <a href="https://maps.google.com/?q=The+Riverwalk+Enniscorthy" target="_blank" rel="noopener"
+            class="guide-link">
             <span>View on Map &rarr;</span>
           </a>
         </div>
@@ -3043,7 +3170,8 @@
             <span class="guide-tag">Family Playground</span>
           </div>
           <h4>Kids Park</h4>
-          <p>Good option if you’re visiting with younger children. Fully equipped safe play areas, slides, swings, and green open lawns.</p>
+          <p>Good option if you’re visiting with younger children. Fully equipped safe play areas, slides, swings, and
+            green open lawns.</p>
           <a href="https://maps.google.com/?q=Kids+Park+Enniscorthy" target="_blank" rel="noopener" class="guide-link">
             <span>View on Map &rarr;</span>
           </a>
@@ -3056,8 +3184,10 @@
             <span class="guide-tag">Ferrycarrig</span>
           </div>
           <h4>Irish National Heritage Park</h4>
-          <p>One of the best family attractions in the area, taking visitors through Ireland’s history with reconstructed settlements and monuments.</p>
-          <a href="https://maps.google.com/?q=Irish+National+Heritage+Park+Ferrycarrig" target="_blank" rel="noopener" class="guide-link">
+          <p>One of the best family attractions in the area, taking visitors through Ireland’s history with
+            reconstructed settlements and monuments.</p>
+          <a href="https://maps.google.com/?q=Irish+National+Heritage+Park+Ferrycarrig" target="_blank" rel="noopener"
+            class="guide-link">
             <span>View on Map &rarr;</span>
           </a>
         </div>
@@ -3070,7 +3200,8 @@
           </div>
           <h4>Secret Valley Wildlife Park</h4>
           <p>A good choice for children and families who enjoy animals and outdoor exotic animal rescue encounters.</p>
-          <a href="https://maps.google.com/?q=Secret+Valley+Wildlife+Park+Clonroche" target="_blank" rel="noopener" class="guide-link">
+          <a href="https://maps.google.com/?q=Secret+Valley+Wildlife+Park+Clonroche" target="_blank" rel="noopener"
+            class="guide-link">
             <span>View on Map &rarr;</span>
           </a>
         </div>
@@ -3082,8 +3213,10 @@
             <span class="guide-tag">Near Gorey</span>
           </div>
           <h4>Wells House &amp; Gardens</h4>
-          <p>Historic Victorian house, enchanting gardens, fairy woodland walks, craft courtyard, and engaging family activities.</p>
-          <a href="https://maps.google.com/?q=Wells+House+and+Gardens+Gorey" target="_blank" rel="noopener" class="guide-link">
+          <p>Historic Victorian house, enchanting gardens, fairy woodland walks, craft courtyard, and engaging family
+            activities.</p>
+          <a href="https://maps.google.com/?q=Wells+House+and+Gardens+Gorey" target="_blank" rel="noopener"
+            class="guide-link">
             <span>View on Map &rarr;</span>
           </a>
         </div>
@@ -3095,8 +3228,10 @@
             <span class="guide-tag">Wexford</span>
           </div>
           <h4>Johnstown Castle Estate &amp; Gardens</h4>
-          <p>Beautiful ornamental gardens, castle surroundings, lake walks, and museum; excellent for a full family day out.</p>
-          <a href="https://maps.google.com/?q=Johnstown+Castle+Wexford" target="_blank" rel="noopener" class="guide-link">
+          <p>Beautiful ornamental gardens, castle surroundings, lake walks, and museum; excellent for a full family day
+            out.</p>
+          <a href="https://maps.google.com/?q=Johnstown+Castle+Wexford" target="_blank" rel="noopener"
+            class="guide-link">
             <span>View on Map &rarr;</span>
           </a>
         </div>
@@ -3108,8 +3243,10 @@
             <span class="guide-tag">Wexford Coast</span>
           </div>
           <h4>Curracloe Beach</h4>
-          <p>A beautiful long sandy beach around the Wexford coast, particularly good in summer for swimming, beach games, and dunes.</p>
-          <a href="https://maps.google.com/?q=Curracloe+Beach+Wexford" target="_blank" rel="noopener" class="guide-link">
+          <p>A beautiful long sandy beach around the Wexford coast, particularly good in summer for swimming, beach
+            games, and dunes.</p>
+          <a href="https://maps.google.com/?q=Curracloe+Beach+Wexford" target="_blank" rel="noopener"
+            class="guide-link">
             <span>View on Map &rarr;</span>
           </a>
         </div>
@@ -3121,7 +3258,8 @@
             <span class="guide-tag">North Wexford</span>
           </div>
           <h4>Ferns Castle &amp; Medieval Ferns</h4>
-          <p>A lovely historical outing north of Enniscorthy. Ferns Castle is one of the area’s standout historic medieval attractions.</p>
+          <p>A lovely historical outing north of Enniscorthy. Ferns Castle is one of the area’s standout historic
+            medieval attractions.</p>
           <a href="https://maps.google.com/?q=Ferns+Castle+Wexford" target="_blank" rel="noopener" class="guide-link">
             <span>View on Map &rarr;</span>
           </a>
@@ -3130,12 +3268,15 @@
       </div>
 
       <!-- Editorial Blog CTA Banner -->
-      <div style="margin-top:44px; padding:32px 28px; background:var(--paper); border-radius:var(--r); border:1px solid var(--line); box-shadow:var(--shadow-sm); display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px;">
+      <div
+        style="margin-top:44px; padding:32px 28px; background:var(--paper); border-radius:var(--r); border:1px solid var(--line); box-shadow:var(--shadow-sm); display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px;">
         <div style="max-width:680px;">
           <div class="kicker">Dedicated Travel &amp; Heritage Journal</div>
-          <h3 style="font-size:24px; margin-bottom:8px; color:var(--ink);">Read Our Full 12-Place Discovery Guide &amp; Blog</h3>
+          <h3 style="font-size:24px; margin-bottom:8px; color:var(--ink);">Read Our Full 12-Place Discovery Guide &amp;
+            Blog</h3>
           <p style="font-size:14.5px; color:var(--warm-grey); line-height:1.6; margin-bottom:0;">
-            Explore comprehensive visitor guides, road travel distances from Enniscorthy, family tips, opening times, and interactive search in our dedicated publication.
+            Explore comprehensive visitor guides, road travel distances from Enniscorthy, family tips, opening times,
+            and interactive search in our dedicated publication.
           </p>
         </div>
         <a href="guide.html" class="btn btn-amber" style="padding:13px 26px;">Open Discovery Blog &rarr;</a>
@@ -3179,10 +3320,10 @@
       </div>
 
       <div class="event-grid">
-        <!-- Onam 2026 -->
+        <!-- 1. Grand Onam Celebration -->
         <div class="event-card" data-r>
           <div class="event-art">
-            <img src="anand-s-CtqSoMZY7c8-unsplash.jpg" alt="Grand Onam Celebration 2026" loading="lazy" decoding="async">
+            <img src="images/eia-onam-celebration.jpeg" alt="Grand Onam Celebration" loading="lazy" decoding="async">
             <div class="event-date">
               <span class="day">05</span>
               <span class="mo">SEP 2026</span>
@@ -3190,51 +3331,51 @@
             <span class="event-badge">Grand Festival</span>
           </div>
           <div class="event-body">
-            <h3>Grand Onam Celebration 2026</h3>
-            <p>Floral Pookkalam competition, traditional Onasadya feast on banana leaves, Thiruvathira dance, Maveli reception, and Chenda Melam percussion ensemble.</p>
+            <h3>Grand Onam Celebration</h3>
+            <p>Floral Pookkalam competition, traditional Onasadya feast on plantain leaves, Thiruvathira dance, Maveli reception, and Chenda Melam percussion ensemble.</p>
             <div class="event-foot">
-              <span>Riverside Park Hotel / Astro Active</span>
-              <button class="btn btn-amber btn-sm" onclick="openEventModal('Grand Onam Celebration 2026', 'Saturday, 05 September 2026')">RSVP / Tickets</button>
+              <span>Marshalstown Community Centre</span>
+              <button class="btn btn-amber btn-sm" onclick="openEventModal('Grand Onam Celebration', 'Saturday, 05 September 2026 at Marshalstown Community Centre')">RSVP / Register</button>
             </div>
           </div>
         </div>
 
-        <!-- Cricket Championship -->
+        <!-- 2. Indo Irish Cultural Evening -->
         <div class="event-card" data-r="0.1">
           <div class="event-art">
-            <img src="sateesh-reddy-patlolla-ds_bUqGISJA-unsplash.jpg" alt="EIA Summer Cricket Championship" loading="lazy" decoding="async">
+            <img src="images/ambassador-manish-gupta.jpeg" alt="Indo Irish Cultural Evening with Chief Guest H.E. Manish Gupta" loading="lazy" decoding="async">
             <div class="event-date">
-              <span class="day">19</span>
-              <span class="mo">JUL 2026</span>
-            </div>
-            <span class="event-badge">Sports League</span>
-          </div>
-          <div class="event-body">
-            <h3>EIA Summer Cricket Championship</h3>
-            <p>Inter-county community cricket tournament with teams across Wexford, Waterford and Carlow. Includes junior coaching and family barbecue.</p>
-            <div class="event-foot">
-              <span>Enniscorthy Sports Grounds</span>
-              <button class="btn btn-amber btn-sm" onclick="openEventModal('EIA Summer Cricket Championship', 'Sunday, 19 July 2026')">Register Team</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Diwali Festival of Lights -->
-        <div class="event-card" data-r="0.2">
-          <div class="event-art">
-            <img src="divyanshi-verma-h3SyJYsqYSo-unsplash.jpg" alt="Diwali — Festival of Lights 2026" loading="lazy" decoding="async">
-            <div class="event-date">
-              <span class="day">07</span>
-              <span class="mo">NOV 2026</span>
+              <span class="day">24</span>
+              <span class="mo">OCT 2026</span>
             </div>
             <span class="event-badge">Cultural Night</span>
           </div>
           <div class="event-body">
-            <h3>Diwali — Festival of Lights 2026</h3>
-            <p>Traditional Diya lighting, musical concert, Bollywood &amp; classical dance showcases by our youth, and festive Indian sweets banquet.</p>
+            <h3>Indo Irish Cultural Evening</h3>
+            <p>A landmark evening celebrating Indian and Irish artistic heritage. Special classical performances, music, and community integration. <strong>Chief Guest: H.E. Manish Gupta, Ambassador of India to Ireland</strong>.</p>
             <div class="event-foot">
-              <span>St. Senan’s Community Hall</span>
-              <button class="btn btn-amber btn-sm" onclick="openEventModal('Diwali Festival of Lights 2026', 'Saturday, 07 November 2026')">RSVP / Tickets</button>
+              <span>Riverside Park Hotel &bull; 3 PM onwards</span>
+              <button class="btn btn-amber btn-sm" onclick="openEventModal('Indo Irish Cultural Evening', 'Saturday, 24 October 2026, 3 PM onwards at Riverside Park Hotel')">RSVP / Register</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Christmas & New Year Celebration -->
+        <div class="event-card" data-r="0.2">
+          <div class="event-art">
+            <img src="images/eia-christmas-celebration.jpeg" alt="Christmas / New Year Celebration" loading="lazy" decoding="async">
+            <div class="event-date">
+              <span class="day">30</span>
+              <span class="mo">DEC 2026</span>
+            </div>
+            <span class="event-badge">Year-End Gathering</span>
+          </div>
+          <div class="event-body">
+            <h3>Christmas / New Year Celebration</h3>
+            <p>Joyful year-end community celebration featuring festive carols, children's stage performances, family games, cultural entertainment, and dinner banquet.</p>
+            <div class="event-foot">
+              <span>Marshalstown Community Centre &bull; 4 PM onwards</span>
+              <button class="btn btn-amber btn-sm" onclick="openEventModal('Christmas / New Year Celebration', 'Wednesday, 30 December 2026, 4 PM onwards at Marshalstown Community Centre')">RSVP / Register</button>
             </div>
           </div>
         </div>
@@ -3252,7 +3393,8 @@
             Become an Official Member of EIA
           </h2>
           <p>
-            Join hands with families across Enniscorthy and County Wexford. Support our cultural mission, enjoy exclusive festival access, participate in community welfare, and shape our association's future.
+            Join hands with families across Enniscorthy and County Wexford. Support our cultural mission, enjoy
+            exclusive festival access, participate in community welfare, and shape our association's future.
           </p>
           <div class="membership-checklist">
             <span>&bull; Family &amp; Individual Options</span>
@@ -3261,10 +3403,12 @@
           </div>
         </div>
         <div class="membership-cta-btns">
-          <a href="membership.html" class="btn btn-amber" style="text-align: center; padding: 14px 28px; font-size: 15px; font-weight: 700;">
+          <a href="membership.html" class="btn btn-amber"
+            style="text-align: center; padding: 14px 28px; font-size: 15px; font-weight: 700;">
             View Plans &amp; Apply &rarr;
           </a>
-          <a href="#contact" class="btn btn-outline" style="text-align: center; color: #fff; border-color: rgba(255,255,255,0.3); padding: 12px 24px;">
+          <a href="#contact" class="btn btn-outline"
+            style="text-align: center; color: #fff; border-color: rgba(255,255,255,0.3); padding: 12px 24px;">
             Contact Committee
           </a>
         </div>
@@ -3284,7 +3428,11 @@
       <div class="services-grid">
         <div class="service-card" data-r>
           <div class="service-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
           </div>
           <h4>Newcomer Support</h4>
           <p>Practical integration guidance for newly arriving healthcare staff and families relocating to Wexford.</p>
@@ -3298,7 +3446,11 @@
 
         <div class="service-card" data-r="0.1">
           <div class="service-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+            </svg>
           </div>
           <h4>Language &amp; Culture</h4>
           <p>Weekend classes helping children develop bilingual fluency and pride in Indian classical arts.</p>
@@ -3312,7 +3464,13 @@
 
         <div class="service-card" data-r="0.2">
           <div class="service-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
           </div>
           <h4>Community Welfare</h4>
           <p>A mutual-aid network assisting members during times of illness, bereavement, or family emergencies.</p>
@@ -3326,7 +3484,14 @@
 
         <div class="service-card" data-r="0.3">
           <div class="service-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+              <path d="M4 22h16" />
+              <path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34" />
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2z" />
+            </svg>
           </div>
           <h4>Sports &amp; Youth Hub</h4>
           <p>Engaging youth through competitive sports, healthy active lifestyles, and university mentorship.</p>
@@ -3359,32 +3524,39 @@
       </div>
 
       <div class="gal-grid" id="galGrid">
-        <div class="gal-item" data-cat="festivals" onclick="openLightbox('avin-cp-Z9dgBPFSa40-unsplash.jpg', 'Floral Pookkalam &bull; Onam Celebration')">
+        <div class="gal-item" data-cat="festivals"
+          onclick="openLightbox('avin-cp-Z9dgBPFSa40-unsplash.jpg', 'Floral Pookkalam &bull; Onam Celebration')">
           <img src="avin-cp-Z9dgBPFSa40-unsplash.jpg" alt="Pookkalam flower carpet" loading="lazy" decoding="async">
           <div class="cap"><span>Floral Pookkalam &bull; Onam</span></div>
         </div>
 
-        <div class="gal-item" data-cat="culture" onclick="openLightbox('ajin-k-s-0tuzOfs-T3s-unsplash.jpg', 'Kathakali Art & Classical Performance')">
+        <div class="gal-item" data-cat="culture"
+          onclick="openLightbox('ajin-k-s-0tuzOfs-T3s-unsplash.jpg', 'Kathakali Art & Classical Performance')">
           <img src="ajin-k-s-0tuzOfs-T3s-unsplash.jpg" alt="Kathakali" loading="lazy" decoding="async">
           <div class="cap"><span>Kathakali Heritage Dance</span></div>
         </div>
 
-        <div class="gal-item" data-cat="festivals" onclick="openLightbox('vineeth-vinod-NwxSI7wD-gc-unsplash.jpg', 'Grand Onasadya Feast on Banana Leaf')">
+        <div class="gal-item" data-cat="festivals"
+          onclick="openLightbox('vineeth-vinod-NwxSI7wD-gc-unsplash.jpg', 'Grand Onasadya Feast on Banana Leaf')">
           <img src="vineeth-vinod-NwxSI7wD-gc-unsplash.jpg" alt="Onasadya feast" loading="lazy" decoding="async">
           <div class="cap"><span>Grand Onasadya Feast</span></div>
         </div>
 
-        <div class="gal-item" data-cat="culture" onclick="openLightbox('manyu-varma-mM6cUV3B9M8-unsplash.jpg', 'Chenda Melam Percussion Ensemble')">
+        <div class="gal-item" data-cat="culture"
+          onclick="openLightbox('manyu-varma-mM6cUV3B9M8-unsplash.jpg', 'Chenda Melam Percussion Ensemble')">
           <img src="manyu-varma-mM6cUV3B9M8-unsplash.jpg" alt="Chenda Melam" loading="lazy" decoding="async">
           <div class="cap"><span>Chenda Melam Ensemble</span></div>
         </div>
 
-        <div class="gal-item" data-cat="sports" onclick="openLightbox('sateesh-reddy-patlolla-ds_bUqGISJA-unsplash.jpg', 'EIA Cricket Tournament in Wexford')">
-          <img src="sateesh-reddy-patlolla-ds_bUqGISJA-unsplash.jpg" alt="Cricket Match" loading="lazy" decoding="async">
+        <div class="gal-item" data-cat="sports"
+          onclick="openLightbox('sateesh-reddy-patlolla-ds_bUqGISJA-unsplash.jpg', 'EIA Cricket Tournament in Wexford')">
+          <img src="sateesh-reddy-patlolla-ds_bUqGISJA-unsplash.jpg" alt="Cricket Match" loading="lazy"
+            decoding="async">
           <div class="cap"><span>EIA Cricket Tournament</span></div>
         </div>
 
-        <div class="gal-item" data-cat="enniscorthy" onclick="openLightbox('images (1).jpeg', 'Enniscorthy Castle & River Slaney')">
+        <div class="gal-item" data-cat="enniscorthy"
+          onclick="openLightbox('images (1).jpeg', 'Enniscorthy Castle & River Slaney')">
           <img src="images (1).jpeg" alt="Enniscorthy Castle" loading="lazy" decoding="async">
           <div class="cap"><span>Enniscorthy Castle &amp; Slaney</span></div>
         </div>
@@ -3399,7 +3571,8 @@
       <h2>Voices of EIA Members</h2>
       <div class="test-grid">
         <div class="test-card" data-r>
-          <blockquote>"When we moved to Enniscorthy, we knew very few people. EIA welcomed us like family within weeks. The Onam celebration brought back the authentic warmth of home."</blockquote>
+          <blockquote>"When we moved to Enniscorthy, we knew very few people. EIA welcomed us like family within weeks.
+            The Onam celebration brought back the authentic warmth of home."</blockquote>
           <div class="test-author">
             <div class="av">R</div>
             <div>
@@ -3409,7 +3582,8 @@
           </div>
         </div>
         <div class="test-card" data-r="0.1">
-          <blockquote>"Our children are growing up in County Wexford, and thanks to EIA's arts and cultural activities, they are proud of their Indian heritage while thriving in Irish schools."</blockquote>
+          <blockquote>"Our children are growing up in County Wexford, and thanks to EIA's arts and cultural activities,
+            they are proud of their Indian heritage while thriving in Irish schools."</blockquote>
           <div class="test-author">
             <div class="av">S</div>
             <div>
@@ -3419,7 +3593,8 @@
           </div>
         </div>
         <div class="test-card" data-r="0.2">
-          <blockquote>"EIA helped me navigate local registrations, schools, and GP appointments when I arrived. The community support in this town is exceptional."</blockquote>
+          <blockquote>"EIA helped me navigate local registrations, schools, and GP appointments when I arrived. The
+            community support in this town is exceptional."</blockquote>
           <div class="test-author">
             <div class="av">A</div>
             <div>
@@ -3455,11 +3630,16 @@
           <div class="foot-brand">
             <img class="foot-logo" src="logo.png" alt="EIA Logo">
             <div>
-              <div class="name" style="font-family:'Fraunces', serif; font-size:20px; color:#fff; font-weight:700;">Enniscorthy Indian Association</div>
-              <div class="sub" style="font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--amber);">Co. Wexford, Ireland</div>
+              <div class="name" style="font-family:'Fraunces', serif; font-size:20px; color:#fff; font-weight:700;">
+                Enniscorthy Indian Association</div>
+              <div class="sub"
+                style="font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--amber);">Co. Wexford,
+                Ireland</div>
             </div>
           </div>
-          <p class="foot-desc">Celebrating Our Heritage &bull; Embracing Diversity &bull; Building Community. An inclusive cultural and community association connecting Indian families and friends in Enniscorthy, County Wexford.</p>
+          <p class="foot-desc">Celebrating Our Heritage &bull; Embracing Diversity &bull; Building Community. An
+            inclusive cultural and community association connecting Indian families and friends in Enniscorthy, County
+            Wexford.</p>
           <div class="foot-contact-item">
             <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
@@ -3472,18 +3652,21 @@
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                 <polyline points="22,6 12,13 2,6" />
               </svg></div>
-            <a href="mailto:info@enniscorthyindians.ie" style="color:var(--amber);">info@enniscorthyindians.ie</a> &bull; contact@eiawexford.org
+            <a href="mailto:info@enniscorthyindians.ie" style="color:var(--amber);">info@enniscorthyindians.ie</a>
+            &bull; contact@eiawexford.org
           </div>
           <div class="foot-socials">
             <a href="https://wa.me/" target="_blank" rel="noopener" aria-label="WhatsApp">
               <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492l4.624-1.467A11.932 11.932 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-2.168 0-4.18-.587-5.916-1.607l-.424-.252-2.74.87.892-2.657-.278-.441A9.793 9.793 0 012.182 12 9.818 9.818 0 0112 2.182 9.818 9.818 0 0121.818 12 9.818 9.818 0 0112 21.818z" />
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492l4.624-1.467A11.932 11.932 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-2.168 0-4.18-.587-5.916-1.607l-.424-.252-2.74.87.892-2.657-.278-.441A9.793 9.793 0 012.182 12 9.818 9.818 0 0112 2.182 9.818 9.818 0 0121.818 12 9.818 9.818 0 0112 21.818z" />
               </svg>
             </a>
             <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
               </svg></a>
-            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
                 <rect x="2" y="2" width="20" height="20" rx="5" />
                 <circle cx="12" cy="12" r="5" />
                 <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none" />
@@ -3504,7 +3687,8 @@
             </div>
             <div class="form-group">
               <label class="form-label" style="color:rgba(255,255,255,0.85)">Message *</label>
-              <textarea id="contactMessage" class="form-control" rows="3" required placeholder="How can the EIA team help you?"></textarea>
+              <textarea id="contactMessage" class="form-control" rows="3" required
+                placeholder="How can the EIA team help you?"></textarea>
             </div>
             <button type="submit" class="btn btn-amber" style="width:100%">
               <span>Send Message &rarr;</span>
@@ -3514,18 +3698,26 @@
       </div>
 
       <div class="foot-bottom">
-        &copy; 2026 Enniscorthy Indian Association (EIA). All rights reserved. &bull; Enniscorthy, County Wexford, Ireland.
-        <br><span style="font-size:11.5px; opacity:0.7;">Together, We Celebrate. Together, We Connect. Together, We Grow.</span> &bull; <a href="admin.html" style="color:inherit; text-decoration:none; opacity:0.6; font-size:11.5px;" title="Committee Admin Portal">Admin Portal</a>
+        &copy; 2026 Enniscorthy Indian Association (EIA). All rights reserved. &bull; Enniscorthy, County Wexford,
+        Ireland.
+        <br><span style="font-size:11.5px; opacity:0.7;">Together, We Celebrate. Together, We Connect. Together, We
+          Grow.</span> &bull; <a href="admin.html"
+          style="color:inherit; text-decoration:none; opacity:0.6; font-size:11.5px;"
+          title="Committee Admin Portal">Admin Portal</a>
       </div>
     </div>
   </footer>
 
   <!-- Lightbox Modal for Gallery -->
   <div class="eia-modal-backdrop" id="lightboxModal" onclick="closeLightbox(event)">
-    <div class="eia-modal-box" style="max-width:760px; padding:20px; background:var(--ink); color:#fff;" onclick="event.stopPropagation()">
-      <button class="eia-modal-close" onclick="closeLightbox()" style="background:rgba(255,255,255,0.2); color:#fff">&times;</button>
-      <img id="lightboxImg" src="" alt="Enlarge view" style="width:100%; max-height:70vh; object-fit:contain; border-radius:12px; margin-bottom:12px;">
-      <p id="lightboxCaption" style="font-family:'Fraunces', serif; font-size:17px; text-align:center; color:#fff; margin-bottom:0;"></p>
+    <div class="eia-modal-box" style="max-width:760px; padding:20px; background:var(--ink); color:#fff;"
+      onclick="event.stopPropagation()">
+      <button class="eia-modal-close" onclick="closeLightbox()"
+        style="background:rgba(255,255,255,0.2); color:#fff">&times;</button>
+      <img id="lightboxImg" src="" alt="Enlarge view"
+        style="width:100%; max-height:70vh; object-fit:contain; border-radius:12px; margin-bottom:12px;">
+      <p id="lightboxCaption"
+        style="font-family:'Fraunces', serif; font-size:17px; text-align:center; color:#fff; margin-bottom:0;"></p>
     </div>
   </div>
 
@@ -3535,7 +3727,8 @@
       <button class="eia-modal-close" onclick="closeEventModal()">&times;</button>
       <div class="kicker forest" style="margin-bottom:6px">Event Registration</div>
       <h3 id="modalEventTitle" style="margin-bottom:6px; font-size:22px;">Event RSVP</h3>
-      <p id="modalEventDate" style="color:var(--amber-deep); font-size:13.5px; font-weight:600; margin-bottom:20px;"></p>
+      <p id="modalEventDate" style="color:var(--amber-deep); font-size:13.5px; font-weight:600; margin-bottom:20px;">
+      </p>
 
       <form onsubmit="handleEventRsvp(event)">
         <div class="form-group">
@@ -3579,7 +3772,8 @@
       <div class="kicker" style="margin-bottom:6px">Partnership Inquiry</div>
       <h3 style="margin-bottom:10px; font-size:22px;">Sponsor EIA Community Events</h3>
       <p style="font-size:14px; color:var(--warm-grey); margin-bottom:18px;">
-        Partner with Enniscorthy Indian Association to support cultural celebrations, youth workshops, and sports in County Wexford.
+        Partner with Enniscorthy Indian Association to support cultural celebrations, youth workshops, and sports in
+        County Wexford.
       </p>
       <form onsubmit="handleSponsorSubmit(event)">
         <div class="form-group">
@@ -3614,7 +3808,10 @@
 
   <!-- Toast Notification -->
   <div class="toast" id="siteToast">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+      <polyline points="22 4 12 14.01 9 11.01" />
+    </svg>
     <span id="toastMessage">Action completed successfully!</span>
   </div>
 
