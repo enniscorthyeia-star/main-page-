@@ -493,11 +493,17 @@
 
     container.innerHTML = pillars.map((p, i) => {
       const src = p.image ? imgUrl(p.image, 600) : fallbackImages[i] || '';
+      let descHtml = esc(p.description);
+      if (descHtml.includes('EIA Sports and Arts Club (PPN-00677)')) {
+        descHtml = descHtml.replace('EIA Sports and Arts Club (PPN-00677)', '<a href="#services" style="color:var(--amber);font-weight:600;">EIA Sports and Arts Club (PPN-00677)</a>');
+      } else if (p.title && p.title.toLowerCase().includes('sports')) {
+        descHtml = `<a href="#services" style="color:var(--amber);font-weight:600;">EIA Sports and Arts Club (PPN-00677)</a> &mdash; ${descHtml}`;
+      }
       return `
         <div class="prog-card" data-r="${(i * 0.1).toFixed(1)}">
           <img src="${src}" alt="${esc(p.title)}" loading="lazy" decoding="async">
           <span class="label">${esc(p.title)}</span>
-          <p style="padding:0 20px 20px;font-size:13px;color:rgba(255,255,255,0.7);">${esc(p.description)}</p>
+          <p style="padding:0 20px 20px;font-size:13px;color:rgba(255,255,255,0.7);">${descHtml}</p>
         </div>`;
     }).join('');
 
