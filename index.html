@@ -109,8 +109,16 @@
       border: none;
       cursor: pointer;
       transition: all .25s ease;
-      text-decoration: none;
+      text-decoration: none !important;
       white-space: nowrap;
+    }
+
+    .btn,
+    .btn:hover,
+    .btn:focus,
+    .btn:active,
+    .btn * {
+      text-decoration: none !important;
     }
 
     .btn-dark {
@@ -170,14 +178,22 @@
       gap: 8px;
       font-weight: 600;
       color: var(--ink);
-      border-bottom: 1.5px solid var(--amber);
-      padding-bottom: 2px;
+      border-bottom: none !important;
+      text-decoration: none !important;
+      padding: 6px 14px;
+      background: rgba(197, 155, 39, 0.12);
+      border-radius: 999px;
+      border: 1px solid rgba(197, 155, 39, 0.3);
       transition: all .2s ease;
     }
 
     .ghost:hover {
       color: var(--amber-deep);
-      border-bottom-color: var(--amber-deep);
+      background: rgba(197, 155, 39, 0.22);
+      border-color: var(--amber);
+      border-bottom: none !important;
+      text-decoration: none !important;
+      gap: 12px;
     }
 
     /* ── KICKER LABEL ─────────────────────────── */
@@ -2554,7 +2570,7 @@
         </ul>
       </nav>
       <div class="nav-right">
-        <a href="membership.html" class="nav-cta">Join EIA</a>
+        <a href="membership.html" class="nav-cta">Join EIA 2027</a>
         <button class="hamburger" id="ham" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
@@ -2588,7 +2604,7 @@
     <a href="#gallery" onclick="closeDrawer()">Photo Gallery</a>
     <a href="#contact" onclick="closeDrawer()">Contact Us</a>
     <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--line);">
-      <a href="membership.html" class="btn btn-amber" style="width:100%; text-align:center; justify-content:center; color:var(--ink); border-bottom:none; padding:12px 20px;">Join EIA 2026 &rarr;</a>
+      <a href="membership.html" class="btn btn-amber" style="width:100%; text-align:center; justify-content:center; color:var(--ink); border-bottom:none; padding:12px 20px;">Join EIA 2027 &rarr;</a>
     </div>
   </div>
 
@@ -2603,7 +2619,9 @@
     </div>
     <div class="wrap hero-wrap">
       <div class="hero-inner">
-        <div class="hero-kicker-tag" data-r>Co. Wexford, Ireland &bull; Est. 2026</div>
+        <!-- TODO: confirm which date to display - Est. 23/01/2017 vs presence in Ireland from 2022 -->
+        <!-- TODO: confirm placement - Wexford PPN registration number: PPN-00656 -->
+        <div class="hero-kicker-tag" data-r>Co. Wexford, Ireland &bull; Est. 23/01/2017 &bull; PPN-00656</div>
         <h1 data-r="0.05">
           Enniscorthy
           <span class="text-amber">Indian Association</span>
@@ -2622,7 +2640,7 @@
         </p>
 
         <div class="hero-actions" data-r="0.2">
-          <a href="membership.html" class="btn btn-amber">Join Association &rarr;</a>
+          <a href="#membership" class="btn btn-amber">Join Association 2027 &rarr;</a>
           <a href="#committee" class="btn btn-dark">Meet Committee 2026</a>
           <a href="guide.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,0.35);">Explore Local Guide &rarr;</a>
         </div>
@@ -2633,7 +2651,7 @@
             <div class="txt">Executive Leaders</div>
           </div>
           <div class="hero-stat">
-            <div class="num">250+</div>
+            <div class="num">100+</div>
             <div class="txt">Families &amp; Friends</div>
           </div>
           <div class="hero-stat">
@@ -2656,7 +2674,11 @@
         <div class="kicker">About Our Association</div>
         <h2>Together, We Celebrate. Together, We Connect. Together, We Grow.</h2>
         <p>
-          <strong>Enniscorthy Indian Association (EIA)</strong> is a community organisation established to bring together Indian families, individuals and friends living in Enniscorthy and the surrounding areas of County Wexford.
+          <strong>Enniscorthy Indian Association (EIA)</strong>, formerly known as <strong>Keralites in Enniscorthy</strong>, is a community organisation established to bring together Indian families, individuals and friends living in Enniscorthy and the surrounding areas of County Wexford.
+        </p>
+        <p style="font-size:14.5px; color:var(--warm-grey); margin-top:-8px; margin-bottom:16px;">
+          <!-- TODO: confirm which date to display - Est. 23/01/2017 vs presence in Ireland from 2022 -->
+          <em>Est. 23/01/2017 &bull; Wexford PPN: PPN-00656</em>
         </p>
         <p>
           EIA is committed to celebrating the rich cultural heritage of India while creating meaningful connections with the wider Irish community. Our aim is to provide a welcoming and inclusive environment where people from different backgrounds can come together, share traditions, build friendships and create lasting memories.
@@ -2681,7 +2703,7 @@
       </div>
 
       <div class="about-media" data-r="0.2">
-        <img src="anand-s-CtqSoMZY7c8-unsplash.jpg" alt="Traditional Onam festival celebration" loading="lazy" decoding="async">
+        <img src="images/eia-st-patricks-parade.jpeg" alt="Enniscorthy Indian Association community marching in St. Patrick's Day Parade" loading="lazy" decoding="async">
         <div class="about-stat">
           <div class="big">100%</div>
           <div class="lbl">Community Driven &bull; Wexford</div>
@@ -2911,15 +2933,15 @@
 
       <div class="prog-cards">
         <div class="prog-card" data-r>
-          <img src="manyu-varma-ef3A5EDR7Jk-unsplash.jpg" alt="Culture & Arts" loading="lazy" decoding="async">
+          <img src="images/eia-beats-chendamelam.jpeg" alt="Culture & Arts — EIA Beats Chendamelam" loading="lazy" decoding="async">
           <span class="label">Culture &amp; Arts</span>
-          <p style="padding:0 20px 20px;font-size:13px;color:rgba(255,255,255,0.7);">Music, dance, and traditional performances helping young generations cherish their heritage.</p>
+          <p style="padding:0 20px 20px;font-size:13px;color:rgba(255,255,255,0.7);">Music, dance, and traditional performances like EIA Beats Chendamelam helping young generations cherish heritage.</p>
         </div>
 
         <div class="prog-card" data-r="0.1">
-          <img src="sateesh-reddy-patlolla-ds_bUqGISJA-unsplash.jpg" alt="Sports & Activities" loading="lazy" decoding="async">
+          <img src="images/eia-sports-club.jpeg" alt="EIA Sports and Arts Club (PPN-00677)" loading="lazy" decoding="async">
           <span class="label">Sports &amp; Activities</span>
-          <p style="padding:0 20px 20px;font-size:13px;color:rgba(255,255,255,0.7);">EIA Cricket Championship, badminton, and active recreation for children and adults alike.</p>
+          <p style="padding:0 20px 20px;font-size:13px;color:rgba(255,255,255,0.7);"><a href="#sports-club" style="color:var(--amber);font-weight:600;">EIA Sports and Arts Club (PPN-00677)</a> &mdash; EIA Summer Badminton / Tennis Championship, inter-county cricket, athletics, and active recreation for children and adults alike.</p>
         </div>
 
         <div class="prog-card" data-r="0.2">
@@ -3131,8 +3153,8 @@
   <div class="stats-band">
     <div class="wrap stats-inner">
       <div class="stat-box" data-r>
-        <div class="big"><span class="count" data-target="250">0</span><span class="amber">+</span></div>
-        <div class="lbl">Community Members</div>
+        <div class="big"><span class="count" data-target="100">0</span><span class="amber">+</span></div>
+        <div class="lbl">100+ Families &amp; Friends</div>
       </div>
       <div class="stat-box" data-r="0.1">
         <div class="big"><span class="count" data-target="15">0</span></div>
@@ -3163,62 +3185,62 @@
       </div>
 
       <div class="event-grid">
-        <!-- Onam 2026 -->
+        <!-- 1. Grand Onam Celebration -->
         <div class="event-card" data-r>
           <div class="event-art">
-            <img src="anand-s-CtqSoMZY7c8-unsplash.jpg" alt="Grand Onam Celebration 2026" loading="lazy" decoding="async">
+            <img src="images/eia-onam-celebration.jpeg" alt="Grand Onam Celebration with King Mahabali & EIA" loading="lazy" decoding="async">
             <div class="event-date">
               <span class="day">05</span>
-              <span class="mo">SEP 2026</span>
+              <span class="mo">SEP</span>
             </div>
             <span class="event-badge">Grand Festival</span>
           </div>
           <div class="event-body">
-            <h3>Grand Onam Celebration 2026</h3>
-            <p>Floral Pookkalam competition, traditional Onasadya feast on banana leaves, Thiruvathira dance, Maveli reception, and Chenda Melam percussion ensemble.</p>
+            <h3>Grand Onam Celebration</h3>
+            <p>Floral Pookkalam competition, traditional Onasadya feast on plantain leaves, Thiruvathira dance, Maveli reception, and Chenda Melam percussion ensemble.</p>
             <div class="event-foot">
-              <span>Riverside Park Hotel / Astro Active</span>
-              <button class="btn btn-amber btn-sm" onclick="openEventModal('Grand Onam Celebration 2026', 'Saturday, 05 September 2026')">RSVP / Tickets</button>
+              <span>Marshalstown Community Centre</span>
+              <button class="btn btn-amber btn-sm" onclick="openEventModal('Grand Onam Celebration', 'Marshalstown Community Centre')">RSVP / Register</button>
             </div>
           </div>
         </div>
 
-        <!-- Cricket Championship -->
+        <!-- 2. Indo Irish Cultural Evening -->
         <div class="event-card" data-r="0.1">
           <div class="event-art">
-            <img src="sateesh-reddy-patlolla-ds_bUqGISJA-unsplash.jpg" alt="EIA Summer Cricket Championship" loading="lazy" decoding="async">
+            <img src="images/ambassador-manish-gupta.jpeg" alt="Indo Irish Cultural Evening with Chief Guest H.E. Manish Gupta" loading="lazy" decoding="async">
             <div class="event-date">
-              <span class="day">19</span>
-              <span class="mo">JUL 2026</span>
-            </div>
-            <span class="event-badge">Sports League</span>
-          </div>
-          <div class="event-body">
-            <h3>EIA Summer Cricket Championship</h3>
-            <p>Inter-county community cricket tournament with teams across Wexford, Waterford and Carlow. Includes junior coaching and family barbecue.</p>
-            <div class="event-foot">
-              <span>Enniscorthy Sports Grounds</span>
-              <button class="btn btn-amber btn-sm" onclick="openEventModal('EIA Summer Cricket Championship', 'Sunday, 19 July 2026')">Register Team</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Diwali Festival of Lights -->
-        <div class="event-card" data-r="0.2">
-          <div class="event-art">
-            <img src="divyanshi-verma-h3SyJYsqYSo-unsplash.jpg" alt="Diwali — Festival of Lights 2026" loading="lazy" decoding="async">
-            <div class="event-date">
-              <span class="day">07</span>
-              <span class="mo">NOV 2026</span>
+              <span class="day">24</span>
+              <span class="mo">OCT</span>
             </div>
             <span class="event-badge">Cultural Night</span>
           </div>
           <div class="event-body">
-            <h3>Diwali — Festival of Lights 2026</h3>
-            <p>Traditional Diya lighting, musical concert, Bollywood &amp; classical dance showcases by our youth, and festive Indian sweets banquet.</p>
+            <h3>Indo Irish Cultural Evening</h3>
+            <p>A landmark evening celebrating Indian and Irish artistic heritage. Special classical performances, music, and community integration. <strong>Chief Guest: H.E. Manish Gupta, Ambassador of India to Ireland</strong>.</p>
             <div class="event-foot">
-              <span>St. Senan’s Community Hall</span>
-              <button class="btn btn-amber btn-sm" onclick="openEventModal('Diwali Festival of Lights 2026', 'Saturday, 07 November 2026')">RSVP / Tickets</button>
+              <span>Riverside Park Hotel &bull; 3 PM onwards</span>
+              <button class="btn btn-amber btn-sm" onclick="openEventModal('Indo Irish Cultural Evening', '24th October, 3 PM onwards at Riverside Park Hotel')">RSVP / Register</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Christmas & New Year Celebration -->
+        <div class="event-card" data-r="0.2">
+          <div class="event-art">
+            <img src="raimond-klavins-ac3W2sGLxf4-unsplash.jpg" alt="Christmas / New Year Celebration" loading="lazy" decoding="async">
+            <div class="event-date">
+              <span class="day">30</span>
+              <span class="mo">DEC</span>
+            </div>
+            <span class="event-badge">Year-End Gathering</span>
+          </div>
+          <div class="event-body">
+            <h3>Christmas / New Year Celebration</h3>
+            <p>Joyful year-end community celebration featuring festive carols, children's stage performances, family games, cultural entertainment, and dinner banquet.</p>
+            <div class="event-foot">
+              <span>Marshalstown Community Centre &bull; 4 PM onwards</span>
+              <button class="btn btn-amber btn-sm" onclick="openEventModal('Christmas / New Year Celebration', '30th December, 4 PM onwards at Marshalstown Community Centre')">RSVP / Register</button>
             </div>
           </div>
         </div>
@@ -3226,31 +3248,63 @@
     </div>
   </section>
 
-  <!-- ═══ MEMBERSHIP HUB CTA ══════════════════════════ -->
+  <!-- ═══ MEMBERSHIP HUB CTA (2027) ═════════════════════ -->
   <section class="membership-section" id="membership">
     <div class="wrap">
       <div class="membership-cta-card">
         <div style="max-width: 620px;">
-          <div class="hero-kicker-tag" style="margin-bottom: 12px; color: var(--amber);">Community Membership 2026</div>
+          <div class="hero-kicker-tag" style="margin-bottom: 12px; color: var(--amber);">Community Membership 2027</div>
           <h2>
-            Become an Official Member of EIA
+            Become an Official Member of EIA (2027)
           </h2>
           <p>
-            Join hands with families across Enniscorthy and County Wexford. Support our cultural mission, enjoy exclusive festival access, participate in community welfare, and shape our association's future.
+            Join hands with families and individuals across Enniscorthy and County Wexford. Official membership supports our cultural mission, festival celebrations, sports events, and community support network.
           </p>
+          
+          <!-- Membership Pricing Options -->
+          <div style="display:flex; flex-wrap:wrap; gap:16px; margin:20px 0 16px;">
+            <div style="background:rgba(255,255,255,0.08); border:1.5px solid var(--amber); border-radius:12px; padding:16px 22px; flex:1; min-width:200px;">
+              <div style="font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--amber); text-transform:uppercase; letter-spacing:0.08em; font-weight:600;">Family Membership</div>
+              <div style="font-family:'Fraunces', serif; font-size:28px; font-weight:700; color:#fff; margin:4px 0;">&euro;10 <span style="font-size:14px; font-family:'Inter', sans-serif; font-weight:400; color:rgba(255,255,255,0.7);">&bull; per year</span></div>
+              <div style="font-size:13px; color:rgba(255,255,255,0.75);">Full household access for all 2027 celebrations &amp; activities</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.08); border:1.5px solid rgba(255,255,255,0.25); border-radius:12px; padding:16px 22px; flex:1; min-width:200px;">
+              <div style="font-family:'IBM Plex Mono', monospace; font-size:12px; color:rgba(255,255,255,0.8); text-transform:uppercase; letter-spacing:0.08em; font-weight:600;">Single Membership</div>
+              <div style="font-family:'Fraunces', serif; font-size:28px; font-weight:700; color:#fff; margin:4px 0;">&euro;5 <span style="font-size:14px; font-family:'Inter', sans-serif; font-weight:400; color:rgba(255,255,255,0.7);">&bull; per year</span></div>
+              <div style="font-size:13px; color:rgba(255,255,255,0.75);">Individual membership for students, professionals &amp; friends</div>
+            </div>
+          </div>
+
           <div class="membership-checklist">
-            <span>&bull; Family &amp; Individual Options</span>
-            <span>&bull; Event Discounts &amp; Priority</span>
-            <span>&bull; Youth &amp; Cultural Programs</span>
+            <span>&bull; Family: &euro;10/yr | Single: &euro;5/yr</span>
+            <span>&bull; Official Membership 2027</span>
+            <span>&bull; Email: enniscorthyindianassociation@gmail.com</span>
           </div>
         </div>
+
         <div class="membership-cta-btns">
-          <a href="membership.html" class="btn btn-amber" style="text-align: center; padding: 14px 28px; font-size: 15px; font-weight: 700;">
-            View Plans &amp; Apply &rarr;
+          <!-- Google Form Membership Application -->
+          <a href="https://forms.google.com" target="_blank" rel="noopener" class="btn btn-amber" style="text-align: center; padding: 14px 28px; font-size: 15px; font-weight: 700;">
+            Open Membership Google Form &rarr;
           </a>
-          <a href="#contact" class="btn btn-outline" style="text-align: center; color: #fff; border-color: rgba(255,255,255,0.3); padding: 12px 24px;">
-            Contact Committee
+          <a href="mailto:enniscorthyindianassociation@gmail.com" class="btn btn-outline" style="text-align: center; color: #fff; border-color: rgba(255,255,255,0.3); padding: 12px 24px;">
+            Email: enniscorthyindianassociation@gmail.com
           </a>
+        </div>
+      </div>
+
+      <!-- Embedded Membership Google Form Container -->
+      <div style="margin-top:28px; background:var(--paper); border:1px solid var(--line); border-radius:var(--r); padding:32px 24px; box-shadow:var(--shadow-sm); text-align:center;">
+        <h3 style="font-size:22px; margin-bottom:8px; color:var(--ink);">EIA Official Membership Form 2027</h3>
+        <p style="font-size:14.5px; color:var(--warm-grey); max-width:680px; margin:0 auto 20px;">
+          Please complete our official 2027 membership registration form below. For any assistance or verification, contact us directly at <a href="mailto:enniscorthyindianassociation@gmail.com" style="color:var(--amber-deep); font-weight:600;">enniscorthyindianassociation@gmail.com</a>.
+        </p>
+        <div style="position:relative; width:100%; max-width:760px; margin:0 auto; min-height:480px; border-radius:12px; overflow:hidden; border:1px solid var(--line); background:#fff;">
+          <!-- Google Form Embed Iframe -->
+          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc_EXAMPLE/viewform?embedded=true" width="100%" height="520" frameborder="0" marginheight="0" marginwidth="0" style="border:none; display:block;">Loading Membership Registration Form…</iframe>
+        </div>
+        <div style="margin-top:16px;">
+          <a href="https://forms.google.com" target="_blank" rel="noopener" class="btn btn-dark btn-sm">Open Form in New Tab &rarr;</a>
         </div>
       </div>
     </div>
@@ -3313,12 +3367,12 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
           </div>
           <h4>Sports &amp; Youth Hub</h4>
-          <p>Engaging youth through competitive sports, healthy active lifestyles, and university mentorship.</p>
+          <p>Engaging youth and families through EIA Sports and Arts Club (PPN-00677) and competitive sports leagues.</p>
           <ul class="service-list">
-            <li>EIA Cricket Club &amp; Tournaments</li>
-            <li>Badminton &amp; Athletics Meets</li>
-            <li>Career &amp; College Guidance</li>
-            <li>Youth Leadership Certificates</li>
+            <li>EIA Sports and Arts Club (PPN-00677)</li>
+            <li>EIA Summer Badminton / Tennis Championship</li>
+            <li>Cricket Tournaments &amp; Coaching</li>
+            <li>Youth Leadership &amp; Mentorship</li>
           </ul>
         </div>
       </div>
@@ -3343,91 +3397,98 @@
       </div>
 
       <div class="gal-grid" id="galGrid">
-        <div class="gal-item" data-cat="festivals" onclick="openLightbox('avin-cp-Z9dgBPFSa40-unsplash.jpg', 'Floral Pookkalam &bull; Onam Celebration')">
-          <img src="avin-cp-Z9dgBPFSa40-unsplash.jpg" alt="Pookkalam flower carpet" loading="lazy" decoding="async">
-          <div class="cap"><span>Floral Pookkalam &bull; Onam</span></div>
+        <div class="gal-item" data-cat="enniscorthy" onclick="openLightbox('images/eia-st-patricks-parade.jpeg', 'EIA Community in St. Patrick\'s Day Parade &bull; Enniscorthy')">
+          <img src="images/eia-st-patricks-parade.jpeg" alt="EIA in St. Patrick's Day Parade Enniscorthy" loading="lazy" decoding="async">
+          <div class="cap"><span>St. Patrick's Day Parade &bull; EIA</span></div>
         </div>
 
-        <div class="gal-item" data-cat="culture" onclick="openLightbox('ajin-k-s-0tuzOfs-T3s-unsplash.jpg', 'Kathakali Art & Classical Performance')">
-          <img src="ajin-k-s-0tuzOfs-T3s-unsplash.jpg" alt="Kathakali" loading="lazy" decoding="async">
-          <div class="cap"><span>Kathakali Heritage Dance</span></div>
+        <div class="gal-item" data-cat="festivals" onclick="openLightbox('images/eia-onam-celebration.jpeg', 'Grand Onam Celebration &bull; Maveli Reception &amp; Dignitaries')">
+          <img src="images/eia-onam-celebration.jpeg" alt="Grand Onam Celebration with Maveli" loading="lazy" decoding="async">
+          <div class="cap"><span>Grand Onam Celebration &bull; Maveli</span></div>
         </div>
 
-        <div class="gal-item" data-cat="festivals" onclick="openLightbox('vineeth-vinod-NwxSI7wD-gc-unsplash.jpg', 'Grand Onasadya Feast on Banana Leaf')">
-          <img src="vineeth-vinod-NwxSI7wD-gc-unsplash.jpg" alt="Onasadya feast" loading="lazy" decoding="async">
-          <div class="cap"><span>Grand Onasadya Feast</span></div>
+        <div class="gal-item" data-cat="culture" onclick="openLightbox('images/eia-ambassador-panel.jpeg', 'Indo Irish Cultural Evening &bull; Chief Guest H.E. Manish Gupta, Ambassador of India to Ireland')">
+          <img src="images/eia-ambassador-panel.jpeg" alt="Indo Irish Cultural Evening Dignitaries Panel" loading="lazy" decoding="async">
+          <div class="cap"><span>Cultural Evening &bull; Ambassador Manish Gupta</span></div>
         </div>
 
-        <div class="gal-item" data-cat="culture" onclick="openLightbox('manyu-varma-mM6cUV3B9M8-unsplash.jpg', 'Chenda Melam Percussion Ensemble')">
-          <img src="manyu-varma-mM6cUV3B9M8-unsplash.jpg" alt="Chenda Melam" loading="lazy" decoding="async">
-          <div class="cap"><span>Chenda Melam Ensemble</span></div>
+        <div class="gal-item" data-cat="culture" onclick="openLightbox('images/eia-beats-chendamelam.jpeg', 'EIA Beats &bull; Team Traditional Indian Percussion (Chendamelam)')">
+          <img src="images/eia-beats-chendamelam.jpeg" alt="EIA Beats Chendamelam" loading="lazy" decoding="async">
+          <div class="cap"><span>EIA Beats &bull; Chendamelam</span></div>
         </div>
 
-        <div class="gal-item" data-cat="sports" onclick="openLightbox('sateesh-reddy-patlolla-ds_bUqGISJA-unsplash.jpg', 'EIA Cricket Tournament in Wexford')">
-          <img src="sateesh-reddy-patlolla-ds_bUqGISJA-unsplash.jpg" alt="Cricket Match" loading="lazy" decoding="async">
-          <div class="cap"><span>EIA Cricket Tournament</span></div>
+        <div class="gal-item" data-cat="sports" onclick="openLightbox('images/eia-sports-club.jpeg', 'EIA Sports and Arts Club (PPN-00677) &bull; Team &amp; Championships')">
+          <img src="images/eia-sports-club.jpeg" alt="EIA Sports and Arts Club Team" loading="lazy" decoding="async">
+          <div class="cap"><span>EIA Sports &amp; Arts Club (PPN-00677)</span></div>
         </div>
 
-        <div class="gal-item" data-cat="enniscorthy" onclick="openLightbox('images (1).jpeg', 'Enniscorthy Castle & River Slaney')">
-          <img src="images (1).jpeg" alt="Enniscorthy Castle" loading="lazy" decoding="async">
-          <div class="cap"><span>Enniscorthy Castle &amp; Slaney</span></div>
+        <div class="gal-item" data-cat="enniscorthy" onclick="openLightbox('images/eia-community-dinner.jpeg', 'EIA Community Gathering &amp; Evening in Enniscorthy')">
+          <img src="images/eia-community-dinner.jpeg" alt="EIA Community Dinner Gathering" loading="lazy" decoding="async">
+          <div class="cap"><span>EIA Community Gathering &bull; Enniscorthy</span></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ TESTIMONIALS ══════════════════════════════ -->
-  <section class="testimonials">
+  <!-- ═══ VOICE OF EIA MEMBERS (Ready for new testimonials - Hidden while empty) ═════ -->
+  <section class="testimonials" id="memberVoices" style="display:none;">
     <div class="wrap" data-r>
       <div class="kicker">From Our Community</div>
       <h2>Voices of EIA Members</h2>
-      <div class="test-grid">
-        <div class="test-card" data-r>
-          <blockquote>"When we moved to Enniscorthy, we knew very few people. EIA welcomed us like family within weeks. The Onam celebration brought back the authentic warmth of home."</blockquote>
-          <div class="test-author">
-            <div class="av">R</div>
-            <div>
-              <div class="name">Ranjith &amp; Meera K.</div>
-              <div class="role">Members &bull; Wexford General Hospital</div>
-            </div>
-          </div>
-        </div>
-        <div class="test-card" data-r="0.1">
-          <blockquote>"Our children are growing up in County Wexford, and thanks to EIA's arts and cultural activities, they are proud of their Indian heritage while thriving in Irish schools."</blockquote>
-          <div class="test-author">
-            <div class="av">S</div>
-            <div>
-              <div class="name">Sreevidya Nair</div>
-              <div class="role">Member &bull; Enniscorthy</div>
-            </div>
-          </div>
-        </div>
-        <div class="test-card" data-r="0.2">
-          <blockquote>"EIA helped me navigate local registrations, schools, and GP appointments when I arrived. The community support in this town is exceptional."</blockquote>
-          <div class="test-author">
-            <div class="av">A</div>
-            <div>
-              <div class="name">Arun Krishnan</div>
-              <div class="role">Member &bull; Healthcare Professional</div>
-            </div>
-          </div>
-        </div>
+      <div class="test-grid" id="testGrid">
+        <!-- Testimonials container preserved; new testimonials will be added here once provided -->
       </div>
     </div>
   </section>
 
-  <!-- ═══ SPONSORS STRIP ═════════════════════════════ -->
-  <section class="partners-section">
+  <!-- ═══ SPONSORS & COMMUNITY PARTNERS ═════════════ -->
+  <section class="partners-section" id="sponsors">
     <div class="wrap" style="text-align:center;">
-      <div class="kicker">Our Partners</div>
-      <h3 style="font-size:22px; margin-bottom:20px;">Proudly Supported by Community Partners</h3>
-      <div class="partner-badges">
-        <span class="partner-badge">Riverside Park Hotel</span>
-        <span class="partner-badge">Astro Active Centre</span>
-        <span class="partner-badge">Wexford Local Development</span>
-        <span class="partner-badge">Enniscorthy Community Hub</span>
+      
+      <!-- 6. Our Sponsors -->
+      <div style="margin-bottom: 48px;">
+        <div class="kicker">Our Sponsors</div>
+        <h3 style="font-size:24px; margin-bottom:20px; color:var(--ink);">Proud Corporate &amp; Business Sponsors</h3>
+        <!-- TODO: confirm exact wording for Spice Emporium / Irasia (Enniscorthy / Gorey) -->
+        <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin:20px auto 24px; max-width:760px;">
+          <div style="background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px 24px; display:flex; flex-direction:column; align-items:center; gap:8px; box-shadow:var(--shadow-sm); min-width:240px; flex:1;">
+            <img src="images/sponsor-the-holy-grail.jpeg" alt="The Holy Grail Restaurant" style="height:72px; max-width:180px; object-fit:contain; border-radius:6px;">
+            <div style="font-weight:700; color:var(--ink); font-size:15.5px;">The Holy Grail Restaurant</div>
+            <span style="font-size:12.5px; color:var(--warm-grey);">(Enniscorthy)</span>
+          </div>
+          <div style="background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px 24px; display:flex; flex-direction:column; align-items:center; gap:8px; box-shadow:var(--shadow-sm); min-width:240px; flex:1;">
+            <img src="images/sponsor-ireasia.jpeg" alt="Spice Emporium / Irasia" style="height:72px; max-width:220px; object-fit:contain; border-radius:6px;">
+            <!-- TODO: confirm exact wording for Spice Emporium / Irasia (Enniscorthy / Gorey) -->
+            <div style="font-weight:700; color:var(--ink); font-size:15.5px;">Spice Emporium / Irasia</div>
+            <span style="font-size:12.5px; color:var(--warm-grey);">(Enniscorthy / Gorey)</span>
+          </div>
+        </div>
+        <div class="partner-badges" style="margin-bottom:24px;">
+          <span class="partner-badge" style="font-weight:600; font-size:15px; padding:10px 22px;">The Holy Grail Restaurant <span style="font-size:12px; opacity:0.8;">(Enniscorthy)</span></span>
+          <span class="partner-badge" style="font-weight:600; font-size:15px; padding:10px 22px;">Spice Emporium / Irasia <span style="font-size:12px; opacity:0.8;">(Enniscorthy / Gorey)</span></span>
+        </div>
+        <div>
+          <button class="btn btn-outline btn-sm" onclick="openSponsorModal()">Become a Sponsor &rarr;</button>
+        </div>
       </div>
-      <button class="btn btn-outline btn-sm" onclick="openSponsorModal()">Become a Sponsor &rarr;</button>
+
+      <!-- 7. Community Partners -->
+      <div style="padding-top: 36px; border-top: 1px solid var(--line);">
+        <div class="kicker forest">Community Alliances</div>
+        <h3 style="font-size:22px; margin-bottom:20px; color:var(--ink);">Proudly supported by community partners</h3>
+        <!-- TODO: confirm placement - Wexford PPN registration number: PPN-00656 -->
+        <!-- TODO: confirm spelling for Allcast Motor Factors -->
+        <div class="partner-badges">
+          <span class="partner-badge">1. Wexford County Council</span>
+          <span class="partner-badge">2. Wexford Public Participation Network (PPN) &bull; PPN-00656</span>
+          <span class="partner-badge">3. Allcast Motor Factors</span>
+          <span class="partner-badge">4. The Bailey Bar and Eatery</span>
+          <span class="partner-badge">5. Riverside Park Hotel</span>
+          <span class="partner-badge">6. SuperValu</span>
+          <span class="partner-badge">7. Enniscorthy Credit Union</span>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -3443,20 +3504,29 @@
               <div class="sub" style="font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--amber);">Co. Wexford, Ireland</div>
             </div>
           </div>
-          <p class="foot-desc">Celebrating Our Heritage &bull; Embracing Diversity &bull; Building Community. An inclusive cultural and community association connecting Indian families and friends in Enniscorthy, County Wexford.</p>
+          <p class="foot-desc">
+            <strong>Enniscorthy Indian Association, formerly known as Keralites in Enniscorthy.</strong><br>
+            Celebrating Our Heritage &bull; Embracing Diversity &bull; Building Community. An inclusive cultural organisation connecting Indian families and friends in Enniscorthy and County Wexford.
+          </p>
           <div class="foot-contact-item">
             <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
                 <circle cx="12" cy="10" r="3" />
               </svg></div>
-            Enniscorthy, County Wexford, Republic of Ireland
+            13 Market Square, Enniscorthy, Co. Wexford, Eircode Y21 K449
+          </div>
+          <div class="foot-contact-item">
+            <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg></div>
+            Phone: <a href="tel:0899897110" style="color:var(--amber);">089 989 7110</a>
           </div>
           <div class="foot-contact-item">
             <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                 <polyline points="22,6 12,13 2,6" />
               </svg></div>
-            <a href="mailto:info@enniscorthyindians.ie" style="color:var(--amber);">info@enniscorthyindians.ie</a> &bull; contact@eiawexford.org
+            <a href="mailto:enniscorthyindianassociation@gmail.com" style="color:var(--amber);">enniscorthyindianassociation@gmail.com</a>
           </div>
           <div class="foot-socials">
             <a href="https://wa.me/" target="_blank" rel="noopener" aria-label="WhatsApp">
@@ -3498,8 +3568,8 @@
       </div>
 
       <div class="foot-bottom">
-        &copy; 2026 Enniscorthy Indian Association (EIA). All rights reserved. &bull; Enniscorthy, County Wexford, Ireland.
-        <br><span style="font-size:11.5px; opacity:0.7;">Together, We Celebrate. Together, We Connect. Together, We Grow.</span>
+        &copy; 2027 Enniscorthy Indian Association (EIA). All rights reserved. &bull; Enniscorthy, County Wexford, Ireland.
+        <br><span style="font-size:11.5px; opacity:0.7;">Together, We Celebrate. Together, We Connect. Together, We Grow.</span> &bull; <a href="admin.html" style="color:inherit; text-decoration:none; opacity:0.6; font-size:11.5px;" title="Committee Admin Portal">Admin Portal</a>
       </div>
     </div>
   </footer>
@@ -3517,8 +3587,8 @@
   <div class="eia-modal-backdrop" id="eventModal" onclick="closeEventModal(event)">
     <div class="eia-modal-box" onclick="event.stopPropagation()">
       <button class="eia-modal-close" onclick="closeEventModal()">&times;</button>
-      <div class="kicker forest" style="margin-bottom:6px">Event Registration</div>
-      <h3 id="modalEventTitle" style="margin-bottom:6px; font-size:22px;">Event RSVP</h3>
+      <div class="kicker forest" style="margin-bottom:6px">Event Attendance RSVP</div>
+      <h3 id="modalEventTitle" style="margin-bottom:6px; font-size:22px;">Event RSVP &amp; Registration</h3>
       <p id="modalEventDate" style="color:var(--amber-deep); font-size:13.5px; font-weight:600; margin-bottom:20px;"></p>
 
       <form onsubmit="handleEventRsvp(event)">
@@ -3811,6 +3881,9 @@
       }
     });
   </script>
+
+  <!-- Sanity CMS Integration -->
+  <script src="eia-cms.js"></script>
 </body>
 
 </html>

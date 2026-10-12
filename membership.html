@@ -109,8 +109,16 @@
       border: none;
       cursor: pointer;
       transition: all .25s ease;
-      text-decoration: none;
+      text-decoration: none !important;
       white-space: nowrap;
+    }
+
+    .btn,
+    .btn:hover,
+    .btn:focus,
+    .btn:active,
+    .btn * {
+      text-decoration: none !important;
     }
 
     .btn-dark {
@@ -170,14 +178,22 @@
       gap: 8px;
       font-weight: 600;
       color: var(--ink);
-      border-bottom: 1.5px solid var(--amber);
-      padding-bottom: 2px;
+      border-bottom: none !important;
+      text-decoration: none !important;
+      padding: 6px 14px;
+      background: rgba(197, 155, 39, 0.12);
+      border-radius: 999px;
+      border: 1px solid rgba(197, 155, 39, 0.3);
       transition: all .2s ease;
     }
 
     .ghost:hover {
       color: var(--amber-deep);
-      border-bottom-color: var(--amber-deep);
+      background: rgba(197, 155, 39, 0.22);
+      border-color: var(--amber);
+      border-bottom: none !important;
+      text-decoration: none !important;
+      gap: 12px;
     }
 
     /* ── KICKER LABEL ─────────────────────────── */
@@ -2035,74 +2051,71 @@
   <!-- ═══ PAGE HERO ══════════════════════════════════ -->
   <section style="padding: 140px 0 60px; background: var(--ink); color: #fff; text-align: center; position: relative;">
     <div class="wrap">
-      <div class="hero-kicker-tag" style="justify-content:center; margin-bottom:12px;">EIA Membership Hub 2026</div>
-      <h1 style="font-size: 46px; font-family: Plus Jakarta Sans, sans-serif; font-weight: 800; color: #fff; margin-bottom: 14px;">Join the EIA Community</h1>
-      <p style="font-size: 17px; color: rgba(255,255,255,0.85); max-width: 640px; margin: 0 auto; line-height: 1.6;">
-        Become an official member of the Enniscorthy Indian Association. Support our cultural mission, enjoy exclusive event privileges, and connect with families across County Wexford.
+      <div class="hero-kicker-tag" style="justify-content:center; margin-bottom:12px;">EIA Membership Hub 2027</div>
+      <h1 style="font-size: 46px; font-family: Plus Jakarta Sans, sans-serif; font-weight: 800; color: #fff; margin-bottom: 14px;">Join the EIA Community (2027)</h1>
+      <p style="font-size: 17px; color: rgba(255,255,255,0.85); max-width: 680px; margin: 0 auto; line-height: 1.6;">
+        Become an official member of the <strong>Enniscorthy Indian Association (EIA)</strong>, formerly known as <strong>Keralites in Enniscorthy</strong>. Support our cultural mission, engage in community celebrations, and connect with families across County Wexford.
       </p>
+      <div style="margin-top:16px; font-size:14px; color:var(--amber);">
+        <span>Contact: <a href="mailto:enniscorthyindianassociation@gmail.com" style="color:var(--amber); font-weight:600;">enniscorthyindianassociation@gmail.com</a></span>
+      </div>
     </div>
   </section>
-<!-- ═══ MEMBERSHIP HUB SECTION ══════════════════════ -->
+
+  <!-- ═══ MEMBERSHIP HUB SECTION ══════════════════════ -->
   <section class="membership-section" id="membership">
     <div class="wrap">
       <div class="section-head" data-r>
         <div class="kicker forest">Join Our Community</div>
-        <h2>EIA Membership &amp; Online Application</h2>
-        <p>Open to all Indian families, individuals, and friends in Enniscorthy and County Wexford. Enjoy festival discounts, sports clubs, youth programs, and community support.</p>
+        <h2>EIA Membership &amp; Online Application 2027</h2>
+        <p>Open to all Indian families, individuals, and friends in Enniscorthy and County Wexford. Enjoy community gatherings, sports clubs, youth programs, and mutual welfare.</p>
       </div>
 
       <div class="membership-card-wrap" data-r>
-        <!-- Tiers Grid -->
-        <div class="tier-grid">
-          <div class="tier-card" onclick="selectTier('Family Membership', 40)">
+        <!-- Tiers Grid (Family €10/yr, Single €5/yr) -->
+        <div class="tier-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:20px;">
+          <div class="tier-card featured" onclick="selectTier('Family Membership', 10)">
+            <span class="tier-badge">Most Popular</span>
             <h4>Family Plan</h4>
-            <div class="tier-price">€40 <span>/ year</span></div>
-            <p class="tier-desc">Parents &amp; dependent children in Wexford.</p>
+            <div class="tier-price">€10 <span>/ year</span></div>
+            <p class="tier-desc">Household membership for families in Wexford.</p>
             <ul class="tier-benefits">
-              <li>Discounted festival tickets</li>
-              <li>Priority youth club spots</li>
+              <li>Full household festival access</li>
+              <li>Priority sports &amp; youth activities</li>
               <li>Full AGM voting rights</li>
-              <li>Newcomer network help</li>
-            </ul>
-            <button class="btn btn-outline btn-sm" type="button">Select Plan</button>
-          </div>
-
-          <div class="tier-card featured" onclick="selectTier('Individual Membership', 25)">
-            <span class="tier-badge">Popular</span>
-            <h4>Individual Plan</h4>
-            <div class="tier-price">€25 <span>/ year</span></div>
-            <p class="tier-desc">Single working professionals &amp; adults.</p>
-            <ul class="tier-benefits">
-              <li>Event pass concessions</li>
-              <li>EIA Cricket club membership</li>
-              <li>Full AGM voting rights</li>
-              <li>Social networking access</li>
+              <li>Newcomer network &amp; welfare support</li>
             </ul>
             <button class="btn btn-amber btn-sm" type="button">Select Plan</button>
           </div>
 
-          <div class="tier-card" onclick="selectTier('Student / Senior', 15)">
-            <h4>Student &amp; Senior</h4>
-            <div class="tier-price">€15 <span>/ year</span></div>
-            <p class="tier-desc">Students (3rd level) &amp; seniors (65+).</p>
+          <div class="tier-card" onclick="selectTier('Single Membership', 5)">
+            <h4>Single Plan</h4>
+            <div class="tier-price">€5 <span>/ year</span></div>
+            <p class="tier-desc">Individual working professionals, students &amp; friends.</p>
             <ul class="tier-benefits">
-              <li>Full workshop access</li>
-              <li>Mentorship &amp; networking</li>
-              <li>Community welfare care</li>
+              <li>Event participation &amp; access</li>
+              <li>EIA Sports and Arts Club access</li>
+              <li>Full AGM voting rights</li>
+              <li>Community social networking</li>
             </ul>
             <button class="btn btn-outline btn-sm" type="button">Select Plan</button>
           </div>
+        </div>
 
-          <div class="tier-card" onclick="selectTier('Associate / Friend', 20)">
-            <h4>Friend of EIA</h4>
-            <div class="tier-price">€20 <span>/ year</span></div>
-            <p class="tier-desc">Multicultural friends of all backgrounds.</p>
-            <ul class="tier-benefits">
-              <li>Event invitations</li>
-              <li>Cultural newsletters</li>
-              <li>Cross-cultural workshops</li>
-            </ul>
-            <button class="btn btn-outline btn-sm" type="button">Select Plan</button>
+        <!-- Google Form Embed & Direct Link Container -->
+        <div style="margin:36px 0; background:#fff; border:1px solid var(--line); border-radius:16px; padding:32px 24px; box-shadow:var(--shadow-sm); text-align:center;">
+          <div class="kicker forest">Official Application</div>
+          <h3 style="font-size:24px; margin-bottom:10px; color:var(--ink);">Official Membership Google Form (2027)</h3>
+          <p style="font-size:15px; color:var(--warm-grey); max-width:680px; margin:0 auto 20px;">
+            Please complete your 2027 membership registration directly using our official Google Form below or open it in a new window. For inquiries, email <a href="mailto:enniscorthyindianassociation@gmail.com" style="color:var(--amber-deep); font-weight:600;">enniscorthyindianassociation@gmail.com</a>.
+          </p>
+          <div style="margin-bottom:20px;">
+            <a href="https://forms.google.com" target="_blank" rel="noopener" class="btn btn-amber" style="padding:12px 28px; font-weight:700;">
+              Open Membership Google Form &rarr;
+            </a>
+          </div>
+          <div style="width:100%; max-width:760px; margin:0 auto; min-height:480px; border-radius:12px; overflow:hidden; border:1px solid var(--line); background:#fcfcfc;">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc_EXAMPLE/viewform?embedded=true" width="100%" height="520" frameborder="0" marginheight="0" marginwidth="0" style="border:none; display:block;">Loading Membership Form…</iframe>
           </div>
         </div>
 
@@ -2128,21 +2141,19 @@
               <div class="form-group">
                 <label class="form-label" for="memTier">Membership Category *</label>
                 <select id="memTier" class="form-control" onchange="updateFormSummary()" required>
-                  <option value="Family Membership|40">Family Membership (€40/yr)</option>
-                  <option value="Individual Membership|25" selected>Individual Membership (€25/yr)</option>
-                  <option value="Student / Senior|15">Student &amp; Senior Concession (€15/yr)</option>
-                  <option value="Associate / Friend|20">Friend of EIA Associate (€20/yr)</option>
+                  <option value="Family Membership|10" selected>Family Membership (€10/yr)</option>
+                  <option value="Single Membership|5">Single Membership (€5/yr)</option>
                 </select>
               </div>
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="memAddress">Residential Area in Co. Wexford</label>
-              <input type="text" id="memAddress" class="form-control" placeholder="e.g. Bellefield, Enniscorthy, Co. Wexford">
+              <label class="form-label" for="memAddress">Residential Address / Area in Co. Wexford</label>
+              <input type="text" id="memAddress" class="form-control" placeholder="e.g. 13 Market Square, Enniscorthy, Co. Wexford">
             </div>
 
             <button type="submit" class="btn btn-amber" style="width:100%; margin-top:10px;">
-              <span>Submit Membership Application &rarr;</span>
+              <span>Submit Registration &rarr;</span>
             </button>
           </form>
 
@@ -2150,22 +2161,22 @@
             <h4>Application Summary</h4>
             <div class="sum-row">
               <span>Selected Plan:</span>
-              <strong id="summaryPlanName">Individual Membership</strong>
+              <strong id="summaryPlanName">Family Membership</strong>
             </div>
             <div class="sum-row">
               <span>Validity:</span>
-              <span>2026 Season (1 Year)</span>
+              <span>2027 Season (1 Year)</span>
             </div>
             <div class="sum-row">
-              <span>EIA Welcome Kit:</span>
-              <span style="color:var(--forest);font-weight:600;">Included</span>
+              <span>Official Association:</span>
+              <span style="color:var(--forest);font-weight:600;">EIA Wexford</span>
             </div>
             <div class="sum-row total">
               <span>Total Fee:</span>
-              <span id="summaryTotal">€25.00</span>
+              <span id="summaryTotal">€10.00</span>
             </div>
             <p style="font-size:12px; color:var(--warm-grey); margin-top:14px; line-height:1.5;">
-              * Applications are reviewed by the EIA Committee. Payment instructions (Revolut / Bank Transfer / In-person) will be emailed immediately following submission.
+              * Applications are reviewed by the EIA Committee. For any queries, reach us at <a href="mailto:enniscorthyindianassociation@gmail.com" style="color:var(--amber-deep);">enniscorthyindianassociation@gmail.com</a>.
             </p>
           </div>
         </div>
@@ -2173,7 +2184,7 @@
     </div>
   </section>
 
-    <!-- ═══ FAQ ═══════════════════════════════════════ -->
+  <!-- ═══ FAQ ═══════════════════════════════════════ -->
   <section style="padding: 60px 0 90px; background: var(--ivory);">
     <div class="wrap">
       <div class="section-head" style="text-align:center;">
@@ -2185,30 +2196,35 @@
       <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px;">
         <div style="background:#fff; border:1px solid var(--line); border-radius:12px; padding:24px;">
           <h4 style="font-size:17px; font-weight:700; color:var(--ink); margin-bottom:8px;">Who can join the EIA?</h4>
-          <p style="font-size:14.5px; color:var(--ink-2); line-height:1.6; margin:0;">Membership is open to anyone of Indian heritage living in Enniscorthy and County Wexford, as well as friends, families, and supporters from all backgrounds through our Associate Tier.</p>
+          <p style="font-size:14.5px; color:var(--ink-2); line-height:1.6; margin:0;">Membership is open to anyone of Indian heritage living in Enniscorthy and County Wexford, as well as friends, families, and supporters from all backgrounds.</p>
         </div>
         <div style="background:#fff; border:1px solid var(--line); border-radius:12px; padding:24px;">
-          <h4 style="font-size:17px; font-weight:700; color:var(--ink); margin-bottom:8px;">How do I complete the membership payment?</h4>
-          <p style="font-size:14.5px; color:var(--ink-2); line-height:1.6; margin:0;">Once you submit your application above, you will receive an instant email with payment details via Revolut, Irish Bank Transfer (IBAN), or cash payment to any Executive Committee member.</p>
+          <h4 style="font-size:17px; font-weight:700; color:var(--ink); margin-bottom:8px;">How much is membership?</h4>
+          <p style="font-size:14.5px; color:var(--ink-2); line-height:1.6; margin:0;">Family Membership is €10 per year, and Single Membership is €5 per year for the 2027 calendar year.</p>
         </div>
         <div style="background:#fff; border:1px solid var(--line); border-radius:12px; padding:24px;">
           <h4 style="font-size:17px; font-weight:700; color:var(--ink); margin-bottom:8px;">What does the membership cover?</h4>
-          <p style="font-size:14.5px; color:var(--ink-2); line-height:1.6; margin:0;">Membership helps fund community cultural festivals, sports tournaments, children's Malayalam and arts classes, newcomer relocation support, and emergency community welfare.</p>
+          <p style="font-size:14.5px; color:var(--ink-2); line-height:1.6; margin:0;">Membership helps fund community cultural festivals, sports events with EIA Sports and Arts Club (PPN-00677), newcomer relocation support, and community welfare.</p>
         </div>
         <div style="background:#fff; border:1px solid var(--line); border-radius:12px; padding:24px;">
-          <h4 style="font-size:17px; font-weight:700; color:var(--ink); margin-bottom:8px;">How long is my membership valid?</h4>
-          <p style="font-size:14.5px; color:var(--ink-2); line-height:1.6; margin:0;">Memberships run annually for the 2026 calendar year and are renewed each year ahead of the Annual General Meeting (AGM).</p>
+          <h4 style="font-size:17px; font-weight:700; color:var(--ink); margin-bottom:8px;">How do I contact EIA?</h4>
+          <p style="font-size:14.5px; color:var(--ink-2); line-height:1.6; margin:0;">Contact us anytime via email at <a href="mailto:enniscorthyindianassociation@gmail.com" style="color:var(--amber-deep);">enniscorthyindianassociation@gmail.com</a>, by phone at 089 989 7110, or visit 13 Market Square, Enniscorthy, Co. Wexford (Eircode Y21 K449).</p>
         </div>
       </div>
     </div>
   </section>
+
   <!-- ═══ FOOTER ═══════════════════════════════════════ -->
   <footer>
     <div class="wrap">
-      <div class="foot-bottom">
-        <div>&copy; 2026 Enniscorthy Indian Association (EIA). All rights reserved. Registered Community Group, Co. Wexford, Ireland.</div>
-        <div style="display:flex;gap:18px;">
-          <a href="index.html">Back to Main Pitch &uarr;</a>
+      <div class="foot-bottom" style="flex-direction:column; gap:12px; text-align:center;">
+        <div>
+          <strong>Enniscorthy Indian Association, formerly known as Keralites in Enniscorthy</strong><br>
+          13 Market Square, Enniscorthy, Co. Wexford, Eircode Y21 K449 &bull; Phone: <a href="tel:0899897110" style="color:var(--amber);">089 989 7110</a> &bull; Email: <a href="mailto:enniscorthyindianassociation@gmail.com" style="color:var(--amber);">enniscorthyindianassociation@gmail.com</a>
+        </div>
+        <div>&copy; 2027 Enniscorthy Indian Association (EIA). All rights reserved. Registered Community Group, Co. Wexford, Ireland.</div>
+        <div style="display:flex; justify-content:center; gap:18px;">
+          <a href="index.html">Back to Home &uarr;</a>
           <a href="index.html#contact">Contact Committee</a>
         </div>
       </div>
