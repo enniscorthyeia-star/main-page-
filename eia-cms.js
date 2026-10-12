@@ -601,7 +601,7 @@
       if (!src && ev.title) {
         if (ev.title.includes('Onam')) src = 'images/eia-onam-celebration.jpeg';
         else if (ev.title.includes('Cultural') || ev.title.includes('Indo')) src = 'images/ambassador-manish-gupta.jpeg';
-        else if (ev.title.includes('Christmas') || ev.title.includes('New Year')) src = 'raimond-klavins-ac3W2sGLxf4-unsplash.jpg';
+        else if (ev.title.includes('Christmas') || ev.title.includes('New Year')) src = 'images/eia-christmas-celebration.jpeg';
       }
       if (!src) src = ev.image ? imgUrl(ev.image, 700) : (fallbackEventImages[i] || '');
 
