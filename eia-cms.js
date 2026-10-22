@@ -437,10 +437,10 @@
   function renderCommittee(cs, members) {
     // Section head
     const heading = document.querySelector('#committee .section-head h2');
-    if (heading) heading.textContent = cs.sectionHeading;
+    if (heading && !heading.textContent.includes('Trustee')) heading.textContent = cs.sectionHeading;
 
     const desc = document.querySelector('#committee .section-head p');
-    if (desc) desc.textContent = cs.sectionDescription;
+    if (desc && !desc.textContent.includes('Trustee')) desc.textContent = cs.sectionDescription;
 
     const kicker = document.querySelector('#committee .kicker');
     if (kicker) kicker.textContent = `Leadership • ${cs.year}`;

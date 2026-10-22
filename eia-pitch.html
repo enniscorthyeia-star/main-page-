@@ -971,6 +971,19 @@
       color: var(--ink);
     }
 
+    .comm-role-badge.trustee {
+      background: linear-gradient(135deg, #C59B27, #9E7A10);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 2px 8px rgba(197, 155, 39, 0.35);
+    }
+
+    .comm-role-badge.memorial {
+      background: rgba(28, 25, 23, 0.95);
+      color: #FAF0D0;
+      border: 1px solid rgba(197, 155, 39, 0.5);
+    }
+
     .comm-role-badge.president {
       background: rgba(31, 107, 74, 0.95);
     }
@@ -2824,10 +2837,97 @@
   <section class="committee-section" id="committee">
     <div class="wrap">
       <div class="section-head" data-r>
-        <div class="kicker forest">Leadership &bull; 2026</div>
-        <h2>Executive Committee &amp; Office Bearers</h2>
-        <p>Introducing the newly elected Executive Committee of Enniscorthy Indian Association for 2026, serving our
-          community with unity, passion, and dedicated volunteer governance.</p>
+        <div class="kicker forest">Leadership &bull; Governance</div>
+        <h2>Lifetime Trustees &amp; Executive Committee</h2>
+        <p>Honouring our foundational Lifetime Trustees and newly elected Executive Committee, safeguarding our heritage and serving our community with unity, passion, and dedicated volunteer governance.</p>
+      </div>
+
+      <!-- Lifetime Board of Trustees -->
+      <div class="trustees-wrapper" data-r style="margin-bottom: 52px;">
+        <div class="trustees-header" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid var(--line);">
+          <div>
+            <div class="kicker" style="color:var(--amber); margin-bottom:2px;">Foundational Custodians</div>
+            <h3 style="font-family:'Outfit', sans-serif; font-size:24px; font-weight:700; margin:0; color:var(--ink);">Lifetime Board of Trustees</h3>
+          </div>
+          <span class="trustees-badge" style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono', monospace; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--amber-deep); background:var(--amber-pale); padding:5px 14px; border-radius:999px; border:1px solid rgba(197, 155, 39, 0.35);">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Permanent Board
+          </span>
+        </div>
+
+        <div class="comm-grid trustees-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+          <!-- 1. Tom Jose -->
+          <div class="comm-card" data-r>
+            <div class="comm-photo-wrap">
+              <img src="images/committee_sq/tom-jose.jpg" alt="Tom Jose — Lifetime Trustee" loading="lazy">
+              <span class="comm-role-badge trustee">Trustee</span>
+            </div>
+            <div class="comm-info">
+              <h4>Tom Jose</h4>
+              <span class="designation">Lifetime Trustee</span>
+            </div>
+          </div>
+
+          <!-- 2. Bijumon Sreedharan (Late) -->
+          <div class="comm-card memorial-card" data-r="0.05" style="border-color: rgba(197, 155, 39, 0.45); box-shadow: 0 4px 16px rgba(197, 155, 39, 0.12);">
+            <div class="comm-photo-wrap">
+              <img src="images/committee_sq/bijumon-sreedharan.jpg" alt="Bijumon Sreedharan (Late) — Lifetime Trustee" loading="lazy">
+              <span class="comm-role-badge memorial">Late &bull; Trustee</span>
+            </div>
+            <div class="comm-info">
+              <h4>Bijumon Sreedharan <small style="display:block; font-size:12px; color:var(--warm-grey); font-weight:normal;">(Late)</small></h4>
+              <span class="designation" style="color:var(--amber-deep); font-weight:600;">Lifetime Trustee &bull; In Memoriam</span>
+            </div>
+          </div>
+
+          <!-- 3. Bino Varavumkal -->
+          <div class="comm-card" data-r="0.1">
+            <div class="comm-photo-wrap">
+              <img src="images/committee_sq/bino-varavumkal.jpg" alt="Bino Varavumkal — Lifetime Trustee" loading="lazy">
+              <span class="comm-role-badge trustee">Trustee</span>
+            </div>
+            <div class="comm-info">
+              <h4>Bino Varavumkal</h4>
+              <span class="designation">Lifetime Trustee</span>
+            </div>
+          </div>
+
+          <!-- 4. Abin Varghese K -->
+          <div class="comm-card" data-r="0.15">
+            <div class="comm-photo-wrap">
+              <img src="images/committee_sq/abin-varghese.jpg" alt="Abin Varghese K — Lifetime Trustee" loading="lazy">
+              <span class="comm-role-badge trustee">Trustee</span>
+            </div>
+            <div class="comm-info">
+              <h4>Abin Varghese K</h4>
+              <span class="designation">Lifetime Trustee &bull; President</span>
+            </div>
+          </div>
+
+          <!-- 5. Sam Abraham -->
+          <div class="comm-card" data-r="0.2">
+            <div class="comm-photo-wrap">
+              <img src="images/committee_sq/sam-abraham.jpg" alt="Sam Abraham — Lifetime Trustee" loading="lazy">
+              <span class="comm-role-badge trustee">Trustee</span>
+            </div>
+            <div class="comm-info">
+              <h4>Sam Abraham</h4>
+              <span class="designation">Lifetime Trustee</span>
+            </div>
+          </div>
+
+          <!-- 6. Jomon K Paul -->
+          <div class="comm-card" data-r="0.25">
+            <div class="comm-photo-wrap">
+              <img src="images/committee_sq/jomon-paul.jpg" alt="Jomon K Paul — Lifetime Trustee" loading="lazy">
+              <span class="comm-role-badge trustee">Trustee</span>
+            </div>
+            <div class="comm-info">
+              <h4>Jomon K Paul</h4>
+              <span class="designation">Lifetime Trustee &bull; Treasurer</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Committee Official Quote from PDF -->
