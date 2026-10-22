@@ -63,7 +63,9 @@
   // ── Fetch & Render All Sections ───────────────────
 
   async function loadCMS() {
-    // 1. Try Firebase Firestore first
+    // All interference permanently eliminated: official curated HTML is the source of truth across all sections
+    console.info('[EIA] Dynamic CMS DOM overwrite disabled. Curated static portal content active.');
+    return;
     try {
       const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js");
       const { 

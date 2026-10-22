@@ -908,6 +908,26 @@
       gap: 24px;
     }
 
+    .trustees-grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 28px !important;
+    }
+
+    @media (max-width: 992px) {
+      .trustees-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+      }
+    }
+
+    @media (max-width: 580px) {
+      .trustees-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+      }
+    }
+
     .comm-card {
       background: var(--cream);
       border-radius: var(--r);
@@ -940,11 +960,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform .4s ease;
-    }
-
-    .comm-card:hover .comm-photo-wrap img {
-      transform: scale(1.06);
+      object-position: center center;
     }
 
     .comm-role-badge {
@@ -2855,7 +2871,7 @@
           </span>
         </div>
 
-        <div class="comm-grid trustees-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+        <div class="comm-grid trustees-grid">
           <!-- 1. Tom Jose -->
           <div class="comm-card" data-r>
             <div class="comm-photo-wrap">
@@ -2935,14 +2951,6 @@
         <p>“We are proud to introduce the newly elected Executive Committee of Indian Association Enniscorthy for 2026.
           We look forward to serving our community with unity and dedication.”</p>
         <small>— Enniscorthy Indian Association (EIA) Executive Team</small>
-      </div>
-
-      <!-- Committee Filter Tabs -->
-      <div class="filter-pills" data-r>
-        <button class="active" data-cfilter="all">All Members (15)</button>
-        <button data-cfilter="officer">Executive Officers</button>
-        <button data-cfilter="auditor">Auditors</button>
-        <button data-cfilter="member">Members</button>
       </div>
 
       <!-- 15 Committee Members Grid with Extracted Photos & Designations -->
@@ -4124,9 +4132,6 @@
       }
     });
   </script>
-
-  <!-- Sanity CMS Integration -->
-  <script src="eia-cms.js"></script>
 </body>
 
 </html>
