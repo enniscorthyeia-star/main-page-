@@ -273,7 +273,11 @@
     const footBrandName = document.querySelector('.foot-brand .name');
     const footBrandSub = document.querySelector('.foot-brand .sub');
     if (footBrandName) footBrandName.textContent = s.orgName;
-    if (footBrandSub) footBrandSub.textContent = s.tagline;
+    if (footBrandSub && s.tagline) {
+      footBrandSub.textContent = s.tagline.includes('Est. 2026')
+        ? s.tagline.replace(/Est\.\s*2026/g, 'Est. 23/01/2017 • PPN-00656')
+        : s.tagline;
+    }
 
     // Copyright
     const footBottom = document.querySelector('.foot-bottom');
@@ -285,16 +289,22 @@
   // ── Hero Section ──────────────────────────────────
   function renderHero(h) {
     const kicker = document.querySelector('.hero-kicker-tag');
-    if (kicker) kicker.textContent = h.kickerText;
+    if (kicker) {
+      if (h.kickerText && !h.kickerText.includes('Est. 2026') && (h.kickerText.includes('PPN') || !kicker.textContent.includes('PPN'))) {
+        kicker.textContent = h.kickerText;
+      } else {
+        kicker.innerHTML = 'Co. Wexford, Ireland &bull; Est. 23/01/2017 &bull; PPN-00656';
+      }
+    }
 
     const h1 = document.querySelector('.hero h1');
-    if (h1) {
-      h1.innerHTML = `${esc(h.titleLine1)}\n<span class="text-amber">${esc(h.titleLine2)}</span>`;
+    if (h1 && h.titleLine1) {
+      h1.innerHTML = `${esc(h.titleLine1)}\n<span class="text-amber">${esc(h.titleLine2 || 'Indian Association')}</span>`;
     }
 
     // Motto
     const mottoStrip = document.querySelector('.hero-motto-strip');
-    if (mottoStrip && h.mottoItems) {
+    if (mottoStrip && h.mottoItems && Array.isArray(h.mottoItems) && h.mottoItems.length) {
       mottoStrip.innerHTML = h.mottoItems
         .map((m, i) => `<span>${esc(m)}</span>${i < h.mottoItems.length - 1 ? '<span class="dot">•</span>' : ''}`)
         .join('');
@@ -302,22 +312,32 @@
 
     // Lead paragraph
     const lead = document.querySelector('.hero-lead');
-    if (lead) lead.textContent = h.leadParagraph;
+    if (lead && h.leadParagraph) lead.textContent = h.leadParagraph;
 
     // CTA buttons
     const actions = document.querySelector('.hero-actions');
-    if (actions && h.ctaButtons) {
-      actions.innerHTML = h.ctaButtons
-        .filter(btn => btn && btn.visible !== false && btn.label)
-        .map(btn =>
-          `<a href="${esc(btn.href)}" class="btn ${esc(btn.style)}"${btn.style === 'btn-outline' ? ' style="color:#fff;border-color:rgba(255,255,255,0.35);"' : ''}>${esc(btn.label)}</a>`
-        ).join('');
+    if (actions && h.ctaButtons && Array.isArray(h.ctaButtons) && h.ctaButtons.length) {
+      const hasGoogleForm = actions.querySelector('a[href*="forms.google.com"]');
+      const cmsHasGoogleForm = h.ctaButtons.some(btn => btn && btn.href && btn.href.includes('forms.google.com'));
+      if (!hasGoogleForm || cmsHasGoogleForm) {
+        actions.innerHTML = h.ctaButtons
+          .filter(btn => btn && btn.visible !== false && btn.label)
+          .map(btn =>
+            `<a href="${esc(btn.href)}" class="btn ${esc(btn.style)}"${btn.style === 'btn-outline' ? ' style="color:#fff;border-color:rgba(255,255,255,0.35);"' : ''}>${esc(btn.label)}</a>`
+          ).join('');
+      }
     }
 
     // Stats
     const statsContainer = document.querySelector('.hero-stats');
-    if (statsContainer && h.heroStats) {
-      statsContainer.innerHTML = h.heroStats.map(st =>
+    if (statsContainer && h.heroStats && Array.isArray(h.heroStats) && h.heroStats.length) {
+      const stats = h.heroStats.map(st => {
+        if (st.number === '250' && (st.label || '').includes('Families')) {
+          return { ...st, number: '100' };
+        }
+        return st;
+      });
+      statsContainer.innerHTML = stats.map(st =>
         `<div class="hero-stat"><div class="num">${esc(st.number)}${esc(st.suffix)}</div><div class="txt">${esc(st.label)}</div></div>`
       ).join('');
     }
@@ -358,14 +378,21 @@
     if (heading) heading.textContent = a.heading;
 
     // Paragraphs
-    const paragraphs = document.querySelectorAll('.about-main > p');
-    if (a.paragraphs) {
+    const paragraphs = Array.from(document.querySelectorAll('.about-main > p'));
+    const contentParagraphs = paragraphs.filter(p => !p.textContent.includes('PPN-') && !p.textContent.includes('23/01/2017'));
+    if (a.paragraphs && Array.isArray(a.paragraphs)) {
       a.paragraphs.forEach((p, i) => {
-        if (paragraphs[i]) {
+        if (contentParagraphs[i]) {
+          if (i === 0 && !p.includes('formerly known as') && contentParagraphs[i].innerHTML.includes('formerly known as')) {
+            return;
+          }
+          if (p.includes('Diwali') && contentParagraphs[i].textContent.includes('Christmas')) {
+            return;
+          }
           if (i === 0) {
-            paragraphs[i].innerHTML = `<strong>${esc(a.paragraphs[0].split(')')[0])})</strong>${esc(a.paragraphs[0].split(')').slice(1).join(')'))}`;
+            contentParagraphs[i].innerHTML = `<strong>${esc(p.split(')')[0])})</strong>${esc(p.split(')').slice(1).join(')'))}`;
           } else {
-            paragraphs[i].textContent = p;
+            contentParagraphs[i].textContent = p;
           }
         }
       });
