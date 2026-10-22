@@ -313,40 +313,40 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex-shrink: 0;
     }
 
     .brand-logo {
-      width: 44px;
-      height: 44px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       background: #fff;
-      border: 2px solid var(--amber);
-      box-shadow: 0 0 16px rgba(197, 155, 39, 0.3);
+      border: 2.5px solid var(--amber);
+      box-shadow: 0 0 18px rgba(197, 155, 39, 0.35);
       object-fit: cover;
-      transition: transform .3s;
+      transition: transform .3s, width .3s, height .3s;
       flex-shrink: 0;
     }
 
     .brand:hover .brand-logo {
-      transform: scale(1.06);
+      transform: scale(1.05);
     }
 
     .brand-text .name {
       font-family: 'Fraunces', serif;
       font-weight: 700;
-      font-size: 17px;
+      font-size: 21px;
       color: #fff;
       line-height: 1.15;
       text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
-      transition: color .3s, text-shadow .3s;
+      transition: color .3s, text-shadow .3s, font-size .3s;
       white-space: nowrap;
     }
 
     .brand-text .sub {
-      font-size: 10px;
-      letter-spacing: 0.1em;
+      font-size: 11px;
+      letter-spacing: 0.12em;
       color: rgba(255, 255, 255, 0.9);
       text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
       text-transform: uppercase;
@@ -354,9 +354,15 @@
       white-space: nowrap;
     }
 
+    header.sc .brand-logo {
+      width: 46px;
+      height: 46px;
+    }
+
     header.sc .brand-text .name {
       color: var(--ink);
       text-shadow: none;
+      font-size: 19px;
     }
 
     header.sc .brand-text .sub {
@@ -394,7 +400,7 @@
     }
 
     nav a::after {
-      content: ;
+      content: "";
       position: absolute;
       left: 0;
       bottom: -3px;
@@ -2103,8 +2109,13 @@
         font-size: 12.5px;
       }
 
+      .brand-logo {
+        width: 48px;
+        height: 48px;
+      }
+
       .brand-text .name {
-        font-size: 15px;
+        font-size: 18px;
       }
 
       .nav {
@@ -2181,21 +2192,21 @@
       }
 
       .brand {
-        gap: 8px;
+        gap: 10px;
       }
 
       .brand-logo {
-        width: 38px;
-        height: 38px;
+        width: 44px;
+        height: 44px;
       }
 
       .brand-text .name {
-        font-size: 14px;
+        font-size: 16px;
       }
 
       .brand-text .sub {
-        font-size: 9px;
-        letter-spacing: 0.06em;
+        font-size: 9.5px;
+        letter-spacing: 0.08em;
       }
 
       .nav-cta {
