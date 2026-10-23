@@ -10,20 +10,25 @@ Official web portal for the **Enniscorthy Indian Association (EIA)**, representi
 
 ```text
 eia/
-├── index.html            # Main website homepage (About, Pillars, Committee, Events, Gallery, Contact)
+├── index.html            # Main website homepage (About, Pillars, Trustees, Committee, Events, Gallery, Contact)
 ├── guide.html            # Local Discovery Guide (12 curated County Wexford & Enniscorthy destinations)
 ├── membership.html       # Membership Hub (Registration, tier details, FAQ, direct application)
-├── kerala.html           # Heritage showcase page
-├── coming-soon.html      # Maintenance / coming soon placeholder
-├── logo.png              # EIA official circular emblem
-├── hero-bg.jpg           # Enniscorthy aerial panoramic banner
-├── hero-video.mp4        # Background video loop for hero section
-├── images/
+├── admin.html            # Association management & preview portal
+├── docs/                 # Association documents and vector branding PDFs
+│   ├── EIA Logo_01.pdf
+│   └── Untitled-2 (1).pdf
+├── images/               # All visual media
+│   ├── logo.png          # EIA official circular emblem
+│   ├── hero-bg.jpg       # Enniscorthy aerial panoramic banner
+│   ├── hero-video.mp4    # Background video loop for hero section
 │   ├── guide/            # 12 authentic photos for each local guide destination
 │   ├── committee/        # Executive committee member portraits
-│   └── committee_sq/     # Square-cropped committee portraits
-├── components/           # UI animation components
-├── archive/              # Legacy drafts and backup iterations
+│   └── committee_sq/     # Square-cropped committee & trustee portraits
+├── archive/              # Organized legacy archives
+│   ├── legacy-pages/     # Old templates, drafts, pitch variants, and deprecated scripts
+│   ├── raw-uploads/      # Unprocessed event photo batches
+│   ├── stock/            # Unused stock photography
+│   └── components/       # Archived UI component drafts
 ├── .gitignore            # Git exclusion rules
 └── README.md             # Project documentation
 ```
