@@ -627,6 +627,23 @@
     // Initialize
     renderYearPills();
     renderRoster();
+
+    // Live Supabase Storage Loader
+    (async function loadPastCommitteesFromSupabase() {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/gallery/past_committees.json?t=${Date.now()}`);
+        if (res.ok) {
+          const remote = await res.json();
+          if (remote && typeof remote === 'object' && Object.keys(remote).length > 0) {
+            pastCommittees = remote;
+            renderYearPills();
+            renderRoster();
+          }
+        }
+      } catch (e) {
+        console.warn('Could not load past committees from Supabase:', e);
+      }
+    })();
   </script>
 </body>
 </html>

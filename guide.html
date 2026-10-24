@@ -2002,6 +2002,30 @@
         }
       });
     }
+    // Live Supabase Guide Loader
+    const SUPABASE_URL = 'https://qsompirzrlbagnqpduov.supabase.co';
+    (async function loadGuideFromCMS() {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/gallery/site_content.json?t=${Date.now()}`);
+        if (!res.ok) return;
+        const d = await res.json();
+        if (Array.isArray(d.guide) && d.guide.length) {
+          const articles = document.querySelectorAll('.blog-article');
+          d.guide.forEach((place, idx) => {
+            if (articles[idx]) {
+              const h3 = articles[idx].querySelector('h3');
+              const lead = articles[idx].querySelector('.blog-lead');
+              const badge = articles[idx].querySelector('.blog-cat-badge');
+              if (h3 && place.name) h3.textContent = place.name;
+              if (lead && place.description) lead.textContent = place.description;
+              if (badge && place.tag) badge.textContent = place.tag;
+            }
+          });
+        }
+      } catch (e) {
+        console.warn('Could not load guide from CMS:', e);
+      }
+    })();
   </script>
 </body>
 
