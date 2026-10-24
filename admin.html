@@ -68,13 +68,13 @@
     .font-serif { font-family: 'Fraunces', Georgia, serif; }
     .font-mono { font-family: 'IBM Plex Mono', monospace; }
 
-    /* Auth Screen */
+    /* Auth Screen - Solid Architectural Style, Zero Glass */
     #authModal {
       position: fixed;
       inset: 0;
       display: flex;
       z-index: 1000;
-      background-color: var(--ink);
+      background-color: #12100E;
       overflow-y: auto;
     }
 
@@ -87,14 +87,12 @@
     .auth-hero-pane {
       flex: 1.15;
       position: relative;
-      background: 
-        linear-gradient(135deg, rgba(21, 76, 52, 0.92) 0%, rgba(18, 16, 14, 0.96) 75%),
-        url('images/hero-bg.webp') center/cover no-repeat;
+      background: linear-gradient(145deg, #0D261B 0%, #171412 100%);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       padding: 56px 48px;
-      border-right: 1px solid var(--border-subtle);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .auth-hero-pane::before {
@@ -198,41 +196,35 @@
 
     .auth-form-pane {
       flex: 0.95;
-      background: var(--ink-mid);
+      background: #151311;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 48px;
+      padding: 48px 32px;
     }
 
     .auth-box {
       width: 100%;
-      max-width: 440px;
+      max-width: 420px;
+      background: #1C1917;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 14px;
+      padding: 38px 32px;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55);
     }
 
     .auth-box-title {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: 2rem;
+      font-size: 1.85rem;
       font-weight: 600;
       color: #fff;
       margin-bottom: 8px;
     }
 
     .auth-box-sub {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 28px;
-      line-height: 1.5;
-    }
-
-    .auth-credential-hint {
-      background: rgba(197, 155, 39, 0.08);
-      border: 1px solid var(--border-gold);
-      border-radius: var(--radius-sm);
-      padding: 12px 14px;
-      margin-bottom: 22px;
-      font-size: 0.82rem;
-      color: #f7f5f0;
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      margin-bottom: 24px;
       line-height: 1.5;
     }
 
@@ -1819,22 +1811,24 @@
       <div class="auth-form-pane">
         <div class="auth-box">
           <h2 class="auth-box-title">Committee Sign In</h2>
-          <p class="auth-box-sub">Enter verified executive credentials to manage public website content.</p>
-
-          <div class="auth-credential-hint">
-            <strong>Registered Admin Credentials:</strong><br>
-            Email: <code style="color:var(--gold);">enniscorthyeia@gmail.com</code><br>
-            Password: <code style="color:var(--gold);">EIA#Wexford2026!SecureCouncil</code>
-          </div>
+          <p class="auth-box-sub">Enter verified executive credentials to access the management dashboard.</p>
 
           <form id="loginForm" onsubmit="return false;">
             <div class="form-group">
               <label class="form-label">Committee Email</label>
-              <input type="email" id="authEmail" class="form-control" value="enniscorthyeia@gmail.com" required placeholder="enniscorthyeia@gmail.com">
+              <input type="email" id="authEmail" class="form-control" value="" required placeholder="enniscorthyeia@gmail.com" autocomplete="username">
             </div>
             <div class="form-group">
               <label class="form-label">Password</label>
-              <input type="password" id="authPassword" class="form-control" value="EIA#Wexford2026!SecureCouncil" required placeholder="Password">
+              <div style="position:relative; display:flex; align-items:center;">
+                <input type="password" id="authPassword" class="form-control" value="" required placeholder="Enter password" autocomplete="current-password" style="padding-right:42px;">
+                <button type="button" id="btnTogglePassword" aria-label="Toggle password visibility" style="position:absolute; right:10px; background:none; border:none; color:var(--text-dim); cursor:pointer; display:flex; align-items:center; justify-content:center; padding:4px;">
+                  <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
             </div>
             <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center;">
               <label style="font-size:0.8rem; color:var(--text-dim); display:flex; align-items:center; gap:8px; cursor:pointer;">
@@ -2210,10 +2204,10 @@
         <div class="view-header">
           <div>
             <h2 class="view-title">Section 3: Executive Committee &amp; Trustees Studio</h2>
-            <p class="view-desc">Official leadership team (15 executives), Lifetime Board of Trustees (6 members) &amp; official quote (Powered by Supabase)</p>
+            <p class="view-desc">Official leadership team (15 executives), Lifetime Board of Trustees (6 members) &amp; official quote (Live Database)</p>
           </div>
           <div class="view-header-actions">
-            <button class="btn btn-outline-gold btn-sm" id="btnReloadCommittee">Reload from Supabase</button>
+            <button class="btn btn-outline-gold btn-sm" id="btnReloadCommittee">Reload from Database</button>
             <button class="btn btn-outline-gold btn-sm btn-undo-committee">Undo Changes</button>
             <button class="btn btn-gold" id="btnAddMember">+ Add Executive</button>
             <button class="btn btn-gold" id="btnSaveCommittee">Save Committee Section</button>
@@ -2298,7 +2292,7 @@
             <p class="view-desc">Manage historical executive committee rosters (2017 to present). Displayed on past-committees.html.</p>
           </div>
           <div class="view-header-actions">
-            <button class="btn btn-outline-gold btn-sm" id="btnReloadPastCommittees">Reload from Supabase</button>
+            <button class="btn btn-outline-gold btn-sm" id="btnReloadPastCommittees">Reload from Database</button>
             <button class="btn btn-gold" id="btnSavePastCommittees">Save Past Committees</button>
           </div>
         </div>
@@ -2538,11 +2532,11 @@
         <div class="view-header">
           <div>
             <h2 class="view-title">Section 7: Events &amp; Festivals Studio</h2>
-            <p class="view-desc">Annual calendar, Grand Onam, Cricket tournaments, Diwali &amp; live RSVPs (Powered by Supabase)</p>
+            <p class="view-desc">Annual calendar, Grand Onam, Cricket tournaments, Diwali &amp; live RSVPs (Live Database)</p>
           </div>
           <div class="view-header-actions">
             <button type="button" class="btn btn-gold btn-sm" id="btnOpenSubmissionsHub" onclick="openAllSubmissionsModal()">RSVPs &amp; Enquiries Hub</button>
-            <button class="btn btn-outline-gold btn-sm" id="btnReloadEvents">Reload from Supabase</button>
+            <button class="btn btn-outline-gold btn-sm" id="btnReloadEvents">Reload from Database</button>
             <button class="btn btn-outline-gold btn-sm btn-undo-events">Undo Changes</button>
             <button class="btn btn-gold" id="btnAddEvent">+ Add Event</button>
             <button class="btn btn-gold" id="btnSaveEvents">Save Events Section</button>
@@ -2728,7 +2722,7 @@ Youth &amp; Cultural Programs</textarea>
       <section id="view-gallery" class="section-view">
         <div class="view-header">
           <div>
-            <h2 class="view-title">Section 10: Photo Gallery Studio (Supabase WebP CMS)</h2>
+            <h2 class="view-title">Section 10: Photo Gallery Studio (Cloud Media CMS)</h2>
             <p class="view-desc">Add new photos to the live website gallery. Images auto-convert to lightweight WebP format.</p>
           </div>
           <div class="view-header-actions">
@@ -2740,7 +2734,7 @@ Youth &amp; Cultural Programs</textarea>
         <div class="card" style="border: 2px dashed rgba(214, 181, 106, 0.4); background: rgba(255, 255, 255, 0.02);">
           <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
             <span>Upload New Photo (In-Browser WebP Conversion)</span>
-            <span style="font-size:0.75rem; color:var(--gold); font-family:var(--font-sans); font-weight:normal;">Supabase Storage Connected</span>
+            <span style="font-size:0.75rem; color:var(--gold); font-family:var(--font-sans); font-weight:normal;">Cloud Storage Connected</span>
           </div>
 
           <div style="display:grid; grid-template-columns: 280px 1fr; gap:24px; align-items:start;">
@@ -2809,7 +2803,7 @@ Youth &amp; Cultural Programs</textarea>
 
         <div class="card">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-            <div class="card-title" style="margin:0;">Live Supabase CMS Photos (<span id="cmsPhotoCount">0</span>)</div>
+            <div class="card-title" style="margin:0;">Live Cloud Gallery Photos (<span id="cmsPhotoCount">0</span>)</div>
             <a href="gallery.html" target="_blank" class="btn btn-outline-gold btn-xs" style="font-size:0.75rem; padding:4px 10px; border-radius:4px; text-decoration:none;">View Live Gallery Page &rarr;</a>
           </div>
           <div class="grid-3" id="galleryAdminGrid"></div>
@@ -2820,11 +2814,11 @@ Youth &amp; Cultural Programs</textarea>
       <section id="view-testimonials" class="section-view">
         <div class="view-header">
           <div>
-            <h2 class="view-title">Section 11: Member Voices &amp; Testimonials Studio (Supabase CMS)</h2>
+            <h2 class="view-title">Section 11: Member Voices &amp; Testimonials Studio (Live CMS)</h2>
             <p class="view-desc">Heartfelt quotes from Indian families &amp; healthcare professionals in Wexford</p>
           </div>
           <div class="view-header-actions">
-            <button class="btn btn-outline-gold btn-sm" id="btnReloadTestimonials">Reload from Supabase</button>
+            <button class="btn btn-outline-gold btn-sm" id="btnReloadTestimonials">Reload from Database</button>
             <button class="btn btn-gold" id="btnAddTestimonial">+ Add Testimonial</button>
             <button class="btn btn-gold" id="btnSaveTestimonials">Save Testimonials</button>
           </div>
@@ -2965,7 +2959,7 @@ Youth &amp; Cultural Programs</textarea>
         <div class="card" style="border:1.5px solid rgba(214, 181, 106, 0.4); background:rgba(214, 181, 106, 0.05); margin-bottom:20px;">
           <div class="card-title" style="color:var(--gold); display:flex; justify-content:space-between; align-items:center;">
             <span>Global Association Year Controller</span>
-            <span style="font-size:0.75rem; font-family:var(--font-mono); color:var(--text-dim);">Supabase Settings</span>
+            <span style="font-size:0.75rem; font-family:var(--font-mono); color:var(--text-dim);">Database Settings</span>
           </div>
           <p style="font-size:0.82rem; color:var(--text-dim); margin-bottom:14px;">
             Set current operational year (e.g. change <strong>2026</strong> to <strong>2027</strong>). Updates active committee headings, nav links, and year badges across the entire website automatically.
@@ -3368,26 +3362,30 @@ Youth &amp; Cultural Programs</textarea>
 
     async function refreshAdminToken() {
       try {
-        const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+        const refreshToken = sessionStorage.getItem('EIA_ADMIN_REFRESH_TOKEN') || localStorage.getItem('EIA_ADMIN_REFRESH_TOKEN');
+        if (!refreshToken) return null;
+        const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
           method: 'POST',
           headers: {
             'apikey': SUPABASE_ANON_KEY,
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ email: 'enniscorthyeia@gmail.com', password: 'EIA#Wexford2026!SecureCouncil' })
+          body: JSON.stringify({ refresh_token: refreshToken })
         });
         if (res.ok) {
           const data = await res.json();
           sessionStorage.setItem('EIA_ADMIN_TOKEN', data.access_token);
-          localStorage.setItem('EIA_ADMIN_TOKEN', data.access_token);
-          sessionStorage.setItem('EIA_ADMIN_EMAIL', data.user.email);
-          localStorage.setItem('EIA_ADMIN_EMAIL', data.user.email);
+          if (data.refresh_token) sessionStorage.setItem('EIA_ADMIN_REFRESH_TOKEN', data.refresh_token);
+          if (localStorage.getItem('EIA_ADMIN_TOKEN')) {
+            localStorage.setItem('EIA_ADMIN_TOKEN', data.access_token);
+            if (data.refresh_token) localStorage.setItem('EIA_ADMIN_REFRESH_TOKEN', data.refresh_token);
+          }
           const badge = document.getElementById('userEmailBadge');
-          if (badge) badge.textContent = data.user.email;
+          if (badge && data.user) badge.textContent = data.user.email;
           return data.access_token;
         }
       } catch (e) {
-        console.warn('Refresh admin token failed:', e);
+        console.warn('Session token refresh failed:', e);
       }
       return null;
     }
@@ -3617,15 +3615,42 @@ Youth &amp; Cultural Programs</textarea>
       };
     });
 
-    // Auth session management via Supabase
+    // Auth session management via Database Auth
     const authModal = document.getElementById('authModal');
     const userEmailBadge = document.getElementById('userEmailBadge');
 
+    // Password visibility toggle
+    const btnTogglePassword = document.getElementById('btnTogglePassword');
+    const authPasswordInput = document.getElementById('authPassword');
+    if (btnTogglePassword && authPasswordInput) {
+      btnTogglePassword.addEventListener('click', () => {
+        const isPass = authPasswordInput.type === 'password';
+        authPasswordInput.type = isPass ? 'text' : 'password';
+        btnTogglePassword.innerHTML = isPass ? `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+            <line x1="1" y1="1" x2="23" y2="23"></line>
+          </svg>
+        ` : `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        `;
+      });
+    }
+
     document.getElementById('loginBtn').addEventListener('click', async () => {
       const email = document.getElementById('authEmail').value.trim();
-      const pass = document.getElementById('authPassword').value.trim();
+      const pass = document.getElementById('authPassword').value;
       const remember = document.getElementById('authRememberMe') ? document.getElementById('authRememberMe').checked : true;
       const btn = document.getElementById('loginBtn');
+
+      if (!email || !pass) {
+        showToast('Please enter both email and password', 'error');
+        return;
+      }
+
       btn.disabled = true;
       btn.textContent = 'Signing in...';
 
@@ -3644,16 +3669,19 @@ Youth &amp; Cultural Programs</textarea>
         }
 
         sessionStorage.setItem('EIA_ADMIN_TOKEN', data.access_token);
+        if (data.refresh_token) sessionStorage.setItem('EIA_ADMIN_REFRESH_TOKEN', data.refresh_token);
         sessionStorage.setItem('EIA_ADMIN_EMAIL', data.user.email);
         if (remember) {
           localStorage.setItem('EIA_ADMIN_TOKEN', data.access_token);
+          if (data.refresh_token) localStorage.setItem('EIA_ADMIN_REFRESH_TOKEN', data.refresh_token);
           localStorage.setItem('EIA_ADMIN_EMAIL', data.user.email);
         }
 
         authModal.style.display = 'none';
         userEmailBadge.textContent = data.user.email;
         showToast('Signed in successfully', 'success');
-        loadAllData();
+        document.getElementById('authPassword').value = '';
+        await loadAllData();
       } catch (err) {
         showToast(err.message, 'error');
       } finally {
@@ -3664,9 +3692,12 @@ Youth &amp; Cultural Programs</textarea>
 
     document.getElementById('logoutBtn').addEventListener('click', async () => {
       sessionStorage.removeItem('EIA_ADMIN_TOKEN');
+      sessionStorage.removeItem('EIA_ADMIN_REFRESH_TOKEN');
       sessionStorage.removeItem('EIA_ADMIN_EMAIL');
       localStorage.removeItem('EIA_ADMIN_TOKEN');
+      localStorage.removeItem('EIA_ADMIN_REFRESH_TOKEN');
       localStorage.removeItem('EIA_ADMIN_EMAIL');
+      document.getElementById('authPassword').value = '';
       authModal.style.display = 'flex';
       userEmailBadge.textContent = 'Signed out';
       showToast('Signed out', 'info');
@@ -3816,7 +3847,7 @@ Youth &amp; Cultural Programs</textarea>
       }
     });
 
-    // Check active session on load & auto-authenticate with Supabase
+    // Check active session on load
     async function checkAdminSession() {
       let token = sessionStorage.getItem('EIA_ADMIN_TOKEN') || localStorage.getItem('EIA_ADMIN_TOKEN');
       let isValid = false;
@@ -3834,16 +3865,24 @@ Youth &amp; Cultural Programs</textarea>
 
       if (!isValid) {
         token = await refreshAdminToken();
+        if (token) isValid = true;
       }
 
       const modal = document.getElementById('authModal');
-      if (modal) modal.style.display = 'none';
-      if (userEmailBadge) userEmailBadge.textContent = localStorage.getItem('EIA_ADMIN_EMAIL') || 'enniscorthyeia@gmail.com';
-      return token;
+      if (isValid) {
+        if (modal) modal.style.display = 'none';
+        const userEmail = sessionStorage.getItem('EIA_ADMIN_EMAIL') || localStorage.getItem('EIA_ADMIN_EMAIL') || 'Committee Admin';
+        if (userEmailBadge) userEmailBadge.textContent = userEmail;
+        await loadAllData();
+        return token;
+      } else {
+        if (modal) modal.style.display = 'flex';
+        return null;
+      }
     }
 
     async function loadAllData() {
-      // 1. Load unified website content from Supabase
+      // 1. Load unified website content from Database
       await loadSiteContentFromSupabase();
 
       // 2. Initialize section studios & listeners
@@ -3863,10 +3902,19 @@ Youth &amp; Cultural Programs</textarea>
       listenSettings();
     }
 
-    // Always run session check and load all data on page startup
-    checkAdminSession().finally(() => {
-      loadAllData();
-    });
+    // Verify session on page startup
+    checkAdminSession();
+
+    // Database Activity Keepalive (silent read ping, keeps free-tier database awake)
+    function pingDatabaseKeepalive() {
+      try {
+        fetch(`${SUPABASE_URL}/rest/v1/events?select=id&limit=1`, {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Cache-Control': 'no-cache' }
+        }).catch(() => {});
+      } catch (_) {}
+    }
+    pingDatabaseKeepalive();
+    setInterval(pingDatabaseKeepalive, 15 * 60 * 1000);
 
     // ── SECTION 1: HERO STUDIO ──
     let heroButtons = [
@@ -4967,7 +5015,7 @@ Youth &amp; Cultural Programs</textarea>
       if (btnReload) {
         btnReload.onclick = () => {
           loadCommitteeFromSupabase();
-          showToast('Committee reloaded from Supabase', 'info');
+          showToast('Committee reloaded from Database', 'info');
         };
       }
 
@@ -4991,7 +5039,7 @@ Youth &amp; Cultural Programs</textarea>
     document.getElementById('btnSaveCommittee').onclick = async () => {
       const btn = document.getElementById('btnSaveCommittee');
       btn.disabled = true;
-      btn.textContent = 'Saving to Supabase...';
+      btn.textContent = 'Saving to Database...';
 
       try {
         const payload = {
@@ -5050,10 +5098,10 @@ Youth &amp; Cultural Programs</textarea>
 
         if (!res.ok) {
           const errTxt = await res.text();
-          throw new Error(`Supabase save failed: ${errTxt}`);
+          throw new Error(`Database save failed: ${errTxt}`);
         }
 
-        showToast('Current Committee (Trustees & Executives) saved to Supabase!', 'success');
+        showToast('Current Committee (Trustees & Executives) saved to Database!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       } finally {
@@ -5223,16 +5271,16 @@ Youth &amp; Cultural Programs</textarea>
       if (btnReload) {
         btnReload.onclick = () => {
           loadPastCommitteesFromSupabase();
-          showToast('Past committees reloaded from Supabase', 'info');
+          showToast('Past committees reloaded from Database', 'info');
         };
       }
 
-      // Save to Supabase
+      // Save to Database
       const btnSave = document.getElementById('btnSavePastCommittees');
       if (btnSave) {
         btnSave.onclick = async () => {
           btnSave.disabled = true;
-          btnSave.textContent = 'Saving to Supabase...';
+          btnSave.textContent = 'Saving to Database...';
           try {
             const res = await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/past_committees.json`, {
               method: 'POST',
@@ -5805,7 +5853,7 @@ Youth &amp; Cultural Programs</textarea>
               },
               body: JSON.stringify(eventsList, null, 2)
             });
-            showToast('Event deleted from website and Supabase!', 'info');
+            showToast('Event deleted from website and Database!', 'info');
           } catch (err) {
             showToast('Local delete done, click Save to sync: ' + err.message, 'warning');
           }
@@ -6516,7 +6564,7 @@ Youth &amp; Cultural Programs</textarea>
       if (btnReload) {
         btnReload.onclick = () => {
           loadEventsFromSupabase();
-          showToast('Events reloaded from Supabase', 'info');
+          showToast('Events reloaded from Database', 'info');
         };
       }
 
@@ -6533,7 +6581,7 @@ Youth &amp; Cultural Programs</textarea>
     document.getElementById('btnSaveEvents').onclick = async () => {
       const btn = document.getElementById('btnSaveEvents');
       btn.disabled = true;
-      btn.textContent = 'Saving to Supabase...';
+      btn.textContent = 'Saving to Database...';
 
       try {
         const k = (typeof requireAdminKey === 'function') ? requireAdminKey() : SUPABASE_SERVICE_KEY;
@@ -6584,10 +6632,10 @@ Youth &amp; Cultural Programs</textarea>
 
         if (!res.ok) {
           const errTxt = await res.text();
-          throw new Error(`Supabase save failed: ${errTxt}`);
+          throw new Error(`Database save failed: ${errTxt}`);
         }
 
-        showToast('Events calendar saved to Supabase Storage!', 'success');
+        showToast('Events calendar saved to Database!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       } finally {
@@ -7135,7 +7183,7 @@ Youth &amp; Cultural Programs</textarea>
       if (btnRefresh) {
         btnRefresh.onclick = () => {
           loadSupabaseGallery();
-          showToast('Gallery reloaded from Supabase', 'info');
+          showToast('Gallery reloaded from Database', 'info');
         };
       }
 
@@ -7235,7 +7283,7 @@ Youth &amp; Cultural Programs</textarea>
 
           const category = catSelect.value || 'festivals';
           btnUpload.disabled = true;
-          btnUpload.textContent = 'Uploading WebP to Supabase Storage...';
+          btnUpload.textContent = 'Uploading WebP Photo...';
 
           try {
             // 1. Upload WebP blob to Supabase Storage bucket 'gallery'
@@ -7457,7 +7505,7 @@ Youth &amp; Cultural Programs</textarea>
       if (btnReload) {
         btnReload.onclick = () => {
           loadTestimonialsFromSupabase();
-          showToast('Testimonials reloaded from Supabase', 'info');
+          showToast('Testimonials reloaded from Database', 'info');
         };
       }
 
@@ -7465,7 +7513,7 @@ Youth &amp; Cultural Programs</textarea>
       if (btnSave) {
         btnSave.onclick = async () => {
           btnSave.disabled = true;
-          btnSave.textContent = 'Saving to Supabase...';
+          btnSave.textContent = 'Saving to Database...';
           try {
             const res = await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/testimonials.json`, {
               method: 'POST',
@@ -7481,7 +7529,7 @@ Youth &amp; Cultural Programs</textarea>
               const txt = await res.text();
               throw new Error(`Failed to save: ${txt}`);
             }
-            showToast('Testimonials saved to Supabase!', 'success');
+            showToast('Testimonials saved to Database!', 'success');
           } catch (err) {
             showToast(err.message, 'error');
           } finally {

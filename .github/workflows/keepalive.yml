@@ -1,0 +1,28 @@
+name: Keepalive Cloud Database
+
+on:
+  schedule:
+    # Runs twice daily at 00:00 and 12:00 UTC (every 12 hours)
+    - cron: '0 0,12 * * *'
+  workflow_dispatch:
+
+jobs:
+  keepalive-ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Silent Database Activity Ping
+        run: |
+          RESPONSE=$(curl -s -w "\nHTTP_STATUS:%{http_code}" \
+            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzb21waXJ6cmxiYWducXBkdW92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3MzA3MjIsImV4cCI6MjEwODMwNjcyMn0.ju0Ez8f9Vq8v7EwKPFMxDO1kBLUs8198N7esuo0x12k" \
+            -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzb21waXJ6cmxiYWducXBkdW92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3MzA3MjIsImV4cCI6MjEwODMwNjcyMn0.ju0Ez8f9Vq8v7EwKPFMxDO1kBLUs8198N7esuo0x12k" \
+            -H "Cache-Control: no-cache" \
+            "https://qsompirzrlbagnqpduov.supabase.co/rest/v1/events?select=id&limit=1")
+          
+          STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d: -f2)
+          echo "Database ping status: $STATUS"
+          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 300 ]; then
+            echo "Keepalive ping successful. Free-tier inactivity pause timer reset."
+          else
+            echo "Ping returned non-2xx status code: $STATUS"
+            exit 1
+          fi

@@ -5035,6 +5035,17 @@
     loadCMSTestimonials();
     loadCMSSiteSettings();
     loadCMSSiteContent();
+
+    // Database Activity Keepalive (silent read ping, keeps free-tier database awake)
+    function pingDatabaseKeepalive() {
+      try {
+        fetch(`${SUPABASE_URL}/rest/v1/events?select=id&limit=1`, {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Cache-Control': 'no-cache' }
+        }).catch(() => {});
+      } catch (_) {}
+    }
+    pingDatabaseKeepalive();
+    setInterval(pingDatabaseKeepalive, 15 * 60 * 1000);
   </script>
 </body>
 
