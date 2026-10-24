@@ -3808,8 +3808,8 @@
       updateFormSummary();
     }
 
-    // Google Sheets Contact Form Webhook (paste deployed Google Apps Script URL here)
-    const GOOGLE_SHEETS_CONTACT_URL = window.EIA_GOOGLE_SHEETS_URL || '';
+    // Google Sheets Contact Form Webhook
+    const GOOGLE_SHEETS_CONTACT_URL = window.EIA_GOOGLE_SHEETS_URL || 'https://script.google.com/macros/s/AKfycbwS8FBLSea1qsgMsEDrjGz_gWbnjkazDxADK8FLf2sepmYTWT_J7rdr6uhL_j39I-Bu/exec';
 
     async function handleContactSubmit(e) {
       e.preventDefault();
