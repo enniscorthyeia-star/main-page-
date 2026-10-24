@@ -4242,6 +4242,16 @@
     const SUPABASE_URL = 'https://qsompirzrlbagnqpduov.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzb21waXJ6cmxiYWducXBkdW92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3MzA3MjIsImV4cCI6MjEwODMwNjcyMn0.ju0Ez8f9Vq8v7EwKPFMxDO1kBLUs8198N7esuo0x12k';
 
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
     // 1. Live Current Committee & Lifetime Trustees Loader
     async function loadCMSCurrentCommittee() {
       const tGrid = document.getElementById('trusteesGrid');
@@ -4290,11 +4300,11 @@
           const isLate = (t.name && t.name.toLowerCase().includes('late')) || (t.role && t.role.toLowerCase().includes('late'));
           card.innerHTML = `
             <div class="comm-photo-wrap">
-              <img src="${t.photo_url || t.photoUrl || 'images/committee_sq/abin-varghese.webp'}" alt="${t.name} - Lifetime Trustee" loading="lazy">
+              <img src="${escapeHtml(t.photo_url || t.photoUrl || 'images/committee_sq/abin-varghese.webp')}" alt="${escapeHtml(t.name)} - Lifetime Trustee" loading="lazy">
               <span class="comm-role-badge ${isLate ? 'memorial' : 'trustee'}">${isLate ? 'Late Trustee' : 'Trustee'}</span>
             </div>
             <div class="comm-info">
-              <h4>${t.name}</h4>
+              <h4>${escapeHtml(t.name)}</h4>
               <span class="designation">${isLate ? 'Lifetime Trustee &bull; In Loving Memory' : 'Lifetime Trustee'}</span>
             </div>
           `;
@@ -4333,12 +4343,12 @@
 
           card.innerHTML = `
             <div class="comm-photo-wrap">
-              <img src="${m.photo_url || m.photoUrl || 'images/committee_sq/abin-varghese.webp'}" alt="${m.name}, ${m.role}" loading="lazy">
-              <span class="comm-role-badge ${badgeClass}">${badgeText}</span>
+              <img src="${escapeHtml(m.photo_url || m.photoUrl || 'images/committee_sq/abin-varghese.webp')}" alt="${escapeHtml(m.name)}, ${escapeHtml(m.role)}" loading="lazy">
+              <span class="comm-role-badge ${badgeClass}">${escapeHtml(badgeText)}</span>
             </div>
             <div class="comm-info">
-              <h4>${m.name}</h4>
-              <span class="designation">${m.role}</span>
+              <h4>${escapeHtml(m.name)}</h4>
+              <span class="designation">${escapeHtml(m.role)}</span>
             </div>
           `;
           eGrid.appendChild(card);
@@ -4362,40 +4372,40 @@
         list.forEach((ev) => {
           const card = document.createElement('div');
           card.className = 'event-card vis';
-          const day = ev.display_day || '01';
-          const month = (ev.display_month || '2026').split(' ')[0];
-          const img = ev.image_url || 'images/eia-onam-celebration.webp';
+          const day = escapeHtml(ev.display_day || '01');
+          const month = escapeHtml((ev.display_month || '2026').split(' ')[0]);
+          const img = escapeHtml(ev.image_url || 'images/eia-onam-celebration.webp');
           const isRsvp = ev.rsvp_enabled !== false;
           const rLink = ev.rsvp_link || '';
 
           let rsvpBtnHtml = '';
           if (isRsvp) {
             if (ev.rsvp_mode === 'link' && rLink) {
-              rsvpBtnHtml = `<a href="${rLink}" target="_blank" rel="noopener" class="btn btn-amber btn-sm">RSVP / Register &rarr;</a>`;
+              rsvpBtnHtml = `<a href="${escapeHtml(rLink)}" target="_blank" rel="noopener" class="btn btn-amber btn-sm">RSVP / Register &rarr;</a>`;
             } else {
-              const safeTitle = (ev.title || '').replace(/'/g, "\\'");
-              const safeLoc = (ev.location || '').replace(/'/g, "\\'");
+              const safeTitle = escapeHtml((ev.title || '').replace(/'/g, "\\'"));
+              const safeLoc = escapeHtml((ev.location || '').replace(/'/g, "\\'"));
               const safeDate = `${day} ${month}`;
-              const safeTime = (ev.time || '').replace(/'/g, "\\'");
-              const safeId = (ev.id || '').replace(/'/g, "\\'");
+              const safeTime = escapeHtml((ev.time || '').replace(/'/g, "\\'"));
+              const safeId = escapeHtml((ev.id || '').replace(/'/g, "\\'"));
               rsvpBtnHtml = `<button type="button" class="btn btn-amber btn-sm" onclick="openEventModal('${safeTitle}', '${safeDate}', '${safeLoc}', '${safeTime}', '${safeId}')">RSVP / Register</button>`;
             }
           }
 
           card.innerHTML = `
             <div class="event-art">
-              <img src="${img}" alt="${ev.title}" loading="lazy" decoding="async">
+              <img src="${img}" alt="${escapeHtml(ev.title)}" loading="lazy" decoding="async">
               <div class="event-date">
                 <span class="day">${day}</span>
                 <span class="mo">${month}</span>
               </div>
-              <span class="event-badge">${ev.badge || 'Event'}</span>
+              <span class="event-badge">${escapeHtml(ev.badge || 'Event')}</span>
             </div>
             <div class="event-body">
-              <h3>${ev.title}</h3>
-              <p>${ev.description || ''}</p>
+              <h3>${escapeHtml(ev.title)}</h3>
+              <p>${escapeHtml(ev.description || '')}</p>
               <div class="event-foot">
-                <span>${ev.location || 'County Wexford'}${ev.time ? ` &bull; ${ev.time}` : ''}</span>
+                <span>${escapeHtml(ev.location || 'County Wexford')}${ev.time ? ` &bull; ${escapeHtml(ev.time)}` : ''}</span>
                 ${rsvpBtnHtml}
               </div>
             </div>
@@ -4461,8 +4471,8 @@
           card.setAttribute('data-cat', photo.category || 'culture');
           card.onclick = () => openLightbox(photo.url, photo.caption || 'EIA Community Memory', isVideo);
           card.innerHTML = `
-            <img src="${photo.url}" alt="${photo.caption || 'EIA Memory'}" decoding="async">
-            <div class="cap"><span>${photo.caption || 'EIA Memory'}</span></div>
+            <img src="${escapeHtml(photo.url)}" alt="${escapeHtml(photo.caption || 'EIA Memory')}" decoding="async">
+            <div class="cap"><span>${escapeHtml(photo.caption || 'EIA Memory')}</span></div>
           `;
           grid.appendChild(card);
         });
@@ -4490,12 +4500,12 @@
           const card = document.createElement('div');
           card.className = 'test-card';
           card.innerHTML = `
-            <blockquote>"${(t.quote || '').replace(/^[“"]|[”"]$/g, '')}"</blockquote>
+            <blockquote>"${escapeHtml((t.quote || '').replace(/^[“"]|[”"]$/g, ''))}"</blockquote>
             <div class="test-author">
-              <div class="av">${t.avatarLetter || (t.authorName ? t.authorName.charAt(0) : 'E')}</div>
+              <div class="av">${escapeHtml(t.avatarLetter || (t.authorName ? t.authorName.charAt(0) : 'E'))}</div>
               <div>
-                <div class="name">${t.authorName || 'EIA Member'}</div>
-                <div class="role">${t.authorRole || 'County Wexford'}</div>
+                <div class="name">${escapeHtml(t.authorName || 'EIA Member')}</div>
+                <div class="role">${escapeHtml(t.authorRole || 'County Wexford')}</div>
               </div>
             </div>
           `;

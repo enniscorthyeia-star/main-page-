@@ -2004,6 +2004,15 @@
     }
     // Live Supabase Guide Loader
     const SUPABASE_URL = 'https://qsompirzrlbagnqpduov.supabase.co';
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
     (async function loadGuideFromCMS() {
       try {
         const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/gallery/site_content.json?t=${Date.now()}`);

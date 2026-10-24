@@ -818,6 +818,16 @@
     const SUPABASE_URL = 'https://qsompirzrlbagnqpduov.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzb21waXJ6cmxiYWducXBkdW92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3MzA3MjIsImV4cCI6MjEwODMwNjcyMn0.ju0Ez8f9Vq8v7EwKPFMxDO1kBLUs8198N7esuo0x12k';
 
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
     // Static baseline gallery items
     const baselineGallery = [
       {
@@ -1087,11 +1097,11 @@
           const key = (p.id || p.url).toLowerCase();
           if (!cmsMap.has(key)) {
             cmsMap.set(key, {
-              id: p.id,
-              caption: p.caption,
-              category: p.category || 'festivals',
-              url: p.url,
-              thumb: p.url,
+              id: escapeHtml(p.id),
+              caption: escapeHtml(p.caption),
+              category: escapeHtml(p.category || 'festivals'),
+              url: escapeHtml(p.url),
+              thumb: escapeHtml(p.url),
               isVideo: (p.url || '').toLowerCase().endsWith('.mp4'),
               date: p.created_at || p.date || new Date().toISOString()
             });

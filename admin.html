@@ -1677,10 +1677,11 @@
     <div class="auth-card-clean">
       <div class="auth-card-header">
         <img src="images/logo.webp" alt="EIA Logo" class="auth-card-logo">
-        <h2 class="auth-card-title">Committee Sign In</h2>
-        <p class="auth-card-sub">Enniscorthy Indian Association &bull; Executive Portal</p>
+        <h2 class="auth-card-title" id="authCardTitle">Committee Sign In</h2>
+        <p class="auth-card-sub" id="authCardSub">Enniscorthy Indian Association &bull; Executive Portal</p>
       </div>
 
+      <!-- STANDARD SIGN IN VIEW -->
       <form id="loginForm" onsubmit="return false;">
         <div class="form-group">
           <label class="form-label">Committee Email</label>
@@ -1704,13 +1705,73 @@
           <label style="font-size:0.8rem; color:var(--text-dim); display:flex; align-items:center; gap:8px; cursor:pointer;">
             <input type="checkbox" id="authRememberMe" checked> Remember sign in
           </label>
-          <a href="#" id="btnForgotPassword" style="font-size:0.8rem; color:var(--gold); text-decoration:none;">Forgot password?</a>
+          <a href="#" id="btnForgotPassword" style="font-size:0.8rem; color:var(--gold); text-decoration:none; font-weight:600;">Forgot password?</a>
         </div>
 
         <div style="margin-top:22px;">
           <button type="submit" class="btn btn-gold" id="loginBtn" style="width:100%; padding:13px; font-weight:700;">Sign In to Dashboard</button>
         </div>
       </form>
+
+      <!-- 3-STEP PASSWORD RESET VIEW (EMAIL -> VERIFY CODE -> NEW PASSWORD) -->
+      <div id="resetPasswordView" style="display:none;">
+        <div style="display:flex; gap:6px; margin-bottom:18px; font-family:'IBM Plex Mono', monospace; font-size:0.7rem;">
+          <div id="resetBadge1" style="flex:1; text-align:center; padding:6px 4px; border-radius:6px; background:rgba(197,155,39,0.18); border:1px solid var(--gold); color:var(--gold); font-weight:600;">1. Email</div>
+          <div id="resetBadge2" style="flex:1; text-align:center; padding:6px 4px; border-radius:6px; background:#141210; border:1px solid rgba(255,255,255,0.08); color:var(--text-dim);">2. Verify Code</div>
+          <div id="resetBadge3" style="flex:1; text-align:center; padding:6px 4px; border-radius:6px; background:#141210; border:1px solid rgba(255,255,255,0.08); color:var(--text-dim);">3. New Password</div>
+        </div>
+
+        <!-- STEP 1: SEND CODE TO EMAIL -->
+        <div id="resetStep1">
+          <div class="form-group">
+            <label class="form-label">Registered Committee Email</label>
+            <input type="email" id="resetEmailInput" class="form-control" value="enniscorthyeia@gmail.com" placeholder="enniscorthyeia@gmail.com">
+            <span style="font-size:0.76rem; color:var(--text-dim); margin-top:6px; display:block;">A verification code will be sent to this email address.</span>
+          </div>
+          <div style="margin-top:18px;">
+            <button type="button" class="btn btn-gold" id="btnSendResetCode" style="width:100%; padding:12px; font-weight:700;">Send Verification Code</button>
+          </div>
+        </div>
+
+        <!-- STEP 2: ENTER & VERIFY CODE -->
+        <div id="resetStep2" style="display:none;">
+          <div id="resetSentNotice" style="background:#141210; border:1px solid rgba(197,155,39,0.35); border-radius:8px; padding:10px 12px; font-size:0.78rem; color:var(--text-main); margin-bottom:14px; line-height:1.45;">
+            Verification code sent. Check your email inbox and enter the code below.
+          </div>
+          <div class="form-group">
+            <label class="form-label">Verification Code</label>
+            <input type="text" id="resetCodeInput" class="form-control" placeholder="Enter code from email" autocomplete="one-time-code" style="font-family:'IBM Plex Mono', monospace; font-size:1rem; letter-spacing:0.12em; text-align:center;">
+          </div>
+          <div style="margin-top:16px; display:flex; flex-direction:column; gap:10px;">
+            <button type="button" class="btn btn-gold" id="btnVerifyResetCode" style="width:100%; padding:12px; font-weight:700;">Verify Code</button>
+            <button type="button" class="btn btn-outline-gold btn-sm" id="btnResendResetCode" style="width:100%;">Resend Verification Code</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: ENTER NEW PASSWORD & CONFIRM PASSWORD -->
+        <div id="resetStep3" style="display:none;">
+          <div style="background:rgba(46,160,67,0.12); border:1px solid rgba(46,160,67,0.4); border-radius:8px; padding:10px 12px; font-size:0.78rem; color:#4ade80; margin-bottom:14px;">
+            Code verified. Enter and confirm your new password below.
+          </div>
+          <div class="form-group">
+            <label class="form-label">New Password</label>
+            <input type="password" id="resetNewPassword" class="form-control" placeholder="Minimum 8 characters" minlength="8" autocomplete="new-password">
+          </div>
+          <div class="form-group" style="margin-top:12px;">
+            <label class="form-label">Confirm New Password</label>
+            <input type="password" id="resetConfirmPassword" class="form-control" placeholder="Re-enter new password" minlength="8" autocomplete="new-password">
+          </div>
+          <div style="margin-top:18px;">
+            <button type="button" class="btn btn-gold" id="btnConfirmResetPassword" style="width:100%; padding:12px; font-weight:700;">Set New Password</button>
+          </div>
+        </div>
+
+        <div id="resetFlowMsg" style="font-size:0.8rem; margin-top:12px; display:none; line-height:1.4;"></div>
+
+        <div style="margin-top:16px; text-align:center;">
+          <a href="#" id="btnBackToLogin" style="font-size:0.8rem; color:var(--gold); text-decoration:none; font-weight:600;">&larr; Back to Sign In</a>
+        </div>
+      </div>
 
       <div style="margin-top:24px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.08); text-align:center;">
         <a href="index.html" style="font-size:0.8rem; color:var(--text-dim); text-decoration:none;">
@@ -1732,7 +1793,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
         Publish to Website
       </button>
-      <a href="index.html" target="_blank" class="btn btn-outline-gold btn-sm">Preview Live Site &rarr;</a>
+      <a href="index.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline-gold btn-sm">Preview Live Site &rarr;</a>
       
       <span class="user-pill" id="userEmailBadge">Loading...</span>
       <button class="btn btn-outline-gold btn-sm" id="btnOpenChangePassword" title="Change Admin Password">Change Password</button>
@@ -2679,7 +2740,7 @@ Youth &amp; Cultural Programs</textarea>
         <div class="card">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
             <div class="card-title" style="margin:0;">Live Cloud Gallery Photos (<span id="cmsPhotoCount">0</span>)</div>
-            <a href="gallery.html" target="_blank" class="btn btn-outline-gold btn-xs" style="font-size:0.75rem; padding:4px 10px; border-radius:4px; text-decoration:none;">View Live Gallery Page &rarr;</a>
+            <a href="gallery.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline-gold btn-xs" style="font-size:0.75rem; padding:4px 10px; border-radius:4px; text-decoration:none;">View Live Gallery Page &rarr;</a>
           </div>
           <div class="grid-3" id="galleryAdminGrid"></div>
         </div>
@@ -3143,7 +3204,7 @@ Youth &amp; Cultural Programs</textarea>
     </div>
   </div>
 
-  <!-- Change Password Modal -->
+  <!-- Change Password Modal (3-Step Email Verification Flow) -->
   <div class="modal" id="changePasswordModal">
     <div class="modal-dialog" style="max-width:440px;">
       <div class="modal-header">
@@ -3151,20 +3212,62 @@ Youth &amp; Cultural Programs</textarea>
         <button type="button" class="btn btn-outline-gold btn-xs" onclick="closeChangePasswordModal()">Close</button>
       </div>
       <div class="modal-body">
-        <div class="form-group">
-          <label class="form-label">New Password</label>
-          <input type="password" id="inputNewPassword" class="form-control" placeholder="Enter new strong password" minlength="8">
-          <span style="font-size:11px; color:var(--text-dim); margin-top:4px; display:block;">Minimum 8 characters with letters, numbers &amp; symbols.</span>
+        <div style="display:flex; gap:6px; margin-bottom:18px; font-family:'IBM Plex Mono', monospace; font-size:0.7rem;">
+          <div id="cpBadge1" style="flex:1; text-align:center; padding:6px 4px; border-radius:6px; background:rgba(197,155,39,0.18); border:1px solid var(--gold); color:var(--gold); font-weight:600;">1. Email</div>
+          <div id="cpBadge2" style="flex:1; text-align:center; padding:6px 4px; border-radius:6px; background:#141210; border:1px solid rgba(255,255,255,0.08); color:var(--text-dim);">2. Verify Code</div>
+          <div id="cpBadge3" style="flex:1; text-align:center; padding:6px 4px; border-radius:6px; background:#141210; border:1px solid rgba(255,255,255,0.08); color:var(--text-dim);">3. New Password</div>
         </div>
-        <div class="form-group" style="margin-top:14px;">
-          <label class="form-label">Confirm New Password</label>
-          <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Re-enter new password">
+
+        <!-- STEP 1: SEND CODE TO EMAIL -->
+        <div id="cpStep1">
+          <div class="form-group">
+            <label class="form-label">Registered Committee Email</label>
+            <input type="email" id="cpEmailInput" class="form-control" value="enniscorthyeia@gmail.com" placeholder="enniscorthyeia@gmail.com">
+            <span style="font-size:11px; color:var(--text-dim); margin-top:6px; display:block;">To verify your identity, a one-time verification code will be sent to your email before changing the password.</span>
+          </div>
+          <div style="margin-top:16px;">
+            <button type="button" class="btn btn-gold" id="btnCpSendCode" style="width:100%; padding:11px; font-weight:700;">Send Verification Code</button>
+          </div>
         </div>
-        <div id="passwordChangeMsg" style="font-size:12px; margin-top:10px; display:none;"></div>
+
+        <!-- STEP 2: ENTER & VERIFY CODE -->
+        <div id="cpStep2" style="display:none;">
+          <div id="cpSentNotice" style="background:#141210; border:1px solid rgba(197,155,39,0.35); border-radius:8px; padding:10px 12px; font-size:0.78rem; color:var(--text-main); margin-bottom:14px; line-height:1.45;">
+            Verification code sent. Check your email inbox and enter the code below.
+          </div>
+          <div class="form-group">
+            <label class="form-label">Verification Code</label>
+            <input type="text" id="cpCodeInput" class="form-control" placeholder="Enter code from email" autocomplete="one-time-code" style="font-family:'IBM Plex Mono', monospace; font-size:1rem; letter-spacing:0.12em; text-align:center;">
+          </div>
+          <div style="margin-top:16px; display:flex; flex-direction:column; gap:10px;">
+            <button type="button" class="btn btn-gold" id="btnCpVerifyCode" style="width:100%; padding:11px; font-weight:700;">Verify Code</button>
+            <button type="button" class="btn btn-outline-gold btn-sm" id="btnCpResendCode" style="width:100%;">Resend Verification Code</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: NEW PASSWORD & CONFIRM PASSWORD -->
+        <div id="cpStep3" style="display:none;">
+          <div style="background:rgba(46,160,67,0.12); border:1px solid rgba(46,160,67,0.4); border-radius:8px; padding:10px 12px; font-size:0.78rem; color:#4ade80; margin-bottom:14px;">
+            Code verified. Enter and confirm your new password below.
+          </div>
+          <div class="form-group">
+            <label class="form-label">New Password</label>
+            <input type="password" id="inputNewPassword" class="form-control" placeholder="Enter new strong password" minlength="8" autocomplete="new-password">
+            <span style="font-size:11px; color:var(--text-dim); margin-top:4px; display:block;">Minimum 8 characters with letters, numbers &amp; symbols.</span>
+          </div>
+          <div class="form-group" style="margin-top:14px;">
+            <label class="form-label">Confirm New Password</label>
+            <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Re-enter new password" minlength="8" autocomplete="new-password">
+          </div>
+          <div style="margin-top:16px;">
+            <button type="button" class="btn btn-gold" id="btnSubmitPasswordChange" style="width:100%; padding:11px; font-weight:700;">Update Password</button>
+          </div>
+        </div>
+
+        <div id="passwordChangeMsg" style="font-size:12px; margin-top:12px; display:none; line-height:1.4;"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-gold" onclick="closeChangePasswordModal()">Cancel</button>
-        <button type="button" class="btn btn-gold" id="btnSubmitPasswordChange">Update Password</button>
       </div>
     </div>
   </div>
@@ -3578,75 +3681,456 @@ Youth &amp; Cultural Programs</textarea>
       showToast('Signed out', 'info');
     });
 
-    // Change Password Modal logic
+    // Shared 3-Step Email Verification & Password Update Helpers
+    let verifiedResetSession = null;
+    let verifiedChangeSession = null;
+
+    function updateStepBadges(prefix, activeStep) {
+      for (let i = 1; i <= 3; i++) {
+        const badge = document.getElementById(`${prefix}Badge${i}`);
+        const stepDiv = document.getElementById(`${prefix}Step${i}`);
+        if (stepDiv) stepDiv.style.display = (i === activeStep) ? 'block' : 'none';
+        if (badge) {
+          if (i === activeStep) {
+            badge.style.background = 'rgba(197,155,39,0.18)';
+            badge.style.border = '1px solid var(--gold)';
+            badge.style.color = 'var(--gold)';
+            badge.style.fontWeight = '600';
+          } else if (i < activeStep) {
+            badge.style.background = 'rgba(46,160,67,0.14)';
+            badge.style.border = '1px solid rgba(46,160,67,0.45)';
+            badge.style.color = '#4ade80';
+            badge.style.fontWeight = '600';
+          } else {
+            badge.style.background = '#141210';
+            badge.style.border = '1px solid rgba(255,255,255,0.08)';
+            badge.style.color = 'var(--text-dim)';
+            badge.style.fontWeight = '400';
+          }
+        }
+      }
+    }
+
+    async function sendEmailOtpCode(email) {
+      const cleanEmail = (email || '').trim().toLowerCase();
+      if (!cleanEmail || !cleanEmail.includes('@')) {
+        throw new Error('Please enter a valid committee email address.');
+      }
+
+      const redirectUrl = window.location.origin + window.location.pathname;
+      const res = await fetch(`${SUPABASE_URL}/auth/v1/recover?redirect_to=${encodeURIComponent(redirectUrl)}`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: cleanEmail })
+      });
+
+      if (res.ok) {
+        return {
+          ok: true,
+          cooldown: false,
+          message: `Verification code sent to ${cleanEmail}. Check your inbox (and spam folder) and enter the code below.`
+        };
+      }
+
+      let errData = {};
+      try { errData = await res.json(); } catch (e) {}
+
+      if (res.status === 429 || (errData.error_code && errData.error_code.includes('rate_limit'))) {
+        return {
+          ok: true,
+          cooldown: true,
+          message: `A verification code was recently sent to ${cleanEmail}. Enter the code from your email below, or wait 60 seconds before requesting another.`
+        };
+      }
+
+      throw new Error(errData.msg || errData.message || errData.error_description || 'Failed to send verification code.');
+    }
+
+    async function verifyEmailOtpCode(email, rawInput) {
+      const cleanEmail = (email || '').trim().toLowerCase();
+      let cleaned = (rawInput || '').trim();
+      if (!cleaned) {
+        throw new Error('Please enter the verification code from your email.');
+      }
+
+      // Case 1: User pasted a redirected URL containing #access_token=...
+      if (cleaned.includes('access_token=')) {
+        const hashPart = cleaned.includes('#') ? cleaned.split('#')[1] : cleaned;
+        const params = new URLSearchParams(hashPart);
+        const accessToken = params.get('access_token');
+        const refreshToken = params.get('refresh_token') || '';
+        if (accessToken) {
+          const uRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+            headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${accessToken}` }
+          });
+          if (uRes.ok) {
+            const user = await uRes.json();
+            return { access_token: accessToken, refresh_token: refreshToken, user };
+          }
+        }
+      }
+
+      // Case 2: User pasted a verification URL (?token=...) or a long hex token_hash
+      let tokenHashCandidate = null;
+      if (cleaned.includes('token=')) {
+        try {
+          const urlObj = new URL(cleaned);
+          tokenHashCandidate = urlObj.searchParams.get('token') || urlObj.searchParams.get('token_hash');
+        } catch (e) {
+          const match = cleaned.match(/[?&]token=([^&]+)/);
+          if (match) tokenHashCandidate = decodeURIComponent(match[1]);
+        }
+      } else if (/^[a-f0-9]{24,}$/i.test(cleaned)) {
+        tokenHashCandidate = cleaned;
+      }
+
+      if (tokenHashCandidate) {
+        for (const verifyType of ['recovery', 'magiclink', 'email']) {
+          const vRes = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
+            method: 'POST',
+            headers: { 'apikey': SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: verifyType, token_hash: tokenHashCandidate })
+          });
+          if (vRes.ok) {
+            const vData = await vRes.json();
+            if (vData && vData.access_token) return vData;
+          }
+        }
+      }
+
+      // Case 3: Standard numeric OTP code (6 to 8 digits)
+      const compactCode = cleaned.replace(/\s+/g, '');
+      let lastErrMsg = 'Invalid or expired verification code.';
+      for (const verifyType of ['recovery', 'email', 'magiclink']) {
+        const vRes = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
+          method: 'POST',
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: verifyType, email: cleanEmail, token: compactCode })
+        });
+        const vData = await vRes.json().catch(() => ({}));
+        if (vRes.ok && vData.access_token) {
+          return vData;
+        }
+        if (vData.msg || vData.message || vData.error_description) {
+          lastErrMsg = vData.msg || vData.message || vData.error_description;
+        }
+      }
+
+      throw new Error(lastErrMsg);
+    }
+
+    async function updatePasswordWithSession(sessionObj, newPwd, confirmPwd) {
+      if (!sessionObj || !sessionObj.access_token) {
+        throw new Error('Verification session expired. Please verify your email code again.');
+      }
+      if (!newPwd || newPwd.length < 8) {
+        throw new Error('Password must be at least 8 characters long.');
+      }
+      if (newPwd !== confirmPwd) {
+        throw new Error('New password and confirm password do not match.');
+      }
+
+      const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+        method: 'PUT',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${sessionObj.access_token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ password: newPwd })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok && data.error_code !== 'same_password') {
+        throw new Error(data.msg || data.message || data.error_description || 'Password update failed.');
+      }
+
+      // Persist updated authenticated session
+      const userEmail = (sessionObj.user && sessionObj.user.email) || data.email || 'enniscorthyeia@gmail.com';
+      sessionStorage.setItem('EIA_ADMIN_TOKEN', sessionObj.access_token);
+      if (sessionObj.refresh_token) sessionStorage.setItem('EIA_ADMIN_REFRESH_TOKEN', sessionObj.refresh_token);
+      sessionStorage.setItem('EIA_ADMIN_EMAIL', userEmail);
+      localStorage.setItem('EIA_ADMIN_TOKEN', sessionObj.access_token);
+      if (sessionObj.refresh_token) localStorage.setItem('EIA_ADMIN_REFRESH_TOKEN', sessionObj.refresh_token);
+      localStorage.setItem('EIA_ADMIN_EMAIL', userEmail);
+
+      return userEmail;
+    }
+
+    // -------------------------------------------------------------------------
+    // FLOW 1: LOGIN PAGE FORGOT PASSWORD (3-STEP RESET)
+    // -------------------------------------------------------------------------
+    function showResetFlowMsg(text, isError = false) {
+      const msg = document.getElementById('resetFlowMsg');
+      if (!msg) return;
+      if (!text) {
+        msg.style.display = 'none';
+        msg.textContent = '';
+        return;
+      }
+      msg.textContent = text;
+      msg.style.color = isError ? '#ef4444' : '#4ade80';
+      msg.style.display = 'block';
+    }
+
+    function openResetPasswordView(initialStep = 1) {
+      const loginForm = document.getElementById('loginForm');
+      const resetView = document.getElementById('resetPasswordView');
+      const title = document.getElementById('authCardTitle');
+      const sub = document.getElementById('authCardSub');
+      const authEmailVal = (document.getElementById('authEmail')?.value || '').trim();
+      const resetEmailInput = document.getElementById('resetEmailInput');
+
+      if (resetEmailInput && authEmailVal) {
+        resetEmailInput.value = authEmailVal;
+      } else if (resetEmailInput && !resetEmailInput.value) {
+        resetEmailInput.value = 'enniscorthyeia@gmail.com';
+      }
+
+      if (loginForm) loginForm.style.display = 'none';
+      if (resetView) resetView.style.display = 'block';
+      if (title) title.textContent = 'Reset Password';
+      if (sub) sub.textContent = 'Verify your committee email to set a new password';
+
+      if (initialStep === 1) {
+        verifiedResetSession = null;
+        const codeIn = document.getElementById('resetCodeInput');
+        const p1 = document.getElementById('resetNewPassword');
+        const p2 = document.getElementById('resetConfirmPassword');
+        if (codeIn) codeIn.value = '';
+        if (p1) p1.value = '';
+        if (p2) p2.value = '';
+      }
+      showResetFlowMsg('');
+      updateStepBadges('reset', initialStep);
+    }
+
+    function closeResetPasswordView() {
+      const loginForm = document.getElementById('loginForm');
+      const resetView = document.getElementById('resetPasswordView');
+      const title = document.getElementById('authCardTitle');
+      const sub = document.getElementById('authCardSub');
+
+      if (resetView) resetView.style.display = 'none';
+      if (loginForm) loginForm.style.display = 'block';
+      if (title) title.textContent = 'Committee Sign In';
+      if (sub) sub.innerHTML = 'Enniscorthy Indian Association &bull; Executive Portal';
+      showResetFlowMsg('');
+    }
+
+    document.getElementById('btnForgotPassword')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      openResetPasswordView(1);
+    });
+
+    document.getElementById('btnBackToLogin')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeResetPasswordView();
+    });
+
+    document.getElementById('btnSendResetCode')?.addEventListener('click', async () => {
+      const email = document.getElementById('resetEmailInput')?.value || '';
+      const btn = document.getElementById('btnSendResetCode');
+      showResetFlowMsg('');
+      btn.disabled = true;
+      btn.textContent = 'Sending Code...';
+      try {
+        const result = await sendEmailOtpCode(email);
+        const notice = document.getElementById('resetSentNotice');
+        if (notice) notice.textContent = result.message;
+        updateStepBadges('reset', 2);
+        document.getElementById('resetCodeInput')?.focus();
+        showToast('Verification code sent to email', 'success');
+      } catch (err) {
+        showResetFlowMsg(err.message, true);
+        showToast(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send Verification Code';
+      }
+    });
+
+    document.getElementById('btnResendResetCode')?.addEventListener('click', async () => {
+      const email = document.getElementById('resetEmailInput')?.value || '';
+      const btn = document.getElementById('btnResendResetCode');
+      showResetFlowMsg('');
+      btn.disabled = true;
+      btn.textContent = 'Resending...';
+      try {
+        const result = await sendEmailOtpCode(email);
+        const notice = document.getElementById('resetSentNotice');
+        if (notice) notice.textContent = result.message;
+        showResetFlowMsg(result.cooldown ? 'Please check your inbox or wait 60 seconds before requesting another code.' : 'New verification code sent.', false);
+      } catch (err) {
+        showResetFlowMsg(err.message, true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Resend Verification Code';
+      }
+    });
+
+    document.getElementById('btnVerifyResetCode')?.addEventListener('click', async () => {
+      const email = document.getElementById('resetEmailInput')?.value || '';
+      const code = document.getElementById('resetCodeInput')?.value || '';
+      const btn = document.getElementById('btnVerifyResetCode');
+      showResetFlowMsg('');
+      btn.disabled = true;
+      btn.textContent = 'Verifying...';
+      try {
+        verifiedResetSession = await verifyEmailOtpCode(email, code);
+        updateStepBadges('reset', 3);
+        document.getElementById('resetNewPassword')?.focus();
+        showToast('Code verified. Enter your new password.', 'success');
+      } catch (err) {
+        showResetFlowMsg(err.message, true);
+        showToast(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Verify Code';
+      }
+    });
+
+    document.getElementById('btnConfirmResetPassword')?.addEventListener('click', async () => {
+      const newPwd = (document.getElementById('resetNewPassword')?.value || '').trim();
+      const confirmPwd = (document.getElementById('resetConfirmPassword')?.value || '').trim();
+      const btn = document.getElementById('btnConfirmResetPassword');
+      showResetFlowMsg('');
+      btn.disabled = true;
+      btn.textContent = 'Saving New Password...';
+      try {
+        const userEmail = await updatePasswordWithSession(verifiedResetSession, newPwd, confirmPwd);
+        showToast('Password updated and signed in!', 'success');
+        closeResetPasswordView();
+        authModal.style.display = 'none';
+        if (userEmailBadge) userEmailBadge.textContent = userEmail;
+        await loadAllData();
+      } catch (err) {
+        showResetFlowMsg(err.message, true);
+        showToast(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Set New Password';
+      }
+    });
+
+    // -------------------------------------------------------------------------
+    // FLOW 2: ADMIN PANEL CHANGE PASSWORD MODAL (3-STEP EMAIL VERIFICATION)
+    // -------------------------------------------------------------------------
+    function showCpMsg(text, isError = false) {
+      const msg = document.getElementById('passwordChangeMsg');
+      if (!msg) return;
+      if (!text) {
+        msg.style.display = 'none';
+        msg.textContent = '';
+        return;
+      }
+      msg.textContent = text;
+      msg.style.color = isError ? '#ef4444' : '#4ade80';
+      msg.style.display = 'block';
+    }
+
     window.closeChangePasswordModal = function() {
       const modal = document.getElementById('changePasswordModal');
       if (modal) modal.classList.remove('active');
+      verifiedChangeSession = null;
+      const codeIn = document.getElementById('cpCodeInput');
       const p1 = document.getElementById('inputNewPassword');
       const p2 = document.getElementById('inputConfirmPassword');
+      if (codeIn) codeIn.value = '';
       if (p1) p1.value = '';
       if (p2) p2.value = '';
-      const msg = document.getElementById('passwordChangeMsg');
-      if (msg) msg.style.display = 'none';
+      showCpMsg('');
+      updateStepBadges('cp', 1);
     };
 
     document.getElementById('btnOpenChangePassword')?.addEventListener('click', () => {
       const modal = document.getElementById('changePasswordModal');
+      const cpEmail = document.getElementById('cpEmailInput');
+      const currentEmail = sessionStorage.getItem('EIA_ADMIN_EMAIL') || localStorage.getItem('EIA_ADMIN_EMAIL') || 'enniscorthyeia@gmail.com';
+      if (cpEmail) cpEmail.value = currentEmail;
+      verifiedChangeSession = null;
+      showCpMsg('');
+      updateStepBadges('cp', 1);
       if (modal) modal.classList.add('active');
     });
 
+    document.getElementById('btnCpSendCode')?.addEventListener('click', async () => {
+      const email = document.getElementById('cpEmailInput')?.value || '';
+      const btn = document.getElementById('btnCpSendCode');
+      showCpMsg('');
+      btn.disabled = true;
+      btn.textContent = 'Sending Code...';
+      try {
+        const result = await sendEmailOtpCode(email);
+        const notice = document.getElementById('cpSentNotice');
+        if (notice) notice.textContent = result.message;
+        updateStepBadges('cp', 2);
+        document.getElementById('cpCodeInput')?.focus();
+        showToast('Verification code sent to email', 'success');
+      } catch (err) {
+        showCpMsg(err.message, true);
+        showToast(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send Verification Code';
+      }
+    });
+
+    document.getElementById('btnCpResendCode')?.addEventListener('click', async () => {
+      const email = document.getElementById('cpEmailInput')?.value || '';
+      const btn = document.getElementById('btnCpResendCode');
+      showCpMsg('');
+      btn.disabled = true;
+      btn.textContent = 'Resending...';
+      try {
+        const result = await sendEmailOtpCode(email);
+        const notice = document.getElementById('cpSentNotice');
+        if (notice) notice.textContent = result.message;
+        showCpMsg(result.cooldown ? 'Please check your inbox or wait 60 seconds before requesting another code.' : 'New verification code sent.', false);
+      } catch (err) {
+        showCpMsg(err.message, true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Resend Verification Code';
+      }
+    });
+
+    document.getElementById('btnCpVerifyCode')?.addEventListener('click', async () => {
+      const email = document.getElementById('cpEmailInput')?.value || '';
+      const code = document.getElementById('cpCodeInput')?.value || '';
+      const btn = document.getElementById('btnCpVerifyCode');
+      showCpMsg('');
+      btn.disabled = true;
+      btn.textContent = 'Verifying...';
+      try {
+        verifiedChangeSession = await verifyEmailOtpCode(email, code);
+        updateStepBadges('cp', 3);
+        document.getElementById('inputNewPassword')?.focus();
+        showToast('Code verified. Enter your new password.', 'success');
+      } catch (err) {
+        showCpMsg(err.message, true);
+        showToast(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Verify Code';
+      }
+    });
+
     document.getElementById('btnSubmitPasswordChange')?.addEventListener('click', async () => {
-      const newPwd = document.getElementById('inputNewPassword').value.trim();
-      const confirmPwd = document.getElementById('inputConfirmPassword').value.trim();
-      const msg = document.getElementById('passwordChangeMsg');
+      const newPwd = (document.getElementById('inputNewPassword')?.value || '').trim();
+      const confirmPwd = (document.getElementById('inputConfirmPassword')?.value || '').trim();
       const btn = document.getElementById('btnSubmitPasswordChange');
-
-      if (!newPwd || newPwd.length < 8) {
-        if (msg) {
-          msg.textContent = 'Password must be at least 8 characters long.';
-          msg.style.color = '#ef4444';
-          msg.style.display = 'block';
-        }
-        return;
-      }
-      if (newPwd !== confirmPwd) {
-        if (msg) {
-          msg.textContent = 'Passwords do not match.';
-          msg.style.color = '#ef4444';
-          msg.style.display = 'block';
-        }
-        return;
-      }
-
+      showCpMsg('');
       btn.disabled = true;
       btn.textContent = 'Updating...';
-
       try {
-        const token = getAdminToken();
-        const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
-          method: 'PUT',
-          headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ password: newPwd })
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data.msg || data.message || data.error_description || 'Password update failed');
-        }
-
+        await updatePasswordWithSession(verifiedChangeSession, newPwd, confirmPwd);
         showToast('Password changed successfully!', 'success');
-        const authPass = document.getElementById('authPassword');
-        if (authPass) authPass.value = newPwd;
         closeChangePasswordModal();
       } catch (err) {
-        if (msg) {
-          msg.textContent = err.message;
-          msg.style.color = '#ef4444';
-          msg.style.display = 'block';
-        }
+        showCpMsg(err.message, true);
         showToast(err.message, 'error');
       } finally {
         btn.disabled = false;
@@ -3654,31 +4138,19 @@ Youth &amp; Cultural Programs</textarea>
       }
     });
 
-    // Forgot password recovery link
-    document.getElementById('btnForgotPassword')?.addEventListener('click', async (e) => {
-      e.preventDefault();
-      const emailInput = document.getElementById('authEmail');
-      const email = (emailInput ? emailInput.value.trim() : '') || 'enniscorthyeia@gmail.com';
-
-      try {
-        const res = await fetch(`${SUPABASE_URL}/auth/v1/recover`, {
-          method: 'POST',
-          headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email })
-        });
-        if (res.ok) {
-          showToast(`Password reset email sent to ${email}`, 'success');
-        } else {
-          const data = await res.json();
-          throw new Error(data.msg || data.message || 'Failed to send reset link');
-        }
-      } catch (err) {
-        showToast(err.message, 'error');
+    // Automatically detect recovery token in URL hash if opened from an email link
+    if (window.location.hash && window.location.hash.includes('access_token=')) {
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      const hashToken = hashParams.get('access_token');
+      const hashType = hashParams.get('type');
+      const hashRefresh = hashParams.get('refresh_token') || '';
+      if (hashToken && (hashType === 'recovery' || hashType === 'magiclink')) {
+        verifiedResetSession = { access_token: hashToken, refresh_token: hashRefresh };
+        authModal.style.display = 'flex';
+        openResetPasswordView(3);
+        history.replaceState(null, '', window.location.pathname);
       }
-    });
+    }
 
     document.getElementById('btnPublishLive')?.addEventListener('click', async () => {
       const btn = document.getElementById('btnPublishLive');
@@ -5317,14 +5789,15 @@ Youth &amp; Cultural Programs</textarea>
         guidePlaces.forEach((p, idx) => {
           const item = document.createElement('div');
           item.className = 'pitch-guide-card';
+          const safeMapUrl = (p.mapUrl && /^https?:\/\//i.test(p.mapUrl)) ? escapeHtml(p.mapUrl) : '#';
           item.innerHTML = `
             <div class="pitch-guide-head">
-              <div class="pitch-guide-num">${p.number || (idx+1)}</div>
-              <span class="pitch-guide-tag">${p.tag || 'Attraction'}</span>
+              <div class="pitch-guide-num">${escapeHtml(p.number || (idx+1))}</div>
+              <span class="pitch-guide-tag">${escapeHtml(p.tag || 'Attraction')}</span>
             </div>
-            <h4>${p.name}</h4>
-            <p>${p.description}</p>
-            <a href="${p.mapUrl || '#'}" target="_blank">View on Map &rarr;</a>
+            <h4>${escapeHtml(p.name)}</h4>
+            <p>${escapeHtml(p.description)}</p>
+            <a href="${safeMapUrl}" target="_blank" rel="noopener noreferrer">View on Map &rarr;</a>
           `;
           prevGrid.appendChild(item);
         });
@@ -5341,26 +5814,26 @@ Youth &amp; Cultural Programs</textarea>
         card.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <div style="display:flex; align-items:center; gap:8px;">
-              <span class="guide-num-badge">${p.number || (idx + 1)}</span>
-              <strong style="color:#fff; font-size:0.95rem;">${p.name}</strong>
+              <span class="guide-num-badge">${escapeHtml(p.number || (idx + 1))}</span>
+              <strong style="color:#fff; font-size:0.95rem;">${escapeHtml(p.name)}</strong>
             </div>
-            <span class="role-pill" style="margin:0;">${p.tag}</span>
+            <span class="role-pill" style="margin:0;">${escapeHtml(p.tag)}</span>
           </div>
           <div class="form-group" style="margin-bottom:4px;">
             <label class="form-label" style="font-size:0.68rem;">Attraction Name</label>
-            <input type="text" class="form-control place-name-input" data-idx="${idx}" value="${p.name}">
+            <input type="text" class="form-control place-name-input" data-idx="${idx}" value="${escapeHtml(p.name)}">
           </div>
           <div class="form-group" style="margin-bottom:4px;">
             <label class="form-label" style="font-size:0.68rem;">Tag / Category</label>
-            <input type="text" class="form-control place-tag-input" data-idx="${idx}" value="${p.tag}">
+            <input type="text" class="form-control place-tag-input" data-idx="${idx}" value="${escapeHtml(p.tag)}">
           </div>
           <div class="form-group" style="margin-bottom:4px;">
             <label class="form-label" style="font-size:0.68rem;">Description</label>
-            <textarea class="form-control place-desc-input" data-idx="${idx}">${p.description}</textarea>
+            <textarea class="form-control place-desc-input" data-idx="${idx}">${escapeHtml(p.description)}</textarea>
           </div>
           <div class="form-group" style="margin-bottom:0;">
             <label class="form-label" style="font-size:0.68rem;">Google Maps URL</label>
-            <input type="text" class="form-control place-map-input" data-idx="${idx}" value="${p.mapUrl}">
+            <input type="text" class="form-control place-map-input" data-idx="${idx}" value="${escapeHtml(p.mapUrl)}">
           </div>
         `;
         grid.appendChild(card);

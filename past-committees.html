@@ -530,6 +530,16 @@
   <script>
     const SUPABASE_URL = 'https://qsompirzrlbagnqpduov.supabase.co';
 
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
     let pastCommittees = {
       "2025": [
         { name: "Biju V Sreedharan (Late)", role: "Executive Member" },
@@ -604,7 +614,7 @@
       meta.innerHTML = `${members.length} Members &bull; AGM Confirmed`;
 
       if (members.length === 0) {
-        grid.innerHTML = `<div class="no-results">No records found for year ${selectedYear}.</div>`;
+        grid.innerHTML = `<div class="no-results">No records found for year ${escapeHtml(selectedYear)}.</div>`;
         return;
       }
 
@@ -616,10 +626,10 @@
         card.className = `member-card ${isPresident ? 'president' : ''}`;
         card.innerHTML = `
           <div>
-            <span class="member-role-badge">${m.role}</span>
-            <div class="member-name">${cleanName}${isLate ? ' <span style="font-size:10px; font-weight:700; color:#FAF0D0; background:#2D2620; padding:1px 6px; border-radius:4px; margin-left:4px; vertical-align:middle; border:1px solid rgba(197,155,39,0.5);">Late</span>' : ''}</div>
+            <span class="member-role-badge">${escapeHtml(m.role)}</span>
+            <div class="member-name">${escapeHtml(cleanName)}${isLate ? ' <span style="font-size:10px; font-weight:700; color:#FAF0D0; background:#2D2620; padding:1px 6px; border-radius:4px; margin-left:4px; vertical-align:middle; border:1px solid rgba(197,155,39,0.5);">Late</span>' : ''}</div>
           </div>
-          <div class="member-year-tag">Year ${selectedYear}</div>
+          <div class="member-year-tag">Year ${escapeHtml(selectedYear)}</div>
         `;
         grid.appendChild(card);
       });
