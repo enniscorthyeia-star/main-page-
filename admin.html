@@ -1889,6 +1889,8 @@
       <button class="nav-item" data-view="view-testimonials"><span class="sec-num">11</span> Member Voices</button>
       <button class="nav-item" data-view="view-partners"><span class="sec-num">12</span> Partners &amp; Sponsors</button>
       <button class="nav-item" data-view="view-settings"><span class="sec-num">13</span> Header &amp; Footer</button>
+      <div class="sidebar-section-title" style="margin-top:14px;">Data &amp; Registrations</div>
+      <button class="nav-item" id="sidebarBtnHub" type="button" onclick="openAllSubmissionsModal()"><span class="sec-num" style="background:var(--gold); color:#111; font-weight:700;">📋</span> RSVPs &amp; Enquiries</button>
     </aside>
 
     <!-- MAIN VIEW AREA -->
@@ -2539,6 +2541,7 @@
             <p class="view-desc">Annual calendar, Grand Onam, Cricket tournaments, Diwali &amp; live RSVPs (Powered by Supabase)</p>
           </div>
           <div class="view-header-actions">
+            <button type="button" class="btn btn-gold btn-sm" id="btnOpenSubmissionsHub" onclick="openAllSubmissionsModal()">📋 RSVPs &amp; Enquiries Hub</button>
             <button class="btn btn-outline-gold btn-sm" id="btnReloadEvents">Reload from Supabase</button>
             <button class="btn btn-outline-gold btn-sm btn-undo-events">Undo Changes</button>
             <button class="btn btn-gold" id="btnAddEvent">+ Add Event</button>
@@ -3198,9 +3201,57 @@ Youth &amp; Cultural Programs</textarea>
       <div class="modal-body" style="max-height:65vh; overflow-y:auto;">
         <div id="rsvpsModalList"></div>
       </div>
-      <div class="modal-footer" style="justify-content:space-between;">
-        <button type="button" class="btn btn-danger-outline btn-xs" id="btnClearEventRsvps">Clear All RSVPs for this Event</button>
+      <div class="modal-footer" style="justify-content:space-between; flex-wrap:wrap; gap:8px;">
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button type="button" class="btn btn-gold btn-xs" id="btnExportEventRsvpsCsv">📥 Download Spreadsheet (.CSV)</button>
+          <button type="button" class="btn btn-danger-outline btn-xs" id="btnClearEventRsvps">Clear All RSVPs for this Event</button>
+        </div>
         <button type="button" class="btn btn-outline-gold" onclick="closeEventRsvpsModal()">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Master Registrations & Enquiries Hub Modal -->
+  <div class="modal" id="allSubmissionsModal">
+    <div class="modal-dialog" style="max-width:880px;">
+      <div class="modal-header" style="align-items:flex-start;">
+        <div>
+          <h3 style="font-family:'Fraunces', serif; color:#fff; margin:0 0 4px 0;">📋 Registrations &amp; Enquiries Hub</h3>
+          <span style="font-size:12px; color:var(--gold);">Live data stream cleanly separated into independent tables</span>
+        </div>
+        <button type="button" class="btn btn-outline-gold btn-xs" onclick="closeAllSubmissionsModal()">Close</button>
+      </div>
+      <div class="modal-body" style="max-height:68vh; overflow-y:auto; padding:18px;">
+        <!-- Hub Navigation Tabs -->
+        <div style="display:flex; gap:10px; margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.12); padding-bottom:12px;">
+          <button type="button" class="btn btn-gold btn-sm" id="tabBtnHubRsvps" onclick="switchHubTab('rsvps')">🎟️ Event Registrations (<span id="hubRsvpsCountBadge">0</span>)</button>
+          <button type="button" class="btn btn-outline-gold btn-sm" id="tabBtnHubEnquiries" onclick="switchHubTab('enquiries')">💬 General Enquiries (<span id="hubEnquiriesCountBadge">0</span>)</button>
+        </div>
+
+        <!-- PANE 1: EVENT RSVPs -->
+        <div id="hubPaneRsvps">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
+            <input type="text" id="hubRsvpsSearch" class="form-control" placeholder="Search by name, event, email, or phone..." style="max-width:300px; font-size:12px; padding:6px 10px;">
+            <button type="button" class="btn btn-gold btn-xs" id="btnExportAllRsvpsCsv">📥 Download All Event Registrations (.CSV)</button>
+          </div>
+          <div id="hubRsvpsListWrap"></div>
+        </div>
+
+        <!-- PANE 2: GENERAL ENQUIRIES -->
+        <div id="hubPaneEnquiries" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
+            <input type="text" id="hubEnquiriesSearch" class="form-control" placeholder="Search by sender or message..." style="max-width:300px; font-size:12px; padding:6px 10px;">
+            <div style="display:flex; gap:8px; align-items:center;">
+              <a href="https://docs.google.com/spreadsheets/d/1mMdxPxdrZawase1gtK2R7CZhwgHrzxcZ_uCZJ5gDg7E/edit" target="_blank" rel="noopener noreferrer" class="btn btn-outline-gold btn-xs">🔗 Open Google Sheet</a>
+              <button type="button" class="btn btn-gold btn-xs" id="btnExportEnquiriesCsv">📥 Download Enquiries (.CSV)</button>
+            </div>
+          </div>
+          <div id="hubEnquiriesListWrap"></div>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content:space-between;">
+        <span style="font-size:11px; color:var(--text-dim);">Files download as standard CSV spreadsheets compatible with Microsoft Excel, Apple Numbers &amp; Google Sheets.</span>
+        <button type="button" class="btn btn-outline-gold" onclick="closeAllSubmissionsModal()">Done</button>
       </div>
     </div>
   </div>
@@ -3537,7 +3588,7 @@ Youth &amp; Cultural Programs</textarea>
     }
 
     // Tab Navigation
-    document.querySelectorAll('.nav-item').forEach(btn => {
+    document.querySelectorAll('.nav-item[data-view]').forEach(btn => {
       btn.onclick = () => {
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -6087,6 +6138,347 @@ Youth &amp; Cultural Programs</textarea>
       renderEventsAdmin();
       showToast('All RSVPs cleared for this event', 'info');
     };
+
+    // CSV Downloader Utility
+    function downloadCsv(filename, rows) {
+      const processRow = (row) => row.map(val => {
+        let text = (val === null || val === undefined) ? '' : String(val);
+        text = text.replace(/"/g, '""');
+        return `"${text}"`;
+      }).join(',');
+
+      const csvContent = '\uFEFF' + rows.map(processRow).join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+    }
+
+    // Export CSV for single active event in eventRsvpsModal
+    const btnExpSingle = document.getElementById('btnExportEventRsvpsCsv');
+    if (btnExpSingle) {
+      btnExpSingle.onclick = () => {
+        if (!activeViewingRsvpEventId) return;
+        const ev = eventsList.find(e => e.id === activeViewingRsvpEventId);
+        const title = ev ? ev.title : activeViewingRsvpEventId;
+        const rsvps = (allEventRsvps && Array.isArray(allEventRsvps[activeViewingRsvpEventId])) ? allEventRsvps[activeViewingRsvpEventId] : [];
+        if (rsvps.length === 0) {
+          showToast('No RSVPs to export for this event.', 'warning');
+          return;
+        }
+        const rows = [
+          ['Timestamp', 'Event Title', 'Guest Name', 'Email', 'Phone', 'Attendees Count', 'Member Status', 'Dietary / Notes']
+        ];
+        rsvps.forEach(r => {
+          rows.push([
+            r.submitted_at || r.timestamp || new Date().toISOString().replace('T', ' ').substring(0, 19),
+            title,
+            r.name || 'Guest',
+            r.email || '',
+            r.phone || '',
+            parseInt(r.attendees, 10) || 1,
+            r.memberStatus || r.member_status || 'guest',
+            r.notes || ''
+          ]);
+        });
+        const cleanTitle = title.replace(/[^a-zA-Z0-9_-]/g, '_');
+        downloadCsv(`EIA_RSVPs_${cleanTitle}.csv`, rows);
+        showToast(`Downloaded ${rsvps.length} registrations for "${title}"`, 'success');
+      };
+    }
+
+    // Master Registrations & Enquiries Hub Logic
+    let cachedHubRsvps = [];
+    let cachedHubEnquiries = [];
+
+    window.closeAllSubmissionsModal = () => {
+      const modal = document.getElementById('allSubmissionsModal');
+      if (modal) modal.classList.remove('active');
+    };
+
+    window.switchHubTab = (tab) => {
+      const btnR = document.getElementById('tabBtnHubRsvps');
+      const btnE = document.getElementById('tabBtnHubEnquiries');
+      const paneR = document.getElementById('hubPaneRsvps');
+      const paneE = document.getElementById('hubPaneEnquiries');
+
+      if (tab === 'enquiries') {
+        if (btnR) { btnR.className = 'btn btn-outline-gold btn-sm'; }
+        if (btnE) { btnE.className = 'btn btn-gold btn-sm'; }
+        if (paneR) paneR.style.display = 'none';
+        if (paneE) paneE.style.display = 'block';
+      } else {
+        if (btnR) { btnR.className = 'btn btn-gold btn-sm'; }
+        if (btnE) { btnE.className = 'btn btn-outline-gold btn-sm'; }
+        if (paneR) paneR.style.display = 'block';
+        if (paneE) paneE.style.display = 'none';
+      }
+    };
+
+    function renderHubRsvps(filterText = '') {
+      const wrap = document.getElementById('hubRsvpsListWrap');
+      if (!wrap) return;
+
+      const q = (filterText || '').toLowerCase().trim();
+      const filtered = cachedHubRsvps.filter(r => {
+        if (!q) return true;
+        return (r.name && r.name.toLowerCase().includes(q)) ||
+               (r.eventTitle && r.eventTitle.toLowerCase().includes(q)) ||
+               (r.email && r.email.toLowerCase().includes(q)) ||
+               (r.phone && r.phone.toLowerCase().includes(q)) ||
+               (r.notes && r.notes.toLowerCase().includes(q));
+      });
+
+      if (filtered.length === 0) {
+        wrap.innerHTML = `
+          <div style="text-align:center; padding:36px 16px; color:var(--text-dim); font-size:0.85rem;">
+            ${cachedHubRsvps.length === 0 ? 'No event registrations recorded yet.' : 'No registrations match your search.'}
+          </div>
+        `;
+        return;
+      }
+
+      wrap.innerHTML = `
+        <table style="width:100%; border-collapse:collapse; font-size:0.8rem; color:var(--text-light); text-align:left;">
+          <thead>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.15); color:var(--gold);">
+              <th style="padding:8px 6px;">Event</th>
+              <th style="padding:8px 6px;">Guest Name</th>
+              <th style="padding:8px 6px;">Contact</th>
+              <th style="padding:8px 6px; text-align:center;">Guests</th>
+              <th style="padding:8px 6px;">Status</th>
+              <th style="padding:8px 6px;">Notes</th>
+              <th style="padding:8px 6px; text-align:right;">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filtered.map(r => `
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+                <td style="padding:8px 6px; color:var(--gold); font-weight:600; font-size:0.75rem;">${escapeHtml(r.eventTitle || 'Community Event')}</td>
+                <td style="padding:8px 6px; color:#fff; font-weight:600;">${escapeHtml(r.name || 'Guest')}</td>
+                <td style="padding:8px 6px; font-size:0.75rem; color:var(--text-muted);">
+                  <div>${escapeHtml(r.email || '')}</div>
+                  <div>${escapeHtml(r.phone || '')}</div>
+                </td>
+                <td style="padding:8px 6px; text-align:center; font-weight:700; color:var(--gold);">${parseInt(r.attendees, 10) || 1}</td>
+                <td style="padding:8px 6px;"><span class="role-pill" style="margin:0; font-size:0.65rem;">${escapeHtml(r.memberStatus || 'guest')}</span></td>
+                <td style="padding:8px 6px; font-size:0.75rem; color:var(--text-muted); max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${escapeHtml(r.notes || '')}">${escapeHtml(r.notes || '-')}</td>
+                <td style="padding:8px 6px; text-align:right; font-size:0.72rem; color:var(--text-dim); white-space:nowrap;">${escapeHtml(r.timestamp ? String(r.timestamp).substring(0, 16) : '')}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function renderHubEnquiries(filterText = '') {
+      const wrap = document.getElementById('hubEnquiriesListWrap');
+      if (!wrap) return;
+
+      const q = (filterText || '').toLowerCase().trim();
+      const filtered = cachedHubEnquiries.filter(e => {
+        if (!q) return true;
+        return (e.name && e.name.toLowerCase().includes(q)) ||
+               (e.email && e.email.toLowerCase().includes(q)) ||
+               (e.message && e.message.toLowerCase().includes(q));
+      });
+
+      if (filtered.length === 0) {
+        wrap.innerHTML = `
+          <div style="text-align:center; padding:36px 16px; color:var(--text-dim); font-size:0.85rem;">
+            ${cachedHubEnquiries.length === 0 ? 'No website enquiries received yet.' : 'No enquiries match your search.'}
+          </div>
+        `;
+        return;
+      }
+
+      wrap.innerHTML = `
+        <table style="width:100%; border-collapse:collapse; font-size:0.8rem; color:var(--text-light); text-align:left;">
+          <thead>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.15); color:var(--gold);">
+              <th style="padding:8px 6px; width:130px;">Date</th>
+              <th style="padding:8px 6px; width:140px;">Sender</th>
+              <th style="padding:8px 6px; width:170px;">Email</th>
+              <th style="padding:8px 6px;">Message</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filtered.map(e => `
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+                <td style="padding:8px 6px; font-size:0.72rem; color:var(--text-dim); white-space:nowrap;">${escapeHtml(e.timestamp || '')}</td>
+                <td style="padding:8px 6px; color:#fff; font-weight:600;">${escapeHtml(e.name || 'Anonymous')}</td>
+                <td style="padding:8px 6px; font-size:0.75rem; color:var(--gold);"><a href="mailto:${escapeHtml(e.email)}" style="color:inherit; text-decoration:none;">${escapeHtml(e.email || '')}</a></td>
+                <td style="padding:8px 6px; font-size:0.75rem; color:var(--text-muted); line-height:1.4;">${escapeHtml(e.message || '-')}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    window.openAllSubmissionsModal = async () => {
+      const modal = document.getElementById('allSubmissionsModal');
+      if (!modal) return;
+      modal.classList.add('active');
+
+      // 1. Gather all RSVPs across all events
+      cachedHubRsvps = [];
+      try {
+        const rsvpDbRes = await authenticatedFetch(`${SUPABASE_URL}/rest/v1/event_rsvps?select=*&order=submitted_at.desc`);
+        if (rsvpDbRes && rsvpDbRes.ok) {
+          const rows = await rsvpDbRes.json();
+          if (Array.isArray(rows) && rows.length > 0) {
+            cachedHubRsvps = rows.map(r => {
+              const ev = eventsList.find(e => e.id === r.event_id);
+              return {
+                eventTitle: ev ? ev.title : (r.event_id || 'Community Event'),
+                name: r.name,
+                email: r.email,
+                phone: r.phone,
+                attendees: r.attendees,
+                memberStatus: r.member_status,
+                notes: r.notes,
+                timestamp: r.submitted_at
+              };
+            });
+          }
+        }
+      } catch (err) {
+        console.warn('Supabase DB RSVP query fallback:', err);
+      }
+
+      if (cachedHubRsvps.length === 0 && allEventRsvps) {
+        Object.keys(allEventRsvps).forEach(evId => {
+          const ev = eventsList.find(e => e.id === evId);
+          const evTitle = ev ? ev.title : evId;
+          const list = allEventRsvps[evId] || [];
+          list.forEach(r => {
+            cachedHubRsvps.push({
+              eventTitle: evTitle,
+              name: r.name,
+              email: r.email,
+              phone: r.phone,
+              attendees: r.attendees,
+              memberStatus: r.memberStatus || r.member_status,
+              notes: r.notes,
+              timestamp: r.timestamp || r.submitted_at
+            });
+          });
+        });
+      }
+
+      const rsvpsCountBadge = document.getElementById('hubRsvpsCountBadge');
+      if (rsvpsCountBadge) rsvpsCountBadge.textContent = cachedHubRsvps.length;
+      renderHubRsvps();
+
+      // 2. Fetch Contact Enquiries from Google Sheets Feed
+      cachedHubEnquiries = [];
+      const enqCountBadge = document.getElementById('hubEnquiriesCountBadge');
+      const enqWrap = document.getElementById('hubEnquiriesListWrap');
+      if (enqWrap) {
+        enqWrap.innerHTML = '<div style="text-align:center; padding:24px; color:var(--text-dim); font-size:0.85rem;">Loading enquiries from Google Sheet...</div>';
+      }
+
+      try {
+        const sheetRes = await fetch('https://docs.google.com/spreadsheets/d/1mMdxPxdrZawase1gtK2R7CZhwgHrzxcZ_uCZJ5gDg7E/gviz/tq?tqx=out:json');
+        if (sheetRes.ok) {
+          const txt = await sheetRes.text();
+          const json = JSON.parse(txt.substring(txt.indexOf('{'), txt.lastIndexOf('}') + 1));
+          if (json && json.table && Array.isArray(json.table.rows)) {
+            json.table.rows.forEach(r => {
+              const c = r.c || [];
+              const timestamp = c[0] ? (c[0].f || String(c[0].v || '')) : '';
+              const name = c[1] ? String(c[1].v || '') : '';
+              const email = c[2] ? String(c[2].v || '') : '';
+              const msg = c[3] ? String(c[3].v || '') : '';
+              const ua = c[4] ? String(c[4].v || '') : '';
+              if (!name.startsWith('[RSVP]') && (msg || !name.startsWith('Test'))) {
+                cachedHubEnquiries.unshift({ timestamp, name, email, message: msg, userAgent: ua });
+              }
+            });
+          }
+        }
+      } catch (sheetErr) {
+        console.warn('Google Sheet feed load notice:', sheetErr);
+      }
+
+      if (enqCountBadge) enqCountBadge.textContent = cachedHubEnquiries.length;
+      renderHubEnquiries();
+    };
+
+    // Filter Search Listeners
+    const searchRsvps = document.getElementById('hubRsvpsSearch');
+    if (searchRsvps) {
+      searchRsvps.oninput = (e) => renderHubRsvps(e.target.value);
+    }
+    const searchEnq = document.getElementById('hubEnquiriesSearch');
+    if (searchEnq) {
+      searchEnq.oninput = (e) => renderHubEnquiries(e.target.value);
+    }
+
+    // Export All RSVPs
+    const btnExpAllRsvps = document.getElementById('btnExportAllRsvpsCsv');
+    if (btnExpAllRsvps) {
+      btnExpAllRsvps.onclick = () => {
+        if (cachedHubRsvps.length === 0) {
+          showToast('No RSVPs recorded to export.', 'warning');
+          return;
+        }
+        const rows = [
+          ['Timestamp', 'Event Title', 'Guest Name', 'Email', 'Phone', 'Attendees Count', 'Member Status', 'Dietary / Notes']
+        ];
+        cachedHubRsvps.forEach(r => {
+          rows.push([
+            r.timestamp || new Date().toISOString().replace('T', ' ').substring(0, 19),
+            r.eventTitle || 'Community Event',
+            r.name || 'Guest',
+            r.email || '',
+            r.phone || '',
+            parseInt(r.attendees, 10) || 1,
+            r.memberStatus || 'guest',
+            r.notes || ''
+          ]);
+        });
+        downloadCsv('EIA_All_Event_Registrations.csv', rows);
+        showToast(`Downloaded ${cachedHubRsvps.length} registrations spreadsheet!`, 'success');
+      };
+    }
+
+    // Export Enquiries
+    const btnExpEnq = document.getElementById('btnExportEnquiriesCsv');
+    if (btnExpEnq) {
+      btnExpEnq.onclick = () => {
+        if (cachedHubEnquiries.length === 0) {
+          showToast('No enquiries to export.', 'warning');
+          return;
+        }
+        const rows = [
+          ['Timestamp', 'Sender Name', 'Email', 'Message', 'Source']
+        ];
+        cachedHubEnquiries.forEach(e => {
+          rows.push([
+            e.timestamp || '',
+            e.name || 'Anonymous',
+            e.email || '',
+            e.message || '',
+            e.userAgent || 'Website Form'
+          ]);
+        });
+        downloadCsv('EIA_Contact_Enquiries.csv', rows);
+        showToast(`Downloaded ${cachedHubEnquiries.length} enquiries spreadsheet!`, 'success');
+      };
+    }
+
+    const sidebarHub = document.getElementById('sidebarBtnHub');
+    if (sidebarHub) sidebarHub.onclick = () => openAllSubmissionsModal();
+
+    const sec7Hub = document.getElementById('btnOpenSubmissionsHub');
+    if (sec7Hub) sec7Hub.onclick = () => openAllSubmissionsModal();
 
     function listenEvents() {
       loadEventsFromSupabase();

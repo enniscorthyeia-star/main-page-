@@ -3951,7 +3951,13 @@
             method: 'POST',
             mode: 'no-cors',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, message, userAgent: navigator.userAgent })
+            body: JSON.stringify({
+              type: 'enquiry',
+              name: `[ENQUIRY] ${name}`,
+              email,
+              message,
+              userAgent: 'Contact Form'
+            })
           });
         } catch (err) {
           console.warn('Google Sheets enquiry dispatch notice:', err);
@@ -4030,6 +4036,14 @@
 
         // Backup dispatch to Google Sheets webhook
         if (typeof GOOGLE_SHEETS_CONTACT_URL !== 'undefined' && GOOGLE_SHEETS_CONTACT_URL) {
+          const rsvpDetails = [
+            `Event: ${currentRsvpEvent.title || 'Community Event'}`,
+            `Guests: ${attendees}`,
+            `Status: ${memberStatus}`,
+            phone ? `Phone: ${phone}` : null,
+            notes ? `Notes: ${notes}` : null
+          ].filter(Boolean).join(' | ');
+
           fetch(GOOGLE_SHEETS_CONTACT_URL, {
             method: 'POST',
             mode: 'no-cors',
@@ -4038,12 +4052,14 @@
               type: 'event_rsvp',
               eventId: currentRsvpEvent.id,
               eventTitle: currentRsvpEvent.title,
-              name,
+              name: `[RSVP] ${name} (${attendees} ${attendees === 1 ? 'guest' : 'guests'})`,
               email,
               phone,
               attendees,
               memberStatus,
-              notes
+              notes,
+              message: rsvpDetails,
+              userAgent: 'Event RSVP'
             })
           }).catch(() => {});
         }
