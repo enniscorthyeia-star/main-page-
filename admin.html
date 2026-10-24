@@ -3237,7 +3237,7 @@ Youth &amp; Cultural Programs</textarea>
 
     // ── SUPABASE CONFIG & CLIENT-SIDE UTILS ──
     const SUPABASE_URL = 'https://qsompirzrlbagnqpduov.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_9wbT1nR7ARaPnrvMYJ_R2w_0nOrHv6F';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzb21waXJ6cmxiYWducXBkdW92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3MzA3MjIsImV4cCI6MjEwODMwNjcyMn0.ju0Ez8f9Vq8v7EwKPFMxDO1kBLUs8198N7esuo0x12k';
 
     // XSS Sanitizer for safe rendering of user/database strings
     function escapeHtml(str) {
@@ -3251,7 +3251,9 @@ Youth &amp; Cultural Programs</textarea>
     }
 
     function getAdminToken() {
-      return sessionStorage.getItem('EIA_ADMIN_TOKEN') || localStorage.getItem('EIA_ADMIN_TOKEN') || SUPABASE_ANON_KEY;
+      const t = sessionStorage.getItem('EIA_ADMIN_TOKEN') || localStorage.getItem('EIA_ADMIN_TOKEN');
+      if (t && t.length > 50) return t;
+      return SUPABASE_ANON_KEY;
     }
 
     function requireAdminKey() {
@@ -3262,9 +3264,9 @@ Youth &amp; Cultural Programs</textarea>
       return getAdminToken();
     }
 
-    // Dynamic getter so all database & storage calls use the long-lived anon key with disabled RLS
+    // Dynamic getter returning active JWT admin token for authorized storage/DB writes
     Object.defineProperty(window, 'SUPABASE_SERVICE_KEY', {
-      get: () => SUPABASE_ANON_KEY
+      get: () => getAdminToken()
     });
 
     // Client-side in-browser WebP converter
@@ -3557,13 +3559,35 @@ Youth &amp; Cultural Programs</textarea>
       }
     });
 
-    // Check active session on load
-    function checkAdminSession() {
-      const email = sessionStorage.getItem('EIA_ADMIN_EMAIL') || localStorage.getItem('EIA_ADMIN_EMAIL') || 'admin@eiawexford.org';
-      sessionStorage.setItem('EIA_ADMIN_EMAIL', email);
-      localStorage.setItem('EIA_ADMIN_EMAIL', email);
-      sessionStorage.setItem('EIA_ADMIN_TOKEN', SUPABASE_ANON_KEY);
-      localStorage.setItem('EIA_ADMIN_TOKEN', SUPABASE_ANON_KEY);
+    // Check active session on load & auto-authenticate with Supabase
+    async function checkAdminSession() {
+      let token = sessionStorage.getItem('EIA_ADMIN_TOKEN') || localStorage.getItem('EIA_ADMIN_TOKEN');
+      let email = sessionStorage.getItem('EIA_ADMIN_EMAIL') || localStorage.getItem('EIA_ADMIN_EMAIL') || 'admin@eiawexford.org';
+
+      if (!token || token === SUPABASE_ANON_KEY || token.length < 100) {
+        try {
+          const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: 'admin@eiawexford.org', password: 'EIAwexford2026!' })
+          });
+          if (res.ok) {
+            const data = await res.json();
+            token = data.access_token;
+            email = data.user.email;
+            sessionStorage.setItem('EIA_ADMIN_TOKEN', token);
+            localStorage.setItem('EIA_ADMIN_TOKEN', token);
+            sessionStorage.setItem('EIA_ADMIN_EMAIL', email);
+            localStorage.setItem('EIA_ADMIN_EMAIL', email);
+          }
+        } catch (e) {
+          console.warn('Auto admin login failed:', e);
+        }
+      }
+
       authModal.style.display = 'none';
       userEmailBadge.textContent = email;
     }
@@ -3589,9 +3613,10 @@ Youth &amp; Cultural Programs</textarea>
       listenSettings();
     }
 
-    // Always run session check and load all data immediately on page startup
-    checkAdminSession();
-    loadAllData();
+    // Always run session check and load all data on page startup
+    checkAdminSession().finally(() => {
+      loadAllData();
+    });
 
     // ── SECTION 1: HERO STUDIO ──
     let heroButtons = [
@@ -4682,8 +4707,8 @@ Youth &amp; Cultural Programs</textarea>
         const res = await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/current_committee.json`, {
           method: 'POST',
           headers: {
-            'apikey': SUPABASE_SERVICE_KEY,
-            'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${getAdminToken()}`,
             'Content-Type': 'application/json',
             'x-upsert': 'true'
           },
@@ -4879,8 +4904,8 @@ Youth &amp; Cultural Programs</textarea>
             const res = await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/past_committees.json`, {
               method: 'POST',
               headers: {
-                'apikey': SUPABASE_SERVICE_KEY,
-                'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${getAdminToken()}`,
                 'Content-Type': 'application/json',
                 'x-upsert': 'true'
               },
@@ -5302,9 +5327,8 @@ Youth &amp; Cultural Programs</textarea>
 
       // Query PostgreSQL event_rsvps table
       try {
-        const k = (typeof requireAdminKey === 'function') ? requireAdminKey() : SUPABASE_SERVICE_KEY;
         const rsvpRes = await fetch(`${SUPABASE_URL}/rest/v1/event_rsvps?select=*&order=submitted_at.desc`, {
-          headers: { 'apikey': k, 'Authorization': `Bearer ${k}` }
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${getAdminToken()}` }
         });
         if (rsvpRes.ok) {
           const rows = await rsvpRes.json();
@@ -5436,16 +5460,15 @@ Youth &amp; Cultural Programs</textarea>
 
           // Auto-sync deletion to Supabase PostgreSQL table & Storage
           try {
-            const k = (typeof requireAdminKey === 'function') ? requireAdminKey() : SUPABASE_SERVICE_KEY;
             await fetch(`${SUPABASE_URL}/rest/v1/events?id=eq.${encodeURIComponent(ev.id)}`, {
               method: 'DELETE',
-              headers: { 'apikey': k, 'Authorization': `Bearer ${k}` }
+              headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${getAdminToken()}` }
             });
             await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/events.json`, {
               method: 'POST',
               headers: {
-                'apikey': SUPABASE_SERVICE_KEY,
-                'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${getAdminToken()}`,
                 'Content-Type': 'application/json',
                 'x-upsert': 'true'
               },
@@ -5676,8 +5699,8 @@ Youth &amp; Cultural Programs</textarea>
           await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/events.json`, {
             method: 'POST',
             headers: {
-              'apikey': SUPABASE_SERVICE_KEY,
-              'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': `Bearer ${getAdminToken()}`,
               'Content-Type': 'application/json',
               'x-upsert': 'true'
             },
@@ -5760,8 +5783,8 @@ Youth &amp; Cultural Programs</textarea>
             await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/event_rsvps.json`, {
               method: 'POST',
               headers: {
-                'apikey': SUPABASE_SERVICE_KEY,
-                'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${getAdminToken()}`,
                 'Content-Type': 'application/json',
                 'x-upsert': 'true'
               },
@@ -5790,8 +5813,8 @@ Youth &amp; Cultural Programs</textarea>
       await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/event_rsvps.json`, {
         method: 'POST',
         headers: {
-          'apikey': SUPABASE_SERVICE_KEY,
-          'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${getAdminToken()}`,
           'Content-Type': 'application/json',
           'x-upsert': 'true'
         },
@@ -5879,8 +5902,8 @@ Youth &amp; Cultural Programs</textarea>
         const res = await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/events.json`, {
           method: 'POST',
           headers: {
-            'apikey': SUPABASE_SERVICE_KEY,
-            'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${getAdminToken()}`,
             'Content-Type': 'application/json',
             'x-upsert': 'true'
           },
@@ -6264,8 +6287,8 @@ Youth &amp; Cultural Programs</textarea>
       const res = await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/gallery_meta.json`, {
         method: 'POST',
         headers: {
-          'apikey': SUPABASE_SERVICE_KEY,
-          'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${getAdminToken()}`,
           'Content-Type': 'application/json',
           'x-upsert': 'true'
         },
@@ -6341,8 +6364,8 @@ Youth &amp; Cultural Programs</textarea>
               await fetch(`${SUPABASE_URL}/storage/v1/object/gallery`, {
                 method: 'DELETE',
                 headers: {
-                  'apikey': SUPABASE_SERVICE_KEY,
-                  'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+                  'apikey': SUPABASE_ANON_KEY,
+                  'Authorization': `Bearer ${getAdminToken()}`,
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ prefixes: [photo.storageKey] })
@@ -6487,8 +6510,8 @@ Youth &amp; Cultural Programs</textarea>
             const uploadRes = await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/${currentWebPFilename}`, {
               method: 'POST',
               headers: {
-                'apikey': SUPABASE_SERVICE_KEY,
-                'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${getAdminToken()}`,
                 'Content-Type': 'image/webp',
                 'x-upsert': 'true'
               },
@@ -6691,8 +6714,8 @@ Youth &amp; Cultural Programs</textarea>
             const res = await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/testimonials.json`, {
               method: 'POST',
               headers: {
-                'apikey': SUPABASE_SERVICE_KEY,
-                'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${getAdminToken()}`,
                 'Content-Type': 'application/json',
                 'x-upsert': 'true'
               },
@@ -6901,8 +6924,8 @@ Youth &amp; Cultural Programs</textarea>
             const res = await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/site_settings.json`, {
               method: 'POST',
               headers: {
-                'apikey': SUPABASE_SERVICE_KEY,
-                'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${getAdminToken()}`,
                 'Content-Type': 'application/json',
                 'x-upsert': 'true'
               },
