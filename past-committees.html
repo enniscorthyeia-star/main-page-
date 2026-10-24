@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Past Executive Committees | Enniscorthy Indian Association (EIA)</title>
   <meta name="description" content="Explore past executive committee members and foundational leaders of Enniscorthy Indian Association from 2017 to present.">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <link rel="icon" type="image/webp" href="images/logo.webp">
   <link rel="alternate icon" type="image/png" href="images/logo.png">
 
@@ -490,7 +493,7 @@
         <div class="roster-header-title" id="selectedYearTitle">Executive Committee 2025</div>
         <div style="font-size:14px; color:var(--warm-grey); margin-top:2px;">Official Association Leadership Directory</div>
       </div>
-      <div class="roster-header-meta" id="rosterMeta">10 Officers &bull; AGM Confirmed</div>
+      <div class="roster-header-meta" id="rosterMeta">16 Members &bull; AGM Confirmed</div>
     </div>
 
     <div class="roster-grid" id="rosterGrid">
@@ -680,12 +683,13 @@
         matches.forEach(m => {
           const isPresident = m.role.toLowerCase().includes('president');
           const isLate = m.name.toLowerCase().includes('late');
+          const cleanName = m.name.replace(/\s*\(?[Ll]ate\)?/g, '').trim();
           const card = document.createElement('div');
           card.className = `member-card ${isPresident ? 'president' : ''}`;
           card.innerHTML = `
             <div>
               <span class="member-role-badge">${m.role}</span>
-              <div class="member-name">${m.name} ${isLate ? '<span style="font-size:10px; font-weight:700; color:#FAF0D0; background:#2D2620; padding:1px 6px; border-radius:4px; margin-left:4px;">Late</span>' : ''}</div>
+              <div class="member-name">${cleanName}${isLate ? ' <span style="font-size:10px; font-weight:700; color:#FAF0D0; background:#2D2620; padding:1px 6px; border-radius:4px; margin-left:4px; vertical-align:middle; border:1px solid rgba(197,155,39,0.5);">Late</span>' : ''}</div>
             </div>
             <div class="member-year-tag">EIA Committee ${m.year}</div>
           `;
@@ -697,7 +701,7 @@
       // Selected Year View
       title.textContent = `Executive Committee ${selectedYear}`;
       const members = pastCommittees[selectedYear] || [];
-      meta.textContent = `${members.length} Officers &bull; AGM Confirmed`;
+      meta.innerHTML = `${members.length} Members &bull; AGM Confirmed`;
 
       if (members.length === 0) {
         grid.innerHTML = `<div class="no-results">No records found for year ${selectedYear}.</div>`;
@@ -707,12 +711,13 @@
       members.forEach(m => {
         const isPresident = m.role.toLowerCase().includes('president');
         const isLate = m.name.toLowerCase().includes('late');
+        const cleanName = m.name.replace(/\s*\(?[Ll]ate\)?/g, '').trim();
         const card = document.createElement('div');
         card.className = `member-card ${isPresident ? 'president' : ''}`;
         card.innerHTML = `
           <div>
             <span class="member-role-badge">${m.role}</span>
-            <div class="member-name">${m.name} ${isLate ? '<span style="font-size:10px; font-weight:700; color:#FAF0D0; background:#2D2620; padding:1px 6px; border-radius:4px; margin-left:4px;">Late</span>' : ''}</div>
+            <div class="member-name">${cleanName}${isLate ? ' <span style="font-size:10px; font-weight:700; color:#FAF0D0; background:#2D2620; padding:1px 6px; border-radius:4px; margin-left:4px; vertical-align:middle; border:1px solid rgba(197,155,39,0.5);">Late</span>' : ''}</div>
           </div>
           <div class="member-year-tag">Year ${selectedYear}</div>
         `;
