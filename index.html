@@ -3808,6 +3808,9 @@
       });
     }, { threshold: 0.12 });
     revEls.forEach(el => revObs.observe(el));
+    window.reobserveReveals = () => {
+      document.querySelectorAll('[data-r]:not(.vis)').forEach(el => revObs.observe(el));
+    };
 
     // Animated counters
     const counters = document.querySelectorAll('.count');
@@ -4420,12 +4423,13 @@
               const pCards = pilSec.querySelector('.prog-cards');
               if (pCards) {
                 pCards.innerHTML = pil.pillars.map((p, idx) => `
-                  <div class="prog-card" data-r="${idx * 0.1}">
+                  <div class="prog-card vis" data-r="${idx * 0.1}">
                     <img src="${p.imageUrl || 'images/pillar-culture-arts.webp'}" alt="${p.title}" loading="lazy" decoding="async">
                     <span class="label">${p.title}</span>
                     <p style="padding:0 20px 20px;font-size:13px;color:rgba(255,255,255,0.7);">${p.description}</p>
                   </div>
                 `).join('\n');
+                if (window.reobserveReveals) window.reobserveReveals();
               }
             }
           }
@@ -4529,7 +4533,7 @@
               const sGrid = srvSec.querySelector('.services-grid');
               if (sGrid) {
                 sGrid.innerHTML = srv.services.map((s, idx) => `
-                  <div class="service-card" data-r="${idx * 0.1}">
+                  <div class="service-card vis" data-r="${idx * 0.1}">
                     <div class="service-icon">
                       ${s.iconSvg || '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>'}
                     </div>
@@ -4540,6 +4544,7 @@
                     </ul>
                   </div>
                 `).join('\n');
+                if (window.reobserveReveals) window.reobserveReveals();
               }
             }
           }
