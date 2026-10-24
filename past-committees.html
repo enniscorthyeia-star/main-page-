@@ -726,27 +726,9 @@
       renderRoster();
     };
 
-    // Live Supabase loader (100% dynamic from Supabase past_committees.json)
-    async function fetchSupabaseCommittees() {
-      try {
-        const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/gallery/past_committees.json?t=${Date.now()}`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data && typeof data === 'object' && Object.keys(data).length > 0) {
-            pastCommittees = { ...pastCommittees, ...data };
-          }
-          renderYearPills();
-          renderRoster();
-        }
-      } catch (err) {
-        console.warn('Fallback to baseline past committees:', err);
-      }
-    }
-
     // Initialize
     renderYearPills();
     renderRoster();
-    fetchSupabaseCommittees();
   </script>
 </body>
 </html>
