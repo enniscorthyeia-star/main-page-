@@ -2892,7 +2892,7 @@
           </span>
         </div>
 
-        <div class="comm-grid trustees-grid">
+        <div class="comm-grid trustees-grid" id="trusteesGrid">
           <!-- 1. Tom Jose -->
           <div class="comm-card" data-r>
             <div class="comm-photo-wrap">
@@ -3268,7 +3268,7 @@
         </div>
       </div>
 
-      <div class="event-grid">
+      <div class="event-grid" id="eventGrid">
         <!-- 1. Grand Onam Celebration -->
         <div class="event-card" data-r>
           <div class="event-art">
@@ -4024,6 +4024,234 @@
         closeDrawer();
       }
     });
+
+    // ══════════════════════════════════════════════════════
+    // SUPABASE DYNAMIC CMS HYDRATION LAYER
+    // ══════════════════════════════════════════════════════
+    const SUPABASE_URL = 'https://qsompirzrlbagnqpduov.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzb21waXJ6cmxiYWducXBkdW92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3MzA3MjIsImV4cCI6MjEwODMwNjcyMn0.ju0Ez8f9Vq8v7EwKPFMxDO1kBLUs8198N7esuo0x12k';
+
+    // 1. Live Current Committee & Lifetime Trustees Loader
+    (async function loadCMSCurrentCommittee() {
+      const tGrid = document.getElementById('trusteesGrid');
+      const eGrid = document.getElementById('commGrid');
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/committee_members?select=*&order=display_order.asc`, {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'Cache-Control': 'no-cache' }
+        });
+        if (!res.ok) throw new Error('Committee fetch error: ' + res.status);
+        const list = await res.json();
+        if (!Array.isArray(list) || list.length === 0) return;
+
+        const trustees = list.filter(m => m.type === 'trustee');
+        const executives = list.filter(m => m.type === 'executive');
+
+        // Render Trustees
+        if (tGrid && trustees.length > 0) {
+          tGrid.innerHTML = '';
+          trustees.forEach((t) => {
+            const card = document.createElement('div');
+            card.className = 'comm-card vis';
+            const isLate = (t.name && t.name.toLowerCase().includes('late')) || (t.role && t.role.toLowerCase().includes('late'));
+            card.innerHTML = `
+              <div class="comm-photo-wrap">
+                <img src="${t.photo_url || 'images/committee_sq/abin-varghese.webp'}" alt="${t.name} - Lifetime Trustee" loading="lazy">
+                <span class="comm-role-badge ${isLate ? 'memorial' : 'trustee'}">${isLate ? 'Late Trustee' : 'Trustee'}</span>
+              </div>
+              <div class="comm-info">
+                <h4>${t.name}</h4>
+                <span class="designation">${isLate ? 'Lifetime Trustee &bull; In Loving Memory' : 'Lifetime Trustee'}</span>
+              </div>
+            `;
+            tGrid.appendChild(card);
+          });
+        }
+
+        // Render Executives
+        if (eGrid && executives.length > 0) {
+          eGrid.innerHTML = '';
+          executives.forEach((m) => {
+            const card = document.createElement('div');
+            card.className = 'comm-card vis';
+            let badgeClass = '';
+            let badgeText = m.role || 'Member';
+            const rLower = (m.role || '').toLowerCase();
+            if (rLower.includes('patron')) {
+              badgeClass = 'patron';
+              badgeText = 'Patron';
+            } else if (rLower.includes('president') && !rLower.includes('vice')) {
+              badgeClass = 'president';
+              badgeText = 'President';
+            } else if (rLower.includes('vice president')) {
+              badgeText = 'Vice President';
+            } else if (rLower.includes('joint secretary')) {
+              badgeText = 'Joint Secretary';
+            } else if (rLower.includes('secretary')) {
+              badgeText = 'Secretary';
+            } else if (rLower.includes('treasurer')) {
+              badgeText = 'Treasurer';
+            } else if (rLower.includes('auditor')) {
+              badgeText = 'Auditor';
+            } else {
+              badgeText = 'Member';
+            }
+
+            card.innerHTML = `
+              <div class="comm-photo-wrap">
+                <img src="${m.photo_url || 'images/committee_sq/abin-varghese.webp'}" alt="${m.name} — ${m.role}" loading="lazy">
+                <span class="comm-role-badge ${badgeClass}">${badgeText}</span>
+              </div>
+              <div class="comm-info">
+                <h4>${m.name}</h4>
+                <span class="designation">${m.role}</span>
+              </div>
+            `;
+            eGrid.appendChild(card);
+          });
+        }
+      } catch (err) {
+        console.warn('Could not load dynamic committee:', err);
+      }
+    })();
+
+    // 2. Live Events Loader
+    (async function loadCMSEvents() {
+      const grid = document.getElementById('eventGrid');
+      if (!grid) return;
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/events?select=*&order=date.asc`, {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'Cache-Control': 'no-cache' }
+        });
+        if (!res.ok) return;
+        const list = await res.json();
+        if (!Array.isArray(list) || list.length === 0) return;
+
+        grid.innerHTML = '';
+        list.forEach((ev) => {
+          const card = document.createElement('div');
+          card.className = 'event-card vis';
+          const day = ev.display_day || '01';
+          const month = (ev.display_month || '2026').split(' ')[0];
+          const img = ev.image_url || 'images/eia-onam-celebration.webp';
+          const isRsvp = ev.rsvp_enabled !== false;
+          const rLink = ev.rsvp_link || '';
+
+          let rsvpBtnHtml = '';
+          if (isRsvp) {
+            if (ev.rsvp_mode === 'link' && rLink) {
+              rsvpBtnHtml = `<a href="${rLink}" target="_blank" rel="noopener" class="btn btn-amber btn-sm">RSVP / Register &rarr;</a>`;
+            } else {
+              rsvpBtnHtml = `<button type="button" class="btn btn-amber btn-sm" onclick="openEventModal('${(ev.title || '').replace(/'/g, "\\'")}', '${(ev.location || '').replace(/'/g, "\\'")}')">RSVP / Register</button>`;
+            }
+          }
+
+          card.innerHTML = `
+            <div class="event-art">
+              <img src="${img}" alt="${ev.title}" loading="lazy" decoding="async">
+              <div class="event-date">
+                <span class="day">${day}</span>
+                <span class="mo">${month}</span>
+              </div>
+              <span class="event-badge">${ev.badge || 'Event'}</span>
+            </div>
+            <div class="event-body">
+              <h3>${ev.title}</h3>
+              <p>${ev.description || ''}</p>
+              <div class="event-foot">
+                <span>${ev.location || 'County Wexford'}</span>
+                ${rsvpBtnHtml}
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (e) {
+        console.warn('Could not load dynamic events:', e);
+      }
+    })();
+
+    // 3. Live Gallery Loader
+    (async function loadCMSGallery() {
+      const grid = document.getElementById('galGrid');
+      if (!grid) return;
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/gallery?select=*&order=created_at.desc`, {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'Cache-Control': 'no-cache' }
+        });
+        if (!res.ok) return;
+        const items = await res.json();
+        if (!Array.isArray(items) || items.length === 0) return;
+
+        grid.innerHTML = '';
+        items.forEach((photo) => {
+          if (!photo || !photo.url) return;
+          const card = document.createElement('div');
+          card.className = 'gal-item';
+          card.setAttribute('data-cat', photo.category || 'culture');
+          card.onclick = () => openLightbox(photo.url, photo.caption || 'EIA Community Memory');
+          card.innerHTML = `
+            <img src="${photo.url}" alt="${photo.caption || 'EIA Memory'}" loading="lazy" decoding="async">
+            <div class="cap"><span>${photo.caption || 'EIA Memory'}</span></div>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (e) {
+        console.warn('Could not load dynamic gallery:', e);
+      }
+    })();
+
+    // 4. Live Site Content Loader (Storage site_content.json)
+    (async function loadCMSSiteContent() {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/gallery/site_content.json?t=${Date.now()}`);
+        if (!res.ok) return;
+        const d = await res.json();
+
+        // Hero
+        if (d.hero) {
+          const h = d.hero;
+          if (h.kickerText) {
+            const el = document.querySelector('.hero-kicker-tag');
+            if (el) el.textContent = h.kickerText;
+          }
+          if (h.titleLine1 || h.titleLine2) {
+            const h1 = document.querySelector('.hero-inner h1');
+            if (h1) {
+              const l1 = h.titleLine1 || 'Enniscorthy';
+              const l2 = h.titleLine2 || 'Indian Association';
+              h1.innerHTML = `${l1} <span class="text-amber">${l2}</span>`;
+            }
+          }
+          if (Array.isArray(h.mottoItems) && h.mottoItems.length) {
+            const motto = document.querySelector('.hero-motto-strip');
+            if (motto) {
+              motto.innerHTML = h.mottoItems.map(m => `<span>${m}</span>`).join(' <span class="dot">&bull;</span> ');
+            }
+          }
+          if (h.leadParagraph) {
+            const lead = document.querySelector('.hero-lead');
+            if (lead) lead.textContent = h.leadParagraph;
+          }
+        }
+
+        // About Us
+        if (d.about) {
+          const ab = d.about;
+          if (ab.heading) {
+            const el = document.querySelector('#about .about-main h2');
+            if (el) el.textContent = ab.heading;
+          }
+          if (ab.visionTitle || ab.visionQuote) {
+            const vbTitle = document.querySelector('#about .about-vision-box h4');
+            const vbQuote = document.querySelector('#about .about-vision-box p');
+            if (vbTitle && ab.visionTitle) vbTitle.textContent = ab.visionTitle;
+            if (vbQuote && ab.visionQuote) vbQuote.textContent = ab.visionQuote;
+          }
+        }
+      } catch (e) {
+        console.warn('Could not load dynamic site content:', e);
+      }
+    })();
   </script>
 </body>
 

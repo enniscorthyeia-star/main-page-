@@ -4281,12 +4281,12 @@ Youth &amp; Cultural Programs</textarea>
     ];
 
     const defaultTrustees = [
-      { name: "Tom Jose", role: "Lifetime Trustee", photoUrl: "images/committee_sq/tom-jose.webp" },
-      { name: "Late Bijumon Sreedharan", role: "Lifetime Trustee", photoUrl: "images/committee_sq/bijumon-sreedharan.webp" },
-      { name: "Bino Varavumkal", role: "Lifetime Trustee", photoUrl: "images/committee_sq/bino-varavumkal.webp" },
-      { name: "Abin Varghese K", role: "Lifetime Trustee", photoUrl: "images/committee_sq/abin-varghese.webp" },
-      { name: "Sam Abraham", role: "Lifetime Trustee", photoUrl: "images/committee_sq/sam-abraham.webp" },
-      { name: "Jomon K Paul", role: "Lifetime Trustee", photoUrl: "images/committee_sq/jomon-paul.webp" }
+      { id: 1, name: "Tom Jose", role: "Lifetime Trustee", photoUrl: "images/committee_sq/tom-jose.webp", displayOrder: 0 },
+      { id: 2, name: "Late Biju V Sreedharan", role: "Lifetime Trustee", photoUrl: "images/committee_sq/bijumon-sreedharan.webp", displayOrder: 1 },
+      { id: 3, name: "Bino Varavumkal", role: "Lifetime Trustee", photoUrl: "images/committee_sq/bino-varavumkal.webp", displayOrder: 2 },
+      { id: 4, name: "Abin Varghese K", role: "Lifetime Trustee", photoUrl: "images/committee_sq/abin-varghese.webp", displayOrder: 3 },
+      { id: 5, name: "Sam Abraham", role: "Lifetime Trustee", photoUrl: "images/committee_sq/sam-abraham.webp", displayOrder: 4 },
+      { id: 6, name: "Jomon K Paul", role: "Lifetime Trustee", photoUrl: "images/committee_sq/jomon-paul.webp", displayOrder: 5 }
     ];
 
     let committeeMembersList = [...default15Members];
@@ -4615,29 +4615,80 @@ Youth &amp; Cultural Programs</textarea>
           existingMember = (type === 'trustee') ? trusteesList[parseInt(editIdx, 10)] : committeeMembersList[parseInt(editIdx, 10)];
         }
 
+        const memberId = (existingMember && existingMember.id) ? existingMember.id : (type === 'trustee' ? (parseInt(editIdx, 10) + 1) : null);
+
         const payload = {
           name,
           role,
           type,
           photo_url: photoUrl,
-          display_order: (type === 'trustee') ? (existingMember ? existingMember.displayOrder : trusteesList.length) : (parseInt(document.getElementById('modal_member_order').value, 10) || 100 + committeeMembersList.length)
+          display_order: (type === 'trustee') ? (existingMember && existingMember.displayOrder !== undefined ? existingMember.displayOrder : parseInt(editIdx, 10) || 0) : (parseInt(document.getElementById('modal_member_order').value, 10) || 100 + committeeMembersList.length)
         };
 
-        if (existingMember && existingMember.id) {
-          const res = await fetch(`${SUPABASE_URL}/rest/v1/committee_members?id=eq.${existingMember.id}`, {
+        if (memberId) {
+          payload.id = memberId;
+          const res = await fetch(`${SUPABASE_URL}/rest/v1/committee_members?id=eq.${memberId}`, {
             method: 'PATCH',
             headers,
             body: JSON.stringify(payload)
           });
-          if (!res.ok) throw new Error(await res.text());
+          if (!res.ok) {
+            // Upsert on conflict id if patch found 0 rows
+            await fetch(`${SUPABASE_URL}/rest/v1/committee_members?on_conflict=id`, {
+              method: 'POST',
+              headers: { ...headers, 'Prefer': 'resolution=merge-duplicates' },
+              body: JSON.stringify([payload])
+            });
+          }
         } else {
           const res = await fetch(`${SUPABASE_URL}/rest/v1/committee_members`, {
             method: 'POST',
-            headers,
+            headers: { ...headers, 'Prefer': 'return=representation' },
             body: JSON.stringify([payload])
           });
           if (!res.ok) throw new Error(await res.text());
         }
+
+        // Update in-memory array immediately
+        if (editIdx !== '') {
+          if (type === 'trustee') {
+            trusteesList[parseInt(editIdx, 10)].name = name;
+            trusteesList[parseInt(editIdx, 10)].role = role;
+            trusteesList[parseInt(editIdx, 10)].photoUrl = photoUrl;
+          } else {
+            committeeMembersList[parseInt(editIdx, 10)].name = name;
+            committeeMembersList[parseInt(editIdx, 10)].role = role;
+            committeeMembersList[parseInt(editIdx, 10)].photoUrl = photoUrl;
+          }
+        }
+
+        renderCommitteeAdminList();
+        renderTrusteesAdminList();
+        updateCommitteePreview();
+
+        // Also sync current_committee.json in storage
+        try {
+          const commPayload = {
+            trustees: trusteesList,
+            executives: committeeMembersList,
+            sectionHeading: document.getElementById('comm_heading') ? document.getElementById('comm_heading').value.trim() : 'Lifetime Trustees & Executive Committee',
+            year: parseInt(document.getElementById('comm_year') ? document.getElementById('comm_year').value : '2026', 10) || 2026,
+            sectionDescription: document.getElementById('comm_desc') ? document.getElementById('comm_desc').value.trim() : '',
+            quoteText: document.getElementById('comm_quote') ? document.getElementById('comm_quote').value.trim() : '',
+            quoteAttribution: document.getElementById('comm_attribution') ? document.getElementById('comm_attribution').value.trim() : '',
+            lastUpdated: new Date().toISOString()
+          };
+          await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/current_committee.json`, {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': `Bearer ${getAdminToken()}`,
+              'Content-Type': 'application/json',
+              'x-upsert': 'true'
+            },
+            body: JSON.stringify(commPayload, null, 2)
+          });
+        } catch (_) {}
 
         closeMemberModal();
         showToast('Leader saved! Website updated immediately.', 'success');
@@ -4704,6 +4755,38 @@ Youth &amp; Cultural Programs</textarea>
           lastUpdated: new Date().toISOString()
         };
 
+        // 1. Sync all trustees and executives to PostgreSQL committee_members table
+        const allDbRows = [
+          ...trusteesList.map((t, i) => ({
+            id: t.id || (i + 1),
+            name: t.name,
+            role: t.role || 'Lifetime Trustee',
+            type: 'trustee',
+            photo_url: t.photoUrl || t.photo_url || 'images/committee_sq/abin-varghese.webp',
+            display_order: t.displayOrder !== undefined ? t.displayOrder : i
+          })),
+          ...committeeMembersList.map((m, j) => ({
+            id: m.id || (100 + j),
+            name: m.name,
+            role: m.role || 'Member',
+            type: 'executive',
+            photo_url: m.photoUrl || m.photo_url || 'images/committee_sq/abin-varghese.webp',
+            display_order: m.displayOrder !== undefined ? m.displayOrder : (100 + j)
+          }))
+        ];
+
+        await fetch(`${SUPABASE_URL}/rest/v1/committee_members?on_conflict=id`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${getAdminToken()}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates'
+          },
+          body: JSON.stringify(allDbRows)
+        });
+
+        // 2. Sync to current_committee.json in Storage
         const res = await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/current_committee.json`, {
           method: 'POST',
           headers: {
