@@ -2226,23 +2226,32 @@
         min-width: 0;
         flex: 1;
       }
-      .brand-logo {
-        width: 38px;
-        height: 38px;
+      .brand-logo,
+      header.sc .brand-logo {
+        width: 36px !important;
+        height: 36px !important;
         flex-shrink: 0;
       }
       .brand-text {
         min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
-      .brand-text .name {
-        font-size: 14px;
+      .brand-text .name,
+      header.sc .brand-text .name {
+        font-size: 13.5px !important;
+        line-height: 1.18 !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+      }
+      .brand-text .sub,
+      header.sc .brand-text .sub {
+        font-size: 9px !important;
+        letter-spacing: 0.06em;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .brand-text .sub {
-        font-size: 9px;
-        letter-spacing: 0.08em;
+        opacity: 0.85;
       }
       .nav-right {
         display: flex;
