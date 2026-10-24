@@ -1,3 +1,23 @@
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.p12
+*.sql
+!supabase/migrations/*.sql
+!schema/*.sql
+!scripts/*.sql
+*.dump
+
+# Backups
+backup_pre_rls/
+backup*/
+*.bak
+*.backup
+
 # Operating System files
 .DS_Store
 .DS_Store?
@@ -16,3 +36,5 @@ Thumbs.db
 # Temporary & Log files
 *.log
 scratch/
+images/committee/WhatsApp*
+
