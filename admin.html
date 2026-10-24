@@ -2873,34 +2873,55 @@ Youth &amp; Cultural Programs</textarea>
   <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <!-- FIREBASE MODULE LOGIC -->
+  <!-- SUPABASE CMS MODULE LOGIC -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-    import { 
-      getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, 
-      onAuthStateChanged, signOut 
-    } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-    import { 
-      getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, 
-      collection, getDocs, onSnapshot, query, orderBy 
-    } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-    import { 
-      getStorage, ref as sRef, uploadBytes, getDownloadURL 
-    } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCiAKiYF2yVfWO69BthwKWRpy-bqXCh4qw",
-      authDomain: "eia-wexford.firebaseapp.com",
-      projectId: "eia-wexford",
-      storageBucket: "eia-wexford.firebasestorage.app",
-      messagingSenderId: "318050987857",
-      appId: "1:318050987857:web:6da4f5f5327186ef666d70"
-    };
+    const SUPABASE_URL = "https://qsompirzrlbagnqpduov.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzb21waXJ6cmxiYWducXBkdW92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3MzA3MjIsImV4cCI6MjEwODMwNjcyMn0.ju0Ez8f9Vq8v7EwKPFMxDO1kBLUs8198N7esuo0x12k";
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true
+      }
+    });
+
+    // Content helper for site_content.json in Supabase Storage
+    async function loadSiteContent() {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/gallery/site_content.json?t=${Date.now()}`);
+        if (res.ok) return await res.json();
+      } catch (e) {
+        console.warn('Could not load site_content.json:', e);
+      }
+      return null;
+    }
+
+    async function saveSiteContent(sectionKey, sectionData) {
+      const fullContent = (await loadSiteContent()) || {};
+      fullContent[sectionKey] = sectionData;
+      fullContent.updatedAt = new Date().toISOString();
+
+      const blob = new Blob([JSON.stringify(fullContent, null, 2)], { type: 'application/json' });
+      const { error } = await supabase.storage.from('gallery').upload('site_content.json', blob, {
+        upsert: true,
+        contentType: 'application/json'
+      });
+      if (error) throw error;
+      return fullContent;
+    }
+
+    // Helper for uploading files to Supabase Storage bucket 'gallery'
+    async function uploadToStorage(path, file) {
+      const { data, error } = await supabase.storage.from('gallery').upload(path, file, {
+        upsert: true,
+        contentType: file.type || 'application/octet-stream'
+      });
+      if (error) throw error;
+      const { data: { publicUrl } } = supabase.storage.from('gallery').getPublicUrl(path);
+      return publicUrl;
+    }
 
     // Snapshot store for Undo
     const sectionSnapshots = {
@@ -2950,9 +2971,10 @@ Youth &amp; Cultural Programs</textarea>
 
     document.getElementById('loginBtn').addEventListener('click', async () => {
       const email = document.getElementById('authEmail').value.trim();
-      const pass = document.getElementById('authPassword').value.trim();
+      const password = document.getElementById('authPassword').value.trim();
       try {
-        await signInWithEmailAndPassword(auth, email, pass);
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
         showToast('Signed in successfully', 'success');
       } catch (err) {
         showToast(err.message, 'error');
@@ -2961,24 +2983,37 @@ Youth &amp; Cultural Programs</textarea>
 
     document.getElementById('registerBtn').addEventListener('click', async () => {
       const email = document.getElementById('authEmail').value.trim();
-      const pass = document.getElementById('authPassword').value.trim();
+      const password = document.getElementById('authPassword').value.trim();
       try {
-        await createUserWithEmailAndPassword(auth, email, pass);
-        showToast('Account created and signed in', 'success');
+        const { data, error } = await supabase.auth.signUp({ email, password });
+        if (error) throw error;
+        showToast('Account registered! Check email or sign in.', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
     });
 
     document.getElementById('logoutBtn').addEventListener('click', async () => {
-      await signOut(auth);
+      await supabase.auth.signOut();
       showToast('Signed out', 'info');
     });
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (session && session.user) {
         authModal.style.display = 'none';
-        userEmailBadge.textContent = user.email;
+        userEmailBadge.textContent = session.user.email;
+        loadAllData();
+      } else {
+        authModal.style.display = 'flex';
+        userEmailBadge.textContent = 'Signed out';
+      }
+    });
+
+    // Check existing active session on load
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session && session.user) {
+        authModal.style.display = 'none';
+        userEmailBadge.textContent = session.user.email;
         loadAllData();
       } else {
         authModal.style.display = 'flex';
@@ -2987,19 +3022,21 @@ Youth &amp; Cultural Programs</textarea>
     });
 
     function loadAllData() {
-      listenHero();
-      listenAbout();
-      listenCommittee();
-      listenPillars();
-      listenGuide();
-      listenStats();
-      listenEvents();
-      listenMembership();
-      listenServices();
-      listenGallery();
-      listenTestimonials();
-      listenPartners();
-      listenSettings();
+      loadSiteContent().then(content => {
+        listenHero(content);
+        listenAbout(content);
+        listenCommittee(content);
+        listenPillars(content);
+        listenGuide(content);
+        listenStats(content);
+        listenEvents(content);
+        listenMembership(content);
+        listenServices(content);
+        listenGallery();
+        listenTestimonials(content);
+        listenPartners(content);
+        listenSettings(content);
+      });
     }
 
     // ── SECTION 1: HERO STUDIO ──
@@ -3252,11 +3289,12 @@ Youth &amp; Cultural Programs</textarea>
         ]
       };
 
-      onSnapshot(doc(db, "content", "heroSection"), (snap) => {
-        if (!snap.exists()) return;
-        const d = snap.data();
-        sectionSnapshots.hero = JSON.parse(JSON.stringify(d));
-        applyHeroData(d);
+      // Load hero content from Supabase
+      loadSiteContent().then(content => {
+        if (content && content.hero) {
+          sectionSnapshots.hero = JSON.parse(JSON.stringify(content.hero));
+          applyHeroData(content.hero);
+        }
       });
 
       document.querySelector('.btn-undo-hero').onclick = () => {
@@ -3272,11 +3310,10 @@ Youth &amp; Cultural Programs</textarea>
         let videoUrl = document.getElementById('hero_videoUrl').value.trim();
         const videoFileInput = document.getElementById('hero_videoFile');
         if (videoFileInput && videoFileInput.files[0]) {
-          showToast('Uploading video to Firebase Storage...', 'info');
+          showToast('Uploading video to Supabase Storage...', 'info');
           const file = videoFileInput.files[0];
-          const uploadPath = `hero/video_${Date.now()}_${file.name}`;
-          const snapshot = await uploadBytes(sRef(storage, uploadPath), file);
-          videoUrl = await getDownloadURL(snapshot.ref);
+          const uploadPath = `hero/video_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+          videoUrl = await uploadToStorage(uploadPath, file);
           document.getElementById('hero_videoUrl').value = videoUrl;
         }
 
@@ -3284,9 +3321,8 @@ Youth &amp; Cultural Programs</textarea>
         const posterFileInput = document.getElementById('hero_posterFile');
         if (posterFileInput && posterFileInput.files[0]) {
           const file = posterFileInput.files[0];
-          const uploadPath = `hero/poster_${Date.now()}_${file.name}`;
-          const snapshot = await uploadBytes(sRef(storage, uploadPath), file);
-          posterUrl = await getDownloadURL(snapshot.ref);
+          const uploadPath = `hero/poster_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+          posterUrl = await uploadToStorage(uploadPath, file);
           document.getElementById('hero_posterUrl').value = posterUrl;
         }
 
@@ -3319,9 +3355,9 @@ Youth &amp; Cultural Programs</textarea>
           updatedAt: new Date().toISOString()
         };
 
-        await setDoc(doc(db, "content", "heroSection"), payload, { merge: true });
+        await saveSiteContent('hero', payload);
         sectionSnapshots.hero = JSON.parse(JSON.stringify(payload));
-        showToast('Hero section saved to live website!', 'success');
+        showToast('Hero section saved to Supabase!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
@@ -3467,11 +3503,11 @@ Youth &amp; Cultural Programs</textarea>
         aboutImageUrl: document.getElementById('about_imageUrl').value
       };
 
-      onSnapshot(doc(db, "content", "aboutSection"), (snap) => {
-        if (!snap.exists()) return;
-        const d = snap.data();
-        sectionSnapshots.about = JSON.parse(JSON.stringify(d));
-        applyAboutData(d);
+      loadSiteContent().then(content => {
+        if (content && content.about) {
+          sectionSnapshots.about = JSON.parse(JSON.stringify(content.about));
+          applyAboutData(content.about);
+        }
       });
 
       document.querySelector('.btn-undo-about').onclick = () => {
@@ -3488,9 +3524,8 @@ Youth &amp; Cultural Programs</textarea>
         const fileInput = document.getElementById('about_imageFile');
         if (fileInput && fileInput.files[0]) {
           const file = fileInput.files[0];
-          const uploadPath = `about/${Date.now()}_${file.name}`;
-          const snapshot = await uploadBytes(sRef(storage, uploadPath), file);
-          imageUrl = await getDownloadURL(snapshot.ref);
+          const uploadPath = `about/${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+          imageUrl = await uploadToStorage(uploadPath, file);
           document.getElementById('about_imageUrl').value = imageUrl;
         }
 
@@ -3513,9 +3548,9 @@ Youth &amp; Cultural Programs</textarea>
           updatedAt: new Date().toISOString()
         };
 
-        await setDoc(doc(db, "content", "aboutSection"), payload, { merge: true });
+        await saveSiteContent('about', payload);
         sectionSnapshots.about = JSON.parse(JSON.stringify(payload));
-        showToast('About Us section saved!', 'success');
+        showToast('About Us section saved to Supabase!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
@@ -3659,11 +3694,10 @@ Youth &amp; Cultural Programs</textarea>
       let photoUrl = document.getElementById('modal_member_photoUrl').value.trim();
       const fileInput = document.getElementById('modal_member_photoFile');
       if (fileInput && fileInput.files[0]) {
-        showToast('Uploading leader photo...', 'info');
+        showToast('Uploading leader photo to Supabase...', 'info');
         const file = fileInput.files[0];
-        const uploadPath = `committee/${Date.now()}_${file.name}`;
-        const snapshot = await uploadBytes(sRef(storage, uploadPath), file);
-        photoUrl = await getDownloadURL(snapshot.ref);
+        const uploadPath = `committee/${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+        photoUrl = await uploadToStorage(uploadPath, file);
       }
 
       const item = {
@@ -3695,17 +3729,24 @@ Youth &amp; Cultural Programs</textarea>
         if (el) el.oninput = updateCommitteePreview;
       });
 
-      onSnapshot(query(collection(db, "committeeMembers"), orderBy("displayOrder", "asc")), (snap) => {
-        if (!snap.empty) {
-          committeeMembersList = [];
-          snap.forEach(d => committeeMembersList.push({ ...d.data(), _id: d.id }));
+      // Load committee from Supabase DB
+      supabase.from('committee_members').select('*').order('display_order', { ascending: true }).then(({ data, error }) => {
+        if (!error && data && data.length > 0) {
+          committeeMembersList = data.map(m => ({
+            id: m.id,
+            name: m.name,
+            role: m.role,
+            category: m.type === 'trustee' ? 'trustee' : (m.type === 'auditor' ? 'auditor' : (m.role.includes('Member') ? 'member' : 'officer')),
+            photoUrl: m.photo_url,
+            displayOrder: m.display_order
+          }));
           renderCommitteeAdminList();
         }
       });
 
-      onSnapshot(doc(db, "content", "committeeSettings"), (snap) => {
-        if (!snap.exists()) return;
-        const d = snap.data();
+      loadSiteContent().then(content => {
+        if (!content || !content.committeeSettings) return;
+        const d = content.committeeSettings;
         if (d.sectionHeading) document.getElementById('comm_heading').value = d.sectionHeading;
         if (d.year) document.getElementById('comm_year').value = d.year;
         if (d.sectionDescription) document.getElementById('comm_desc').value = d.sectionDescription;
@@ -3731,15 +3772,23 @@ Youth &amp; Cultural Programs</textarea>
           quoteAttribution: document.getElementById('comm_attribution').value.trim(),
           updatedAt: new Date().toISOString()
         };
-        await setDoc(doc(db, "content", "committeeSettings"), payload, { merge: true });
+        await saveSiteContent('committeeSettings', payload);
 
-        // Save each member into collection
+        // Save each member into Supabase committee_members table
         for (let i = 0; i < committeeMembersList.length; i++) {
           const m = committeeMembersList[i];
-          const docId = m._id || `member_${i + 1}`;
-          await setDoc(doc(db, "committeeMembers", docId), { ...m, displayOrder: i + 1 }, { merge: true });
+          const dbPayload = {
+            id: m.id || (i + 1),
+            name: m.name,
+            role: m.role,
+            type: m.category === 'trustee' ? 'trustee' : (m.category === 'auditor' ? 'auditor' : (m.category === 'member' ? 'member' : 'executive')),
+            photo_url: m.photoUrl || '',
+            display_order: i + 1
+          };
+          const { error } = await supabase.from('committee_members').upsert(dbPayload);
+          if (error) throw error;
         }
-        showToast('All 15 committee members & headings saved!', 'success');
+        showToast('All committee members saved to Supabase!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
@@ -3817,7 +3866,17 @@ Youth &amp; Cultural Programs</textarea>
       updatePillarsPreview();
     }
 
-    function listenPillars() {
+    function listenPillars(content) {
+      if (content && content.pillars) {
+        const d = content.pillars;
+        if (d.kicker) document.getElementById('pillar_kicker').value = d.kicker;
+        if (d.heading) document.getElementById('pillar_heading').value = d.heading;
+        if (d.description) document.getElementById('pillar_desc').value = d.description;
+        if (Array.isArray(d.items) && d.items.length) {
+          default4Pillars.splice(0, default4Pillars.length, ...d.items);
+        }
+      }
+
       ['pillar_kicker', 'pillar_heading', 'pillar_desc'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.oninput = updatePillarsPreview;
@@ -3832,11 +3891,15 @@ Youth &amp; Cultural Programs</textarea>
 
     document.getElementById('btnSavePillars').onclick = async () => {
       try {
-        for (let i = 0; i < default4Pillars.length; i++) {
-          const p = default4Pillars[i];
-          await setDoc(doc(db, "corePillars", `pillar_${i+1}`), { ...p, displayOrder: i+1 }, { merge: true });
-        }
-        showToast('Four Core Pillars saved!', 'success');
+        const payload = {
+          kicker: document.getElementById('pillar_kicker').value.trim(),
+          heading: document.getElementById('pillar_heading').value.trim(),
+          description: document.getElementById('pillar_desc').value.trim(),
+          items: default4Pillars,
+          updatedAt: new Date().toISOString()
+        };
+        await saveSiteContent('pillars', payload);
+        showToast('Four Core Pillars saved to Supabase!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
@@ -3954,7 +4017,17 @@ Youth &amp; Cultural Programs</textarea>
       updateGuidePreview();
     }
 
-    function listenGuide() {
+    function listenGuide(content) {
+      if (content && content.guide) {
+        const d = content.guide;
+        if (d.kicker) document.getElementById('guide_kicker').value = d.kicker;
+        if (d.heading) document.getElementById('guide_heading').value = d.heading;
+        if (d.subtitle) document.getElementById('guide_subtitle').value = d.subtitle;
+        if (Array.isArray(d.places) && d.places.length) {
+          guidePlaces = [...d.places];
+        }
+      }
+
       ['guide_kicker', 'guide_heading', 'guide_subtitle'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.oninput = updateGuidePreview;
@@ -3981,11 +4054,15 @@ Youth &amp; Cultural Programs</textarea>
 
     document.getElementById('btnSaveGuide').onclick = async () => {
       try {
-        for (let i = 0; i < guidePlaces.length; i++) {
-          const p = guidePlaces[i];
-          await setDoc(doc(db, "localGuidePlaces", `place_${i+1}`), { ...p, number: i+1 }, { merge: true });
-        }
-        showToast('All 12 Wexford attractions saved!', 'success');
+        const payload = {
+          kicker: document.getElementById('guide_kicker').value.trim(),
+          heading: document.getElementById('guide_heading').value.trim(),
+          subtitle: document.getElementById('guide_subtitle').value.trim(),
+          places: guidePlaces,
+          updatedAt: new Date().toISOString()
+        };
+        await saveSiteContent('guide', payload);
+        showToast('All 12 Wexford attractions saved to Supabase!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
@@ -4003,7 +4080,15 @@ Youth &amp; Cultural Programs</textarea>
       if (document.getElementById('prev_stat_band_4_lbl')) document.getElementById('prev_stat_band_4_lbl').textContent = document.getElementById('stat_band_4_lbl').value;
     }
 
-    function listenStats() {
+    function listenStats(content) {
+      if (content && content.statsBand && Array.isArray(content.statsBand.stats)) {
+        const s = content.statsBand.stats;
+        if (s[0]) { document.getElementById('stat_band_1_num').value = s[0].number || ''; document.getElementById('stat_band_1_lbl').value = s[0].label || ''; }
+        if (s[1]) { document.getElementById('stat_band_2_num').value = s[1].number || ''; document.getElementById('stat_band_2_lbl').value = s[1].label || ''; }
+        if (s[2]) { document.getElementById('stat_band_3_num').value = s[2].number || ''; document.getElementById('stat_band_3_lbl').value = s[2].label || ''; }
+        if (s[3]) { document.getElementById('stat_band_4_num').value = s[3].number || ''; document.getElementById('stat_band_4_lbl').value = s[3].label || ''; }
+      }
+
       const statsFields = [
         'stat_band_1_num', 'stat_band_1_lbl',
         'stat_band_2_num', 'stat_band_2_lbl',
@@ -4019,9 +4104,13 @@ Youth &amp; Cultural Programs</textarea>
 
       document.querySelector('.btn-undo-stats').onclick = () => {
         document.getElementById('stat_band_1_num').value = '250+';
+        document.getElementById('stat_band_1_lbl').value = 'Active Community Members';
         document.getElementById('stat_band_2_num').value = '15';
+        document.getElementById('stat_band_2_lbl').value = 'Executive Committee Leaders';
         document.getElementById('stat_band_3_num').value = '12+';
+        document.getElementById('stat_band_3_lbl').value = 'Annual Cultural Festivals & Gatherings';
         document.getElementById('stat_band_4_num').value = '100%';
+        document.getElementById('stat_band_4_lbl').value = 'Inclusive, Volunteer-Run & Welcoming';
         updateStatsPreview();
         showToast('Stats band reverted', 'info');
       };
@@ -4038,8 +4127,8 @@ Youth &amp; Cultural Programs</textarea>
           ],
           updatedAt: new Date().toISOString()
         };
-        await setDoc(doc(db, "content", "statsBand"), payload, { merge: true });
-        showToast('Stats band saved!', 'success');
+        await saveSiteContent('statsBand', payload);
+        showToast('Stats band saved to Supabase!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
@@ -4180,15 +4269,42 @@ Youth &amp; Cultural Programs</textarea>
       updateEventsPreview();
     }
 
-    function listenEvents() {
+    function listenEvents(content) {
+      if (content && content.eventsHeader) {
+        if (content.eventsHeader.kicker) document.getElementById('events_kicker').value = content.eventsHeader.kicker;
+        if (content.eventsHeader.heading) document.getElementById('events_heading').value = content.eventsHeader.heading;
+      }
+
       ['events_kicker', 'events_heading'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.oninput = updateEventsPreview;
       });
 
-      renderEventsAdmin();
+      // Load events from Supabase events table
+      supabase.from('events').select('*').order('date', { ascending: true }).then(({ data, error }) => {
+        if (!error && data && data.length > 0) {
+          eventsList = data.map(ev => ({
+            id: ev.id,
+            title: ev.title,
+            date: ev.date,
+            displayDay: ev.display_day,
+            displayMonth: ev.display_month,
+            badge: ev.badge,
+            location: ev.location,
+            description: ev.description,
+            imageUrl: ev.image_url,
+            rsvpEnabled: ev.rsvp_enabled,
+            status: ev.status
+          }));
+          renderEventsAdmin();
+        } else {
+          renderEventsAdmin();
+        }
+      });
+
       document.getElementById('btnAddEvent').onclick = () => {
         eventsList.push({
+          id: `ev_${Date.now()}`,
           title: "New Community Gathering",
           date: "2026-10-01",
           displayDay: "01",
@@ -4210,11 +4326,30 @@ Youth &amp; Cultural Programs</textarea>
 
     document.getElementById('btnSaveEvents').onclick = async () => {
       try {
+        await saveSiteContent('eventsHeader', {
+          kicker: document.getElementById('events_kicker').value.trim(),
+          heading: document.getElementById('events_heading').value.trim(),
+          updatedAt: new Date().toISOString()
+        });
+
         for (let i = 0; i < eventsList.length; i++) {
           const ev = eventsList[i];
-          await setDoc(doc(db, "events", `event_${i+1}`), ev, { merge: true });
+          const dbPayload = {
+            id: ev.id || `ev_${i+1}`,
+            title: ev.title || 'Untitled Event',
+            date: ev.date || '2026-10-01',
+            display_day: ev.displayDay || '01',
+            display_month: ev.displayMonth || 'OCT 2026',
+            badge: ev.badge || 'Event',
+            location: ev.location || 'County Wexford',
+            description: ev.description || '',
+            image_url: ev.imageUrl || 'images/pillar-culture-arts.webp',
+            status: ev.status || 'upcoming'
+          };
+          const { error } = await supabase.from('events').upsert(dbPayload);
+          if (error) throw error;
         }
-        showToast('All events and festivals saved!', 'success');
+        showToast('All events and festivals saved to Supabase!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
@@ -4362,7 +4497,7 @@ Youth &amp; Cultural Programs</textarea>
       }
     }
 
-    function listenMembership() {
+    function listenMembership(content) {
       renderMemButtons();
 
       document.getElementById('btnAddMemButton').onclick = () => {
@@ -4398,12 +4533,10 @@ Youth &amp; Cultural Programs</textarea>
         ctaButtons: JSON.parse(JSON.stringify(memButtons))
       };
 
-      onSnapshot(doc(db, "content", "membershipCta"), (snap) => {
-        if (!snap.exists()) return;
-        const d = snap.data();
-        sectionSnapshots.membership = JSON.parse(JSON.stringify(d));
-        applyMembershipData(d);
-      });
+      if (content && content.membershipCta) {
+        sectionSnapshots.membership = JSON.parse(JSON.stringify(content.membershipCta));
+        applyMembershipData(content.membershipCta);
+      }
 
       document.querySelector('.btn-undo-membership').onclick = () => {
         if (sectionSnapshots.membership) {
@@ -4431,9 +4564,9 @@ Youth &amp; Cultural Programs</textarea>
           updatedAt: new Date().toISOString()
         };
 
-        await setDoc(doc(db, "content", "membershipCta"), payload, { merge: true });
+        await saveSiteContent('membershipCta', payload);
         sectionSnapshots.membership = JSON.parse(JSON.stringify(payload));
-        showToast('Membership section saved!', 'success');
+        showToast('Membership section saved to Supabase!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
@@ -4525,7 +4658,17 @@ Youth &amp; Cultural Programs</textarea>
       updateServicesPreview();
     }
 
-    function listenServices() {
+    function listenServices(content) {
+      if (content && content.servicesSection) {
+        const d = content.servicesSection;
+        if (d.kickerText) document.getElementById('srv_kicker').value = d.kickerText;
+        if (d.heading) document.getElementById('srv_heading').value = d.heading;
+        if (d.description) document.getElementById('srv_desc').value = d.description;
+        if (Array.isArray(d.services) && d.services.length) {
+          defaultServices.splice(0, defaultServices.length, ...d.services);
+        }
+      }
+
       ['srv_kicker', 'srv_heading', 'srv_desc'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.oninput = updateServicesPreview;
@@ -4547,8 +4690,8 @@ Youth &amp; Cultural Programs</textarea>
           services: defaultServices,
           updatedAt: new Date().toISOString()
         };
-        await setDoc(doc(db, "content", "servicesSection"), payload, { merge: true });
-        showToast('Community Services saved!', 'success');
+        await saveSiteContent('servicesSection', payload);
+        showToast('Community Services saved to Supabase!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
@@ -4624,9 +4767,22 @@ Youth &amp; Cultural Programs</textarea>
     }
 
     function listenGallery() {
-      renderGalleryAdmin();
+      supabase.from('gallery').select('*').then(({ data, error }) => {
+        if (!error && data && data.length > 0) {
+          defaultGallery.splice(0, defaultGallery.length, ...data.map(g => ({
+            id: g.id,
+            caption: g.caption,
+            category: g.category,
+            imageUrl: g.url
+          })));
+          renderGalleryAdmin();
+        } else {
+          renderGalleryAdmin();
+        }
+      });
+
       document.getElementById('btnAddGalleryItem').onclick = () => {
-        defaultGallery.push({ caption: "New Community Photo", category: "festivals", imageUrl: "images/hero-bg.webp" });
+        defaultGallery.push({ id: `photo_${Date.now()}`, caption: "New Community Photo", category: "festivals", imageUrl: "images/hero-bg.webp" });
         renderGalleryAdmin();
         showToast('New photo slot added', 'info');
       };
@@ -4639,9 +4795,18 @@ Youth &amp; Cultural Programs</textarea>
     document.getElementById('btnSaveGallery').onclick = async () => {
       try {
         for (let i = 0; i < defaultGallery.length; i++) {
-          await setDoc(doc(db, "galleryItems", `gal_${i+1}`), { ...defaultGallery[i], displayOrder: i+1 }, { merge: true });
+          const g = defaultGallery[i];
+          const dbPayload = {
+            id: g.id || `photo_${i+1}`,
+            caption: g.caption || '',
+            category: g.category || 'festivals',
+            url: g.imageUrl || '',
+            storage_key: g.imageUrl ? g.imageUrl.split('/').pop() : ''
+          };
+          const { error } = await supabase.from('gallery').upsert(dbPayload);
+          if (error) throw error;
         }
-        showToast('Photo gallery items saved!', 'success');
+        showToast('Photo gallery items saved to Supabase!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
@@ -4724,7 +4889,10 @@ Youth &amp; Cultural Programs</textarea>
       updateTestimonialsPreview();
     }
 
-    function listenTestimonials() {
+    function listenTestimonials(content) {
+      if (content && content.testimonialsSection && Array.isArray(content.testimonialsSection.testimonials)) {
+        defaultTestimonials.splice(0, defaultTestimonials.length, ...content.testimonialsSection.testimonials);
+      }
       renderTestimonialsAdmin();
       document.querySelector('.btn-undo-testimonials').onclick = () => {
         renderTestimonialsAdmin();
@@ -4734,8 +4902,8 @@ Youth &amp; Cultural Programs</textarea>
 
     document.getElementById('btnSaveTestimonials').onclick = async () => {
       try {
-        await setDoc(doc(db, "content", "testimonialsSection"), { testimonials: defaultTestimonials, updatedAt: new Date().toISOString() }, { merge: true });
-        showToast('Member voices saved!', 'success');
+        await saveSiteContent('testimonialsSection', { testimonials: defaultTestimonials, updatedAt: new Date().toISOString() });
+        showToast('Member voices saved to Supabase!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
@@ -4763,7 +4931,17 @@ Youth &amp; Cultural Programs</textarea>
       }
     }
 
-    function listenPartners() {
+    function listenPartners(content) {
+      if (content && content.partnersSection) {
+        const d = content.partnersSection;
+        if (d.kickerText) document.getElementById('partner_kicker').value = d.kickerText;
+        if (d.heading) document.getElementById('partner_heading').value = d.heading;
+        if (d.ctaLabel) document.getElementById('partner_cta_label').value = d.ctaLabel;
+        if (Array.isArray(d.partners)) {
+          document.getElementById('partner_badges').value = d.partners.map(p => p.name).join(', ');
+        }
+      }
+
       ['partner_kicker', 'partner_heading', 'partner_badges', 'partner_cta_label'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.oninput = updatePartnersPreview;
@@ -4791,8 +4969,8 @@ Youth &amp; Cultural Programs</textarea>
           partners: badges.map(name => ({ name })),
           updatedAt: new Date().toISOString()
         };
-        await setDoc(doc(db, "content", "partnersSection"), payload, { merge: true });
-        showToast('Partners and sponsors saved!', 'success');
+        await saveSiteContent('partnersSection', payload);
+        showToast('Partners and sponsors saved to Supabase!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
@@ -4836,7 +5014,7 @@ Youth &amp; Cultural Programs</textarea>
       }
     }
 
-    function listenSettings() {
+    function listenSettings(content) {
       const toggleNavBtn = document.querySelector('.btn-toggle-nav-cta');
       const boxNav = document.getElementById('box_nav_cta');
       toggleNavBtn.onclick = () => {
@@ -4887,12 +5065,10 @@ Youth &amp; Cultural Programs</textarea>
         copyrightText: document.getElementById('set_copyright').value
       };
 
-      onSnapshot(doc(db, "content", "siteSettings"), (snap) => {
-        if (!snap.exists()) return;
-        const d = snap.data();
-        sectionSnapshots.settings = JSON.parse(JSON.stringify(d));
-        applySettingsData(d);
-      });
+      if (content && content.siteSettings) {
+        sectionSnapshots.settings = JSON.parse(JSON.stringify(content.siteSettings));
+        applySettingsData(content.siteSettings);
+      }
 
       document.querySelector('.btn-undo-settings').onclick = () => {
         if (sectionSnapshots.settings) {
@@ -4908,9 +5084,8 @@ Youth &amp; Cultural Programs</textarea>
         const fileInput = document.getElementById('set_logoFile');
         if (fileInput && fileInput.files[0]) {
           const file = fileInput.files[0];
-          const uploadPath = `brand/${Date.now()}_${file.name}`;
-          const snapshot = await uploadBytes(sRef(storage, uploadPath), file);
-          logoUrl = await getDownloadURL(snapshot.ref);
+          const uploadPath = `brand/${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+          logoUrl = await uploadToStorage(uploadPath, file);
           document.getElementById('set_logoUrl').value = logoUrl;
         }
 
@@ -4928,9 +5103,9 @@ Youth &amp; Cultural Programs</textarea>
           updatedAt: new Date().toISOString()
         };
 
-        await setDoc(doc(db, "content", "siteSettings"), payload, { merge: true });
+        await saveSiteContent('siteSettings', payload);
         sectionSnapshots.settings = JSON.parse(JSON.stringify(payload));
-        showToast('Header & Footer settings saved!', 'success');
+        showToast('Header & Footer settings saved to Supabase!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
