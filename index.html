@@ -4028,94 +4028,117 @@
     // ══════════════════════════════════════════════════════
     // SUPABASE DYNAMIC CMS HYDRATION LAYER
     // ══════════════════════════════════════════════════════
+    // EIA UNIFIED SUPABASE CLIENT & LIVE HYDRATION SYSTEM
+    // ══════════════════════════════════════════════════════
     const SUPABASE_URL = 'https://qsompirzrlbagnqpduov.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzb21waXJ6cmxiYWducXBkdW92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3MzA3MjIsImV4cCI6MjEwODMwNjcyMn0.ju0Ez8f9Vq8v7EwKPFMxDO1kBLUs8198N7esuo0x12k';
 
     // 1. Live Current Committee & Lifetime Trustees Loader
-    (async function loadCMSCurrentCommittee() {
+    async function loadCMSCurrentCommittee() {
       const tGrid = document.getElementById('trusteesGrid');
       const eGrid = document.getElementById('commGrid');
+      let list = [];
       try {
         const res = await fetch(`${SUPABASE_URL}/rest/v1/committee_members?select=*&order=display_order.asc`, {
           headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'Cache-Control': 'no-cache' }
         });
-        if (!res.ok) throw new Error('Committee fetch error: ' + res.status);
-        const list = await res.json();
-        if (!Array.isArray(list) || list.length === 0) return;
-
-        const trustees = list.filter(m => m.type === 'trustee');
-        const executives = list.filter(m => m.type === 'executive');
-
-        // Render Trustees
-        if (tGrid && trustees.length > 0) {
-          tGrid.innerHTML = '';
-          trustees.forEach((t) => {
-            const card = document.createElement('div');
-            card.className = 'comm-card vis';
-            const isLate = (t.name && t.name.toLowerCase().includes('late')) || (t.role && t.role.toLowerCase().includes('late'));
-            card.innerHTML = `
-              <div class="comm-photo-wrap">
-                <img src="${t.photo_url || 'images/committee_sq/abin-varghese.webp'}" alt="${t.name} - Lifetime Trustee" loading="lazy">
-                <span class="comm-role-badge ${isLate ? 'memorial' : 'trustee'}">${isLate ? 'Late Trustee' : 'Trustee'}</span>
-              </div>
-              <div class="comm-info">
-                <h4>${t.name}</h4>
-                <span class="designation">${isLate ? 'Lifetime Trustee &bull; In Loving Memory' : 'Lifetime Trustee'}</span>
-              </div>
-            `;
-            tGrid.appendChild(card);
-          });
+        if (res.ok) {
+          list = await res.json();
         }
-
-        // Render Executives
-        if (eGrid && executives.length > 0) {
-          eGrid.innerHTML = '';
-          executives.forEach((m) => {
-            const card = document.createElement('div');
-            card.className = 'comm-card vis';
-            let badgeClass = '';
-            let badgeText = m.role || 'Member';
-            const rLower = (m.role || '').toLowerCase();
-            if (rLower.includes('patron')) {
-              badgeClass = 'patron';
-              badgeText = 'Patron';
-            } else if (rLower.includes('president') && !rLower.includes('vice')) {
-              badgeClass = 'president';
-              badgeText = 'President';
-            } else if (rLower.includes('vice president')) {
-              badgeText = 'Vice President';
-            } else if (rLower.includes('joint secretary')) {
-              badgeText = 'Joint Secretary';
-            } else if (rLower.includes('secretary')) {
-              badgeText = 'Secretary';
-            } else if (rLower.includes('treasurer')) {
-              badgeText = 'Treasurer';
-            } else if (rLower.includes('auditor')) {
-              badgeText = 'Auditor';
-            } else {
-              badgeText = 'Member';
-            }
-
-            card.innerHTML = `
-              <div class="comm-photo-wrap">
-                <img src="${m.photo_url || 'images/committee_sq/abin-varghese.webp'}" alt="${m.name} — ${m.role}" loading="lazy">
-                <span class="comm-role-badge ${badgeClass}">${badgeText}</span>
-              </div>
-              <div class="comm-info">
-                <h4>${m.name}</h4>
-                <span class="designation">${m.role}</span>
-              </div>
-            `;
-            eGrid.appendChild(card);
-          });
-        }
-      } catch (err) {
-        console.warn('Could not load dynamic committee:', err);
+      } catch (e) {
+        console.warn('PostgREST committee failed, falling back to storage:', e);
       }
-    })();
+
+      // Fallback to storage current_committee.json if table returned empty or errored
+      if (!Array.isArray(list) || list.length === 0) {
+        try {
+          const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/gallery/current_committee.json?t=${Date.now()}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.trustees || data.executives) {
+              list = [
+                ...(data.trustees || []).map(t => ({ ...t, type: 'trustee', photo_url: t.photoUrl, display_order: t.displayOrder })),
+                ...(data.executives || []).map(e => ({ ...e, type: 'executive', photo_url: e.photoUrl, display_order: e.displayOrder }))
+              ];
+            }
+          }
+        } catch (e) {
+          console.warn('Storage committee fallback warning:', e);
+        }
+      }
+
+      if (!Array.isArray(list) || list.length === 0) return;
+
+      const trustees = list.filter(m => m.type === 'trustee' || (m.role && m.role.toLowerCase().includes('trustee')));
+      const executives = list.filter(m => m.type === 'executive' || (m.role && !m.role.toLowerCase().includes('trustee')));
+
+      // Render Trustees
+      if (tGrid && trustees.length > 0) {
+        tGrid.innerHTML = '';
+        trustees.forEach((t) => {
+          const card = document.createElement('div');
+          card.className = 'comm-card vis';
+          const isLate = (t.name && t.name.toLowerCase().includes('late')) || (t.role && t.role.toLowerCase().includes('late'));
+          card.innerHTML = `
+            <div class="comm-photo-wrap">
+              <img src="${t.photo_url || t.photoUrl || 'images/committee_sq/abin-varghese.webp'}" alt="${t.name} - Lifetime Trustee" loading="lazy">
+              <span class="comm-role-badge ${isLate ? 'memorial' : 'trustee'}">${isLate ? 'Late Trustee' : 'Trustee'}</span>
+            </div>
+            <div class="comm-info">
+              <h4>${t.name}</h4>
+              <span class="designation">${isLate ? 'Lifetime Trustee &bull; In Loving Memory' : 'Lifetime Trustee'}</span>
+            </div>
+          `;
+          tGrid.appendChild(card);
+        });
+      }
+
+      // Render Executives
+      if (eGrid && executives.length > 0) {
+        eGrid.innerHTML = '';
+        executives.forEach((m) => {
+          const card = document.createElement('div');
+          card.className = 'comm-card vis';
+          let badgeClass = '';
+          let badgeText = m.role || 'Member';
+          const rLower = (m.role || '').toLowerCase();
+          if (rLower.includes('patron')) {
+            badgeClass = 'patron';
+            badgeText = 'Patron';
+          } else if (rLower.includes('president') && !rLower.includes('vice')) {
+            badgeClass = 'president';
+            badgeText = 'President';
+          } else if (rLower.includes('vice president')) {
+            badgeText = 'Vice President';
+          } else if (rLower.includes('joint secretary')) {
+            badgeText = 'Joint Secretary';
+          } else if (rLower.includes('secretary')) {
+            badgeText = 'Secretary';
+          } else if (rLower.includes('treasurer')) {
+            badgeText = 'Treasurer';
+          } else if (rLower.includes('auditor')) {
+            badgeText = 'Auditor';
+          } else {
+            badgeText = 'Member';
+          }
+
+          card.innerHTML = `
+            <div class="comm-photo-wrap">
+              <img src="${m.photo_url || m.photoUrl || 'images/committee_sq/abin-varghese.webp'}" alt="${m.name} — ${m.role}" loading="lazy">
+              <span class="comm-role-badge ${badgeClass}">${badgeText}</span>
+            </div>
+            <div class="comm-info">
+              <h4>${m.name}</h4>
+              <span class="designation">${m.role}</span>
+            </div>
+          `;
+          eGrid.appendChild(card);
+        });
+      }
+    }
 
     // 2. Live Events Loader
-    (async function loadCMSEvents() {
+    async function loadCMSEvents() {
       const grid = document.getElementById('eventGrid');
       if (!grid) return;
       try {
@@ -4168,10 +4191,10 @@
       } catch (e) {
         console.warn('Could not load dynamic events:', e);
       }
-    })();
+    }
 
     // 3. Live Gallery Loader
-    (async function loadCMSGallery() {
+    async function loadCMSGallery() {
       const grid = document.getElementById('galGrid');
       if (!grid) return;
       try {
@@ -4198,16 +4221,64 @@
       } catch (e) {
         console.warn('Could not load dynamic gallery:', e);
       }
-    })();
+    }
 
-    // 4. Live Site Content Loader (Storage site_content.json)
-    (async function loadCMSSiteContent() {
+    // 4. Live Testimonials Loader (Storage testimonials.json)
+    async function loadCMSTestimonials() {
+      const sec = document.getElementById('memberVoices');
+      const grid = document.getElementById('testGrid');
+      if (!sec || !grid) return;
+      try {
+        const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/gallery/testimonials.json?t=${Date.now()}`);
+        if (!res.ok) return;
+        const items = await res.json();
+        if (!Array.isArray(items) || items.length === 0) return;
+
+        grid.innerHTML = '';
+        items.forEach(t => {
+          const card = document.createElement('div');
+          card.className = 'test-card';
+          card.innerHTML = `
+            <p class="quote">“${t.quote}”</p>
+            <div class="test-author" style="display:flex; align-items:center; gap:12px; margin-top:20px;">
+              <div style="width:40px; height:40px; border-radius:50%; background:var(--amber); color:var(--ink); font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                ${t.avatarLetter || (t.authorName ? t.authorName.charAt(0) : 'E')}
+              </div>
+              <div>
+                <div style="font-weight:700; color:var(--ink); font-size:15px;">${t.authorName}</div>
+                <div style="font-size:12.5px; color:var(--warm-grey);">${t.authorRole}</div>
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+        sec.style.display = 'block';
+      } catch (e) {
+        console.warn('Could not load dynamic testimonials:', e);
+      }
+    }
+
+    // 5. Live Site Settings & Association Year Loader
+    async function loadCMSSiteSettings() {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/gallery/site_settings.json?t=${Date.now()}`);
+        if (!res.ok) return;
+        const cfg = await res.json();
+        if (cfg && cfg.associationYear) {
+          const yr = cfg.associationYear;
+          document.querySelectorAll('.year-badge, .dynamic-year').forEach(el => el.textContent = yr);
+        }
+      } catch (e) {}
+    }
+
+    // 6. Comprehensive Live Site Content Loader (Storage site_content.json)
+    async function loadCMSSiteContent() {
       try {
         const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/gallery/site_content.json?t=${Date.now()}`);
         if (!res.ok) return;
         const d = await res.json();
 
-        // Hero
+        // ── 1. HERO STUDIO ──
         if (d.hero) {
           const h = d.hero;
           if (h.kickerText) {
@@ -4232,26 +4303,330 @@
             const lead = document.querySelector('.hero-lead');
             if (lead) lead.textContent = h.leadParagraph;
           }
+          // Dynamic Hero Action Buttons
+          if (Array.isArray(h.ctaButtons) && h.ctaButtons.length) {
+            const heroActions = document.querySelector('.hero-actions');
+            if (heroActions) {
+              heroActions.innerHTML = h.ctaButtons
+                .filter(b => b.visible !== false)
+                .map(b => {
+                  const isExt = b.href && (b.href.startsWith('http://') || b.href.startsWith('https://'));
+                  const target = isExt ? 'target="_blank" rel="noopener"' : '';
+                  const styleCls = b.style || 'btn-amber';
+                  const extraStyle = styleCls === 'btn-outline' ? 'style="color:#fff;border-color:rgba(255,255,255,0.35);"' : '';
+                  return `<a href="${b.href || '#'}" class="btn ${styleCls}" ${target} ${extraStyle}>${b.label || 'Action'}</a>`;
+                }).join('\n');
+            }
+          }
+          // Dynamic Hero Stats
+          if (Array.isArray(h.heroStats) && h.heroStats.length) {
+            const statEls = document.querySelectorAll('.hero-stats .hero-stat');
+            h.heroStats.forEach((st, idx) => {
+              if (statEls[idx]) {
+                const num = statEls[idx].querySelector('.num');
+                const txt = statEls[idx].querySelector('.txt');
+                if (num) num.textContent = (st.number || '') + (st.suffix || '');
+                if (txt) txt.textContent = st.label || '';
+              }
+            });
+          }
+          // Dynamic Video & Poster Background
+          const heroVideo = document.querySelector('.hero-bg video');
+          if (heroVideo) {
+            if (h.posterUrl) heroVideo.setAttribute('poster', h.posterUrl);
+            if (h.videoUrl) {
+              const srcEl = heroVideo.querySelector('source');
+              if (srcEl && srcEl.getAttribute('src') !== h.videoUrl) {
+                srcEl.setAttribute('src', h.videoUrl);
+                heroVideo.load();
+                heroVideo.play().catch(() => {});
+              }
+            }
+          }
         }
 
-        // About Us
+        // ── 2. ABOUT US STUDIO ──
         if (d.about) {
           const ab = d.about;
+          if (ab.kickerText) {
+            const el = document.querySelector('#about .about-main .kicker');
+            if (el) el.textContent = ab.kickerText;
+          }
           if (ab.heading) {
             const el = document.querySelector('#about .about-main h2');
             if (el) el.textContent = ab.heading;
           }
+          if (Array.isArray(ab.paragraphs) && ab.paragraphs.length) {
+            const pEls = document.querySelectorAll('#about .about-main > p:not([style*="font-size:14.5px"])');
+            ab.paragraphs.forEach((pText, i) => {
+              if (pEls[i] && pText) pEls[i].innerHTML = pText;
+            });
+          }
           if (ab.visionTitle || ab.visionQuote) {
             const vbTitle = document.querySelector('#about .about-vision-box h4');
             const vbQuote = document.querySelector('#about .about-vision-box p');
-            if (vbTitle && ab.visionTitle) vbTitle.textContent = ab.visionTitle;
+            if (vbTitle && ab.visionTitle) {
+              vbTitle.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${ab.visionTitle}`;
+            }
             if (vbQuote && ab.visionQuote) vbQuote.textContent = ab.visionQuote;
+          }
+          if (ab.statBadgeValue || ab.statBadgeLabel) {
+            const big = document.querySelector('#about .about-stat .big');
+            const lbl = document.querySelector('#about .about-stat .lbl');
+            if (big && ab.statBadgeValue) big.textContent = ab.statBadgeValue;
+            if (lbl && ab.statBadgeLabel) lbl.textContent = ab.statBadgeLabel;
+          }
+          if (ab.aboutImageUrl) {
+            const abImg = document.querySelector('#about .about-media img');
+            if (abImg) abImg.src = ab.aboutImageUrl;
+          }
+          const abCta = document.querySelector('#about .about-main .ghost');
+          const abCtaWrap = abCta ? abCta.parentElement : null;
+          if (abCtaWrap) {
+            if (ab.ctaVisible === false) {
+              abCtaWrap.style.display = 'none';
+            } else {
+              abCtaWrap.style.display = 'block';
+              if (ab.ctaText && abCta) abCta.innerHTML = `${ab.ctaText} &rarr;`;
+              if (ab.ctaHref && abCta) abCta.setAttribute('href', ab.ctaHref);
+            }
+          }
+        }
+
+        // ── 4. FOUR CORE PILLARS STUDIO ──
+        if (d.pillars) {
+          const pil = d.pillars;
+          const pilSec = document.getElementById('programs');
+          if (pilSec) {
+            if (pil.kicker) {
+              const k = pilSec.querySelector('.kicker');
+              if (k) k.textContent = pil.kicker;
+            }
+            if (pil.heading) {
+              const h = pilSec.querySelector('h2');
+              if (h) h.textContent = pil.heading;
+            }
+            if (pil.desc) {
+              const p = pilSec.querySelector('p');
+              if (p) p.textContent = pil.desc;
+            }
+            if (Array.isArray(pil.pillars) && pil.pillars.length) {
+              const pCards = pilSec.querySelector('.prog-cards');
+              if (pCards) {
+                pCards.innerHTML = pil.pillars.map((p, idx) => `
+                  <div class="prog-card" data-r="${idx * 0.1}">
+                    <img src="${p.imageUrl || 'images/pillar-culture-arts.webp'}" alt="${p.title}" loading="lazy" decoding="async">
+                    <span class="label">${p.title}</span>
+                    <p style="padding:0 20px 20px;font-size:13px;color:rgba(255,255,255,0.7);">${p.description}</p>
+                  </div>
+                `).join('\n');
+              }
+            }
+          }
+        }
+
+        // ── 6. STATS BAND STUDIO ──
+        if (d.stats) {
+          const st = d.stats;
+          const statBoxes = document.querySelectorAll('.stats-band .stats-inner .stat-box');
+          const statsList = Array.isArray(st.stats) && st.stats.length ? st.stats : [
+            { number: st.s1_num, label: st.s1_lbl },
+            { number: st.s2_num, label: st.s2_lbl },
+            { number: st.s3_num, label: st.s3_lbl },
+            { number: st.s4_num, label: st.s4_lbl }
+          ];
+          statsList.forEach((item, idx) => {
+            if (statBoxes[idx] && item && (item.number || item.label)) {
+              const bigEl = statBoxes[idx].querySelector('.big');
+              const lblEl = statBoxes[idx].querySelector('.lbl');
+              if (bigEl && item.number) {
+                const cleanNum = (item.number + '').trim();
+                const digits = cleanNum.replace(/[^0-9]/g, '');
+                const suffix = cleanNum.replace(/[0-9]/g, '');
+                bigEl.innerHTML = `<span class="count" data-target="${digits || '0'}">${digits || cleanNum}</span>${suffix ? `<span class="amber">${suffix}</span>` : ''}`;
+              }
+              if (lblEl && item.label) lblEl.textContent = item.label;
+            }
+          });
+        }
+
+        // ── 7. EVENTS HEADINGS ──
+        if (d.events_headings) {
+          if (d.events_headings.kicker) {
+            const k = document.querySelector('#events .events-head .kicker');
+            if (k) k.textContent = d.events_headings.kicker;
+          }
+          if (d.events_headings.heading) {
+            const h = document.querySelector('#events .events-head h2');
+            if (h) h.textContent = d.events_headings.heading;
+          }
+        }
+
+        // ── 8. MEMBERSHIP HUB STUDIO ──
+        if (d.membership) {
+          const mem = d.membership;
+          const mCard = document.querySelector('.membership-cta-card');
+          if (mCard) {
+            if (mem.kickerText) {
+              const k = mCard.querySelector('.hero-kicker-tag');
+              if (k) k.textContent = mem.kickerText;
+            }
+            if (mem.heading) {
+              const h = mCard.querySelector('h2');
+              if (h) h.textContent = mem.heading;
+            }
+            if (mem.description) {
+              const p = mCard.querySelector('p');
+              if (p) p.textContent = mem.description;
+            }
+            if (Array.isArray(mem.checklistItems) && mem.checklistItems.length) {
+              const chk = mCard.querySelector('.membership-checklist');
+              if (chk) {
+                chk.innerHTML = mem.checklistItems.map(item => `<span>&bull; ${item}</span>`).join('\n');
+              }
+            }
+            if (Array.isArray(mem.ctaButtons) && mem.ctaButtons.length) {
+              const btnContainer = mCard.querySelector('.membership-cta-btns');
+              if (btnContainer) {
+                btnContainer.innerHTML = mem.ctaButtons
+                  .filter(b => b.visible !== false)
+                  .map(b => {
+                    const isExt = b.href && (b.href.startsWith('http://') || b.href.startsWith('https://'));
+                    const target = isExt ? 'target="_blank" rel="noopener"' : '';
+                    const styleCls = b.style || 'btn-amber';
+                    const extraStyle = styleCls === 'btn-outline' ? 'style="text-align:center; color:#fff; border-color:rgba(255,255,255,0.3); padding:12px 24px;"' : 'style="text-align:center; padding:14px 28px; font-size:15px; font-weight:700;"';
+                    return `<a href="${b.href || '#'}" class="btn ${styleCls}" ${target} ${extraStyle}>${b.label || 'Join Now'}</a>`;
+                  }).join('\n');
+              }
+            }
+          }
+        }
+
+        // ── 9. COMMUNITY SERVICES STUDIO ──
+        if (d.services) {
+          const srv = d.services;
+          const srvSec = document.getElementById('services');
+          if (srvSec) {
+            if (srv.kickerText) {
+              const k = srvSec.querySelector('.kicker');
+              if (k) k.textContent = srv.kickerText;
+            }
+            if (srv.heading) {
+              const h = srvSec.querySelector('h2');
+              if (h) h.textContent = srv.heading;
+            }
+            if (srv.description) {
+              const p = srvSec.querySelector('.section-head p');
+              if (p) p.textContent = srv.description;
+            }
+            if (Array.isArray(srv.services) && srv.services.length) {
+              const sGrid = srvSec.querySelector('.services-grid');
+              if (sGrid) {
+                sGrid.innerHTML = srv.services.map((s, idx) => `
+                  <div class="service-card" data-r="${idx * 0.1}">
+                    <div class="service-icon">
+                      ${s.iconSvg || '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>'}
+                    </div>
+                    <h4>${s.title}</h4>
+                    <p>${s.description}</p>
+                    <ul class="service-list">
+                      ${(s.bulletPoints || []).map(bp => `<li>${bp}</li>`).join('\n')}
+                    </ul>
+                  </div>
+                `).join('\n');
+              }
+            }
+          }
+        }
+
+        // ── 12. PARTNERS & SPONSORS STUDIO ──
+        if (d.partners) {
+          const prt = d.partners;
+          const prtSec = document.getElementById('sponsors');
+          if (prtSec) {
+            if (prt.kickerText) {
+              const k = prtSec.querySelector('.kicker');
+              if (k) k.textContent = prt.kickerText;
+            }
+            if (prt.heading) {
+              const h = prtSec.querySelector('h3');
+              if (h) h.textContent = prt.heading;
+            }
+            if (Array.isArray(prt.partners) && prt.partners.length) {
+              const badgesWrap = prtSec.querySelector('.partner-badges');
+              if (badgesWrap) {
+                badgesWrap.innerHTML = prt.partners.map(p => `<span class="partner-badge">${p.name}</span>`).join('\n');
+              }
+            }
+            if (prt.ctaLabel) {
+              const ctaBtn = prtSec.querySelector('button.btn-outline, a.btn-outline');
+              if (ctaBtn) ctaBtn.textContent = prt.ctaLabel;
+            }
+          }
+        }
+
+        // ── 13. SETTINGS & BRAND STUDIO ──
+        if (d.settings) {
+          const set = d.settings;
+          if (set.orgName) {
+            document.querySelectorAll('.brand-text .name, .foot-brand .name').forEach(el => el.textContent = set.orgName);
+          }
+          if (set.tagline) {
+            document.querySelectorAll('.brand-text .sub, .foot-brand .sub').forEach(el => el.textContent = set.tagline);
+          }
+          if (set.logoUrl) {
+            document.querySelectorAll('.brand-logo, .foot-logo, .drawer-header img').forEach(el => el.src = set.logoUrl);
+          }
+          const navCta = document.querySelector('.nav-right .nav-cta');
+          const drawerCta = document.querySelector('.drawer .btn-amber');
+          if (set.navCtaVisible === false) {
+            if (navCta) navCta.style.display = 'none';
+            if (drawerCta) drawerCta.parentElement.style.display = 'none';
+          } else {
+            if (navCta) {
+              navCta.style.display = 'inline-block';
+              if (set.navCtaText) navCta.textContent = set.navCtaText;
+              if (set.navCtaLink) navCta.href = set.navCtaLink;
+            }
+            if (drawerCta) {
+              drawerCta.parentElement.style.display = 'block';
+              if (set.navCtaText) drawerCta.textContent = set.navCtaText + ' →';
+              if (set.navCtaLink) drawerCta.href = set.navCtaLink;
+            }
+          }
+          if (set.email) {
+            const emLink = document.querySelector('a[href^="mailto:"]');
+            if (emLink) {
+              emLink.href = `mailto:${set.email}`;
+              emLink.textContent = set.email;
+            }
+          }
+          if (set.address) {
+            const addrEl = document.querySelector('.foot-contact-item:first-of-type');
+            if (addrEl) {
+              const icon = addrEl.querySelector('.ci');
+              addrEl.innerHTML = (icon ? icon.outerHTML : '') + ' ' + set.address;
+            }
+          }
+          if (set.copyrightText) {
+            const cEl = document.querySelector('.foot-bottom');
+            if (cEl) {
+              cEl.innerHTML = `${set.copyrightText} &bull; Enniscorthy, County Wexford, Ireland.<br><span style="font-size:11.5px; opacity:0.7;">Together, We Celebrate. Together, We Connect. Together, We Grow.</span>`;
+            }
           }
         }
       } catch (e) {
         console.warn('Could not load dynamic site content:', e);
       }
-    })();
+    }
+
+    // Master CMS Boot
+    loadCMSCurrentCommittee();
+    loadCMSEvents();
+    loadCMSGallery();
+    loadCMSTestimonials();
+    loadCMSSiteSettings();
+    loadCMSSiteContent();
   </script>
 </body>
 

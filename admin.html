@@ -3542,6 +3542,18 @@ Youth &amp; Cultural Programs</textarea>
           secSaveBtn.click();
         }
 
+        // Push unified siteContentState to Supabase Storage
+        await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/site_content.json`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${getAdminToken()}`,
+            'Content-Type': 'application/json',
+            'x-upsert': 'true'
+          },
+          body: JSON.stringify(siteContentState, null, 2)
+        });
+
         // Verify Supabase connection ping
         const ping = await fetch(`${SUPABASE_URL}/rest/v1/events?select=id&limit=1`, {
           headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${getAdminToken()}` }
