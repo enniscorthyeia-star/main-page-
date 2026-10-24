@@ -3633,6 +3633,13 @@
           <div class="cap"><span>Live Video &bull; Chendamelam</span></div>
         </div>
       </div>
+
+      <!-- Explore Full Gallery CTA -->
+      <div style="text-align:center; margin-top:36px;">
+        <a href="gallery.html" class="btn btn-amber" style="padding:14px 34px; font-weight:700; font-size:15px; border-radius:9999px; box-shadow:0 6px 20px rgba(197,155,39,0.22); display:inline-flex; align-items:center; gap:10px;">
+          <span>Explore Full Photo &amp; Video Gallery &rarr;</span>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -3999,13 +4006,12 @@
 
     // Gallery filter
     const gFilters = document.querySelectorAll('#gFilters button');
-    const galItems = document.querySelectorAll('#galGrid .gal-item');
     gFilters.forEach(btn => {
       btn.addEventListener('click', () => {
         gFilters.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const f = btn.dataset.filter;
-        galItems.forEach(item => {
+        document.querySelectorAll('#galGrid .gal-item').forEach(item => {
           item.classList.toggle('hidden', f !== 'all' && item.dataset.cat !== f);
         });
       });
@@ -4423,27 +4429,61 @@
       }
     }
 
-    // 3. Live Gallery Loader
+    // 3. Live Gallery Loader (Curated Preview: max 6 items on Homepage)
     async function loadCMSGallery() {
       const grid = document.getElementById('galGrid');
       if (!grid) return;
       try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/gallery?select=*&order=created_at.desc`, {
-          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'Cache-Control': 'no-cache' }
-        });
-        if (!res.ok) return;
-        const items = await res.json();
-        if (!Array.isArray(items) || items.length === 0) return;
+        let dbPhotos = [];
+        let metaPhotos = [];
 
+        try {
+          const res = await fetch(`${SUPABASE_URL}/rest/v1/gallery?select=*&order=created_at.desc`, {
+            headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'Cache-Control': 'no-cache' }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data)) dbPhotos = data;
+          }
+        } catch (e) {
+          console.warn('Could not fetch Supabase gallery table:', e);
+        }
+
+        try {
+          const fRes = await fetch(`${SUPABASE_URL}/storage/v1/object/public/gallery/gallery_meta.json?t=${Date.now()}`);
+          if (fRes.ok) {
+            const data = await fRes.json();
+            if (Array.isArray(data)) metaPhotos = data;
+          }
+        } catch (e) {
+          console.warn('Could not fetch gallery_meta.json:', e);
+        }
+
+        const seen = new Set();
+        const merged = [];
+        [...dbPhotos, ...metaPhotos].forEach(p => {
+          if (!p || !p.url) return;
+          const key = (p.id || p.url).toLowerCase();
+          if (!seen.has(key)) {
+            seen.add(key);
+            merged.push(p);
+          }
+        });
+
+        if (merged.length === 0) return;
+
+        // Homepage curated preview: keep clean with max 6 photos/videos
+        const previewItems = merged.slice(0, 6);
         grid.innerHTML = '';
-        items.forEach((photo) => {
+        previewItems.forEach((photo) => {
           if (!photo || !photo.url) return;
+          const isVideo = (photo.url || '').toLowerCase().endsWith('.mp4');
           const card = document.createElement('div');
           card.className = 'gal-item';
           card.setAttribute('data-cat', photo.category || 'culture');
-          card.onclick = () => openLightbox(photo.url, photo.caption || 'EIA Community Memory');
+          card.onclick = () => openLightbox(photo.url, photo.caption || 'EIA Community Memory', isVideo);
           card.innerHTML = `
-            <img src="${photo.url}" alt="${photo.caption || 'EIA Memory'}" loading="lazy" decoding="async">
+            <img src="${photo.url}" alt="${photo.caption || 'EIA Memory'}" decoding="async">
             <div class="cap"><span>${photo.caption || 'EIA Memory'}</span></div>
           `;
           grid.appendChild(card);
