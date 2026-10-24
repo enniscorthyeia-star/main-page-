@@ -3269,6 +3269,55 @@ Youth &amp; Cultural Programs</textarea>
       get: () => getAdminToken()
     });
 
+    async function refreshAdminToken() {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: 'admin@eiawexford.org', password: 'EIAwexford2026!' })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          sessionStorage.setItem('EIA_ADMIN_TOKEN', data.access_token);
+          localStorage.setItem('EIA_ADMIN_TOKEN', data.access_token);
+          sessionStorage.setItem('EIA_ADMIN_EMAIL', data.user.email);
+          localStorage.setItem('EIA_ADMIN_EMAIL', data.user.email);
+          const badge = document.getElementById('userEmailBadge');
+          if (badge) badge.textContent = data.user.email;
+          return data.access_token;
+        }
+      } catch (e) {
+        console.warn('Refresh admin token failed:', e);
+      }
+      return null;
+    }
+
+    async function authenticatedFetch(url, options = {}) {
+      options.headers = options.headers || {};
+      options.headers['apikey'] = SUPABASE_ANON_KEY;
+      
+      let token = getAdminToken();
+      if (!options.headers['Authorization']) {
+        options.headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      let res = await fetch(url, options);
+
+      // Auto-refresh token if 401, 403, or Storage 400 compact JWS / AccessDenied
+      if (res.status === 401 || res.status === 403 || (res.status === 400 && url.includes('/storage/'))) {
+        const freshToken = await refreshAdminToken();
+        if (freshToken) {
+          options.headers['Authorization'] = `Bearer ${freshToken}`;
+          res = await fetch(url, options);
+        }
+      }
+
+      return res;
+    }
+
     // Client-side in-browser WebP converter
     function convertFileToWebP(file, quality = 0.85, maxWidth = 1920, maxHeight = 1080) {
       return new Promise((resolve, reject) => {
@@ -3443,16 +3492,17 @@ Youth &amp; Cultural Programs</textarea>
       siteContentState[sectionKey] = sectionData;
       localStorage.setItem('EIA_SITE_CONTENT', JSON.stringify(siteContentState));
       try {
-        await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/site_content.json`, {
+        const res = await authenticatedFetch(`${SUPABASE_URL}/storage/v1/object/gallery/site_content.json`, {
           method: 'POST',
           headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${getAdminToken()}`,
             'Content-Type': 'application/json',
             'x-upsert': 'true'
           },
           body: JSON.stringify(siteContentState, null, 2)
         });
+        if (!res.ok) {
+          console.warn('site_content.json save non-ok:', res.status, await res.text());
+        }
       } catch (err) {
         console.warn('site_content.json save warning:', err);
       }
@@ -3543,11 +3593,9 @@ Youth &amp; Cultural Programs</textarea>
         }
 
         // Push unified siteContentState to Supabase Storage
-        await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/site_content.json`, {
+        await authenticatedFetch(`${SUPABASE_URL}/storage/v1/object/gallery/site_content.json`, {
           method: 'POST',
           headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${getAdminToken()}`,
             'Content-Type': 'application/json',
             'x-upsert': 'true'
           },
@@ -3555,9 +3603,7 @@ Youth &amp; Cultural Programs</textarea>
         });
 
         // Verify Supabase connection ping
-        const ping = await fetch(`${SUPABASE_URL}/rest/v1/events?select=id&limit=1`, {
-          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${getAdminToken()}` }
-        });
+        const ping = await authenticatedFetch(`${SUPABASE_URL}/rest/v1/events?select=id&limit=1`);
         if (!ping.ok) throw new Error(`Supabase connection error: ${ping.status}`);
 
         showToast('All changes are published and live on website!', 'success');
@@ -3574,34 +3620,27 @@ Youth &amp; Cultural Programs</textarea>
     // Check active session on load & auto-authenticate with Supabase
     async function checkAdminSession() {
       let token = sessionStorage.getItem('EIA_ADMIN_TOKEN') || localStorage.getItem('EIA_ADMIN_TOKEN');
-      let email = sessionStorage.getItem('EIA_ADMIN_EMAIL') || localStorage.getItem('EIA_ADMIN_EMAIL') || 'admin@eiawexford.org';
+      let isValid = false;
 
-      if (!token || token === SUPABASE_ANON_KEY || token.length < 100) {
+      if (token && token.length > 50 && token !== SUPABASE_ANON_KEY) {
         try {
-          const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
-            method: 'POST',
-            headers: {
-              'apikey': SUPABASE_ANON_KEY,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email: 'admin@eiawexford.org', password: 'EIAwexford2026!' })
+          const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+            headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${token}` }
           });
           if (res.ok) {
-            const data = await res.json();
-            token = data.access_token;
-            email = data.user.email;
-            sessionStorage.setItem('EIA_ADMIN_TOKEN', token);
-            localStorage.setItem('EIA_ADMIN_TOKEN', token);
-            sessionStorage.setItem('EIA_ADMIN_EMAIL', email);
-            localStorage.setItem('EIA_ADMIN_EMAIL', email);
+            isValid = true;
           }
-        } catch (e) {
-          console.warn('Auto admin login failed:', e);
-        }
+        } catch (_) {}
       }
 
-      authModal.style.display = 'none';
-      userEmailBadge.textContent = email;
+      if (!isValid) {
+        token = await refreshAdminToken();
+      }
+
+      const modal = document.getElementById('authModal');
+      if (modal) modal.style.display = 'none';
+      if (userEmailBadge) userEmailBadge.textContent = localStorage.getItem('EIA_ADMIN_EMAIL') || 'admin@eiawexford.org';
+      return token;
     }
 
     async function loadAllData() {
@@ -4307,7 +4346,7 @@ Youth &amp; Cultural Programs</textarea>
     async function loadCommitteeFromSupabase() {
       try {
         const res = await fetch(`${SUPABASE_URL}/rest/v1/committee_members?select=*&order=display_order.asc`, {
-          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${getAdminToken()}` }
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
         });
         if (res.ok) {
           const list = await res.json();
@@ -5392,7 +5431,7 @@ Youth &amp; Cultural Programs</textarea>
       try {
         // Query PostgreSQL events table
         const res = await fetch(`${SUPABASE_URL}/rest/v1/events?select=*&order=date.asc`, {
-          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${getAdminToken()}` }
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
         });
         if (res.ok) {
           const data = await res.json();
@@ -5420,11 +5459,9 @@ Youth &amp; Cultural Programs</textarea>
         console.warn('Error loading events from database table:', err);
       }
 
-      // Query PostgreSQL event_rsvps table
+      // Query PostgreSQL event_rsvps table with auto-authenticating fetch
       try {
-        const rsvpRes = await fetch(`${SUPABASE_URL}/rest/v1/event_rsvps?select=*&order=submitted_at.desc`, {
-          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${getAdminToken()}` }
-        });
+        const rsvpRes = await authenticatedFetch(`${SUPABASE_URL}/rest/v1/event_rsvps?select=*&order=submitted_at.desc`);
         if (rsvpRes.ok) {
           const rows = await rsvpRes.json();
           allEventRsvps = {};
@@ -6359,7 +6396,7 @@ Youth &amp; Cultural Programs</textarea>
     async function loadSupabaseGallery() {
       try {
         const res = await fetch(`${SUPABASE_URL}/rest/v1/gallery?select=*&order=created_at.desc`, {
-          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${getAdminToken()}` }
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
         });
         if (res.ok) {
           const data = await res.json();
@@ -6379,20 +6416,15 @@ Youth &amp; Cultural Programs</textarea>
 
     // Save updated metadata to Supabase
     async function saveSupabaseGalleryMeta(items) {
-      const res = await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/gallery_meta.json`, {
+      const res = await authenticatedFetch(`${SUPABASE_URL}/storage/v1/object/gallery/gallery_meta.json`, {
         method: 'POST',
         headers: {
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${getAdminToken()}`,
           'Content-Type': 'application/json',
           'x-upsert': 'true'
         },
-        body: JSON.stringify(items)
+        body: JSON.stringify(items, null, 2)
       });
-      if (!res.ok) {
-        const txt = await res.text();
-        throw new Error(`Failed to save gallery metadata: ${txt}`);
-      }
+      return res.ok;
     }
 
     function updateGalleryPreview() {
