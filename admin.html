@@ -3711,12 +3711,40 @@ Youth &amp; Cultural Programs</textarea>
       }
     }
 
+    const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwS8FBLSea1qsgMsEDrjGz_gWbnjkazDxADK8FLf2sepmYTWT_J7rdr6uhL_j39I-Bu/exec';
+
     async function sendEmailOtpCode(email) {
       const cleanEmail = (email || '').trim().toLowerCase();
       if (!cleanEmail || !cleanEmail.includes('@')) {
         throw new Error('Please enter a valid committee email address.');
       }
 
+      // 1. Primary Mailer: Google Apps Script OTP Relay (bypasses free-tier 2/hr rate limit)
+      try {
+        const probeRes = await fetch(GOOGLE_APPS_SCRIPT_URL, { method: 'GET' });
+        if (probeRes.ok) {
+          const probeData = await probeRes.json().catch(() => ({}));
+          if (probeData && probeData.otp_ready) {
+            const otpRes = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify({ type: 'admin_otp', email: cleanEmail })
+            });
+            const otpData = await otpRes.json().catch(() => ({}));
+            if (otpRes.ok && otpData && otpData.status === 'success') {
+              return {
+                ok: true,
+                cooldown: false,
+                message: `Verification code sent to ${cleanEmail}. Check your inbox and enter the 8-digit code below.`
+              };
+            }
+          }
+        }
+      } catch (relayErr) {
+        console.warn('Apps Script OTP relay fallback:', relayErr);
+      }
+
+      // 2. Fallback: Direct Auth Recover Endpoint
       const redirectUrl = window.location.origin + window.location.pathname;
       const res = await fetch(`${SUPABASE_URL}/auth/v1/recover?redirect_to=${encodeURIComponent(redirectUrl)}`, {
         method: 'POST',
@@ -3742,7 +3770,7 @@ Youth &amp; Cultural Programs</textarea>
         return {
           ok: true,
           cooldown: true,
-          message: `A verification code was recently sent to ${cleanEmail}. Enter the code from your email below, or wait 60 seconds before requesting another.`
+          message: `Built-in email limit reached (HTTP 429). Update your Google Apps Script mailer (Tab 7) to send unlimited instant verification codes to ${cleanEmail}.`
         };
       }
 
