@@ -462,7 +462,7 @@
   <!-- ── HERO ── -->
   <section class="archive-hero">
     <div class="wrap">
-      <span class="kicker">Historical Archives &bull; 2017 to Present</span>
+      <span class="kicker">Historical Archive &bull; Leadership Legacy</span>
       <h1>Past Executive Committees</h1>
       <p>
         Honouring every volunteer, executive officer, and community leader who helped build and nurture the Enniscorthy Indian Association since our founding in 2017.
@@ -743,16 +743,9 @@
       }
     }
 
+    // Initialize
     renderYearPills();
     renderRoster();
-    fetchSupabaseCommittees();
-        console.error('Failed to load past committees:', err);
-        const grid = document.getElementById('rosterGrid');
-        if (grid) grid.innerHTML = '<div class="no-results">Unable to load past committee archives. Please refresh shortly.</div>';
-      }
-    }
-
-    // Initialize
     fetchSupabaseCommittees();
   </script>
 </body>
