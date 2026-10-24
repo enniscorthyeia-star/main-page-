@@ -4378,7 +4378,13 @@
           }
           if (ab.aboutImageUrl) {
             const abImg = document.querySelector('#about .about-media img');
-            if (abImg) abImg.src = ab.aboutImageUrl;
+            if (abImg) {
+              abImg.onerror = () => {
+                abImg.onerror = null;
+                abImg.src = 'images/eia-st-patricks-parade.webp';
+              };
+              abImg.src = ab.aboutImageUrl;
+            }
           }
           const abCta = document.querySelector('#about .about-main .ghost');
           const abCtaWrap = abCta ? abCta.parentElement : null;

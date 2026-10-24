@@ -4164,7 +4164,7 @@ Youth &amp; Cultural Programs</textarea>
         if (posterFileInput && posterFileInput.files[0]) {
           showToast('Converting and uploading poster...', 'info');
           const file = posterFileInput.files[0];
-          const webpBlob = await convertFileToWebP(file, 0.85, 1920, 1080);
+          const { blob: webpBlob } = await convertFileToWebP(file, 0.85, 1920, 1080);
           const cleanName = file.name.replace(/\.[^/.]+$/, "").replace(/[^a-zA-Z0-9_-]/g, "_");
           const uploadPath = `hero/poster_${Date.now()}_${cleanName}.webp`;
           const upRes = await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/${uploadPath}`, {
@@ -4394,7 +4394,7 @@ Youth &amp; Cultural Programs</textarea>
         if (fileInput && fileInput.files[0]) {
           showToast('Converting and uploading about photo to CDN...', 'info');
           const file = fileInput.files[0];
-          const webpBlob = await convertFileToWebP(file, 0.85, 1200, 800);
+          const { blob: webpBlob } = await convertFileToWebP(file, 0.85, 1200, 800);
           const cleanName = file.name.replace(/\.[^/.]+$/, "").replace(/[^a-zA-Z0-9_-]/g, "_");
           const uploadPath = `about/about_${Date.now()}_${cleanName}.webp`;
           const upRes = await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/${uploadPath}`, {
