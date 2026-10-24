@@ -2620,6 +2620,21 @@
           </div>
         </div>
 
+        <!-- OFFICIAL MEMBERSHIP GOOGLE FORM LINK CONTROLLER -->
+        <div class="card" style="border:1.5px solid rgba(197, 155, 39, 0.4); background:rgba(197, 155, 39, 0.05); margin-bottom:20px;">
+          <div class="card-title" style="color:var(--gold); display:flex; justify-content:space-between; align-items:center;">
+            <span>Official Membership Google Form</span>
+            <span style="font-size:0.75rem; font-family:var(--font-mono); color:var(--text-dim);">Live Registration Link</span>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-dim); margin-bottom:12px;">
+            Active registration link. All membership CTA buttons (Navbar, Hero, and Membership card) automatically open this Google Form.
+          </p>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">Google Form URL</label>
+            <input type="url" id="mem_googleFormUrl" class="form-control" value="https://forms.gle/G4cXah5Pa3G1YG9y7" placeholder="https://forms.gle/...">
+          </div>
+        </div>
+
         <div class="card">
           <div class="card-title">Writings &amp; Checklist</div>
           <div class="grid-2">
@@ -2989,7 +3004,7 @@ Youth &amp; Cultural Programs</textarea>
               </div>
               <div class="form-group">
                 <label class="form-label">Header Nav CTA Button Link</label>
-                <input type="text" id="set_navCtaLink" class="form-control" value="membership.html">
+                <input type="text" id="set_navCtaLink" class="form-control" value="https://forms.gle/G4cXah5Pa3G1YG9y7" placeholder="https://forms.gle/...">
               </div>
             </div>
           </div>
@@ -6580,7 +6595,7 @@ Youth &amp; Cultural Programs</textarea>
 
     // ── SECTION 8: MEMBERSHIP HUB STUDIO ──
     let memButtons = [
-      { label: 'View Plans & Apply →', href: 'membership.html', style: 'btn-amber', visible: true },
+      { label: 'Join Now (Official Google Form) →', href: 'https://forms.gle/G4cXah5Pa3G1YG9y7', style: 'btn-amber', visible: true },
       { label: 'Ask a Question', href: '#contact', style: 'btn-outline', visible: true }
     ];
 
@@ -6706,8 +6721,14 @@ Youth &amp; Cultural Programs</textarea>
       document.getElementById('mem_desc').value = d.description || "Join hands with families across Enniscorthy and County Wexford. Support our cultural mission, enjoy exclusive festival access, participate in community welfare, and shape our association's future.";
       document.getElementById('mem_checklist').value = (d.checklistItems || ['Family & Individual Options', 'Event Discounts & Priority', 'Youth & Cultural Programs']).join('\n');
 
+      if (d.googleFormUrl && document.getElementById('mem_googleFormUrl')) {
+        document.getElementById('mem_googleFormUrl').value = d.googleFormUrl;
+      }
       if (d.ctaButtons && Array.isArray(d.ctaButtons) && d.ctaButtons.length) {
         memButtons = JSON.parse(JSON.stringify(d.ctaButtons));
+        if (memButtons[0] && (memButtons[0].href === 'membership.html' || !memButtons[0].href || memButtons[0].href === '#')) {
+          memButtons[0].href = d.googleFormUrl || 'https://forms.gle/G4cXah5Pa3G1YG9y7';
+        }
       }
       renderMemButtons();
 
@@ -6770,15 +6791,22 @@ Youth &amp; Cultural Programs</textarea>
 
     document.getElementById('btnSaveMembership').onclick = async () => {
       try {
+        const gFormUrl = (document.getElementById('mem_googleFormUrl') && document.getElementById('mem_googleFormUrl').value.trim()) || 'https://forms.gle/G4cXah5Pa3G1YG9y7';
+        if (memButtons && memButtons.length) {
+          if (memButtons[0].href === 'membership.html' || !memButtons[0].href || memButtons[0].href === '#') {
+            memButtons[0].href = gFormUrl;
+          }
+        }
         const checklist = document.getElementById('mem_checklist').value.split('\n').map(s => s.trim()).filter(Boolean);
         const payload = {
           kickerText: document.getElementById('mem_kicker').value.trim(),
           heading: document.getElementById('mem_heading').value.trim(),
           description: document.getElementById('mem_desc').value.trim(),
+          googleFormUrl: gFormUrl,
           checklistItems: checklist,
           ctaButtons: memButtons,
-          primaryCtaLabel: (memButtons[0] && memButtons[0].label) || '',
-          primaryCtaHref: (memButtons[0] && memButtons[0].href) || '',
+          primaryCtaLabel: (memButtons[0] && memButtons[0].label) || 'Join Now (Official Google Form) →',
+          primaryCtaHref: (memButtons[0] && memButtons[0].href) || gFormUrl,
           primaryVisible: (memButtons[0] && memButtons[0].visible !== false),
           secondaryCtaLabel: (memButtons[1] && memButtons[1].label) || '',
           secondaryCtaHref: (memButtons[1] && memButtons[1].href) || '',
@@ -6786,9 +6814,17 @@ Youth &amp; Cultural Programs</textarea>
           updatedAt: new Date().toISOString()
         };
 
+        if (siteContentState.settings) {
+          if (!siteContentState.settings.navCtaLink || siteContentState.settings.navCtaLink === 'membership.html') {
+            siteContentState.settings.navCtaLink = gFormUrl;
+            const navLinkInp = document.getElementById('set_navCtaLink');
+            if (navLinkInp) navLinkInp.value = gFormUrl;
+          }
+        }
+
         await saveSiteContentToSupabase('membership', payload);
         sectionSnapshots.membership = JSON.parse(JSON.stringify(payload));
-        showToast('Membership section saved!', 'success');
+        showToast('Membership section and Google Form link saved!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       }
@@ -7449,7 +7485,7 @@ Youth &amp; Cultural Programs</textarea>
       document.getElementById('set_orgName').value = d.orgName || 'Enniscorthy Indian Association';
       document.getElementById('set_tagline').value = (d.tagline && !d.tagline.includes('Est. 2026')) ? d.tagline : 'County Wexford, Ireland • Est. 23/01/2017 • PPN-00656';
       document.getElementById('set_navCtaText').value = d.navCtaText || 'Join EIA 2027';
-      document.getElementById('set_navCtaLink').value = d.navCtaLink || 'membership.html';
+      document.getElementById('set_navCtaLink').value = (d.navCtaLink && d.navCtaLink !== 'membership.html') ? d.navCtaLink : 'https://forms.gle/G4cXah5Pa3G1YG9y7';
       const lUrl = d.logoUrl || 'images/logo.webp';
       document.getElementById('set_logoUrl').value = lUrl;
       const sThumb = document.getElementById('set_logo_thumb');
@@ -7568,20 +7604,70 @@ Youth &amp; Cultural Programs</textarea>
             return;
           }
           btnSaveYear.disabled = true;
-          btnSaveYear.textContent = 'Updating Year...';
+          btnSaveYear.textContent = 'Updating Year Everywhere...';
           try {
-            const res = await fetch(`${SUPABASE_URL}/storage/v1/object/gallery/site_settings.json`, {
+            // 1. Update site_settings.json
+            const res = await authenticatedFetch(`${SUPABASE_URL}/storage/v1/object/gallery/site_settings.json`, {
               method: 'POST',
               headers: {
-                'apikey': SUPABASE_ANON_KEY,
-                'Authorization': `Bearer ${getAdminToken()}`,
                 'Content-Type': 'application/json',
                 'x-upsert': 'true'
               },
               body: JSON.stringify({ associationYear: yr, lastUpdated: new Date().toISOString() }, null, 2)
             });
             if (!res.ok) throw new Error(await res.text());
-            showToast(`Active Association Year updated to ${yr} everywhere!`, 'success');
+
+            // 2. Cascade year & Google Form link into siteContentState
+            const gFormUrl = (document.getElementById('mem_googleFormUrl') && document.getElementById('mem_googleFormUrl').value.trim()) || 
+                             (document.getElementById('set_navCtaLink') && document.getElementById('set_navCtaLink').value.trim() !== 'membership.html' && document.getElementById('set_navCtaLink').value.trim()) ||
+                             'https://forms.gle/G4cXah5Pa3G1YG9y7';
+
+            if (!siteContentState.settings) siteContentState.settings = {};
+            siteContentState.settings.navCtaText = `Join EIA ${yr}`;
+            siteContentState.settings.navCtaLink = gFormUrl;
+            document.getElementById('set_navCtaText').value = `Join EIA ${yr}`;
+            document.getElementById('set_navCtaLink').value = gFormUrl;
+
+            if (!siteContentState.membership) siteContentState.membership = {};
+            siteContentState.membership.kickerText = `Community Membership ${yr}`;
+            siteContentState.membership.heading = `Become an Official Member of EIA (${yr})`;
+            siteContentState.membership.googleFormUrl = gFormUrl;
+            siteContentState.membership.primaryCtaLabel = `Join Now (Official Google Form) →`;
+            siteContentState.membership.primaryCtaHref = gFormUrl;
+
+            const memKickerInp = document.getElementById('mem_kicker');
+            if (memKickerInp) memKickerInp.value = `Community Membership ${yr}`;
+            const memHeadingInp = document.getElementById('mem_heading');
+            if (memHeadingInp) memHeadingInp.value = `Become an Official Member of EIA (${yr})`;
+            const memGfInp = document.getElementById('mem_googleFormUrl');
+            if (memGfInp) memGfInp.value = gFormUrl;
+
+            if (Array.isArray(memButtons) && memButtons.length) {
+              memButtons[0].label = `Join Now (Official Google Form) →`;
+              memButtons[0].href = gFormUrl;
+            } else {
+              memButtons = [
+                { label: `Join Now (Official Google Form) →`, href: gFormUrl, style: 'btn-amber', visible: true },
+                { label: 'Ask a Question', href: '#contact', style: 'btn-outline', visible: true }
+              ];
+            }
+            siteContentState.membership.ctaButtons = memButtons;
+            renderMemButtons();
+
+            // 3. Save updated site_content.json to Supabase
+            await authenticatedFetch(`${SUPABASE_URL}/storage/v1/object/gallery/site_content.json`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'x-upsert': 'true'
+              },
+              body: JSON.stringify(siteContentState, null, 2)
+            });
+
+            // 4. Update previews
+            updateSettingsPreview();
+
+            showToast(`Active Association Year updated to ${yr} and Google Form synced everywhere!`, 'success');
           } catch (err) {
             showToast(err.message, 'error');
           } finally {
@@ -7640,11 +7726,17 @@ Youth &amp; Cultural Programs</textarea>
           }
         }
 
+        let navCtaLinkVal = document.getElementById('set_navCtaLink').value.trim();
+        if (!navCtaLinkVal || navCtaLinkVal === 'membership.html') {
+          navCtaLinkVal = 'https://forms.gle/G4cXah5Pa3G1YG9y7';
+          document.getElementById('set_navCtaLink').value = navCtaLinkVal;
+        }
+
         const payload = {
           orgName: document.getElementById('set_orgName').value.trim(),
           tagline: document.getElementById('set_tagline').value.trim(),
           navCtaText: document.getElementById('set_navCtaText').value.trim(),
-          navCtaLink: document.getElementById('set_navCtaLink').value.trim(),
+          navCtaLink: navCtaLinkVal,
           navCtaVisible,
           logoUrl,
           email: document.getElementById('set_email').value.trim(),

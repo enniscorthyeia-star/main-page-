@@ -4378,6 +4378,14 @@
         if (cfg && cfg.associationYear) {
           const yr = cfg.associationYear;
           document.querySelectorAll('.year-badge, .dynamic-year').forEach(el => el.textContent = yr);
+          const navCta = document.querySelector('.nav-right .nav-cta');
+          if (navCta) {
+            navCta.textContent = `Join EIA ${yr}`;
+          }
+          const drawerCta = document.querySelector('.drawer .btn-amber');
+          if (drawerCta) {
+            drawerCta.textContent = `Join EIA ${yr} →`;
+          }
         }
       } catch (e) {}
     }
@@ -4609,11 +4617,15 @@
                 btnContainer.innerHTML = mem.ctaButtons
                   .filter(b => b.visible !== false)
                   .map(b => {
-                    const isExt = b.href && (b.href.startsWith('http://') || b.href.startsWith('https://'));
+                    let href = b.href || '#';
+                    if (href === 'membership.html' || !href || href === '#') {
+                      href = mem.googleFormUrl || 'https://forms.gle/G4cXah5Pa3G1YG9y7';
+                    }
+                    const isExt = href && (href.startsWith('http://') || href.startsWith('https://'));
                     const target = isExt ? 'target="_blank" rel="noopener"' : '';
                     const styleCls = b.style || 'btn-amber';
                     const extraStyle = styleCls === 'btn-outline' ? 'style="text-align:center; color:#fff; border-color:rgba(255,255,255,0.3); padding:12px 24px;"' : 'style="text-align:center; padding:14px 28px; font-size:15px; font-weight:700;"';
-                    return `<a href="${b.href || '#'}" class="btn ${styleCls}" ${target} ${extraStyle}>${b.label || 'Join Now'}</a>`;
+                    return `<a href="${href}" class="btn ${styleCls}" ${target} ${extraStyle}>${b.label || 'Join Now'}</a>`;
                   }).join('\n');
               }
             }
@@ -4698,6 +4710,8 @@
           }
           const navCta = document.querySelector('.nav-right .nav-cta');
           const drawerCta = document.querySelector('.drawer .btn-amber');
+          const gFormFallback = 'https://forms.gle/G4cXah5Pa3G1YG9y7';
+          const link = (set.navCtaLink && set.navCtaLink !== 'membership.html') ? set.navCtaLink : gFormFallback;
           if (set.navCtaVisible === false) {
             if (navCta) navCta.style.display = 'none';
             if (drawerCta) drawerCta.parentElement.style.display = 'none';
@@ -4705,12 +4719,20 @@
             if (navCta) {
               navCta.style.display = 'inline-block';
               if (set.navCtaText) navCta.textContent = set.navCtaText;
-              if (set.navCtaLink) navCta.href = set.navCtaLink;
+              navCta.href = link;
+              if (link.startsWith('http')) {
+                navCta.target = '_blank';
+                navCta.rel = 'noopener';
+              }
             }
             if (drawerCta) {
               drawerCta.parentElement.style.display = 'block';
               if (set.navCtaText) drawerCta.textContent = set.navCtaText + ' →';
-              if (set.navCtaLink) drawerCta.href = set.navCtaLink;
+              drawerCta.href = link;
+              if (link.startsWith('http')) {
+                drawerCta.target = '_blank';
+                drawerCta.rel = 'noopener';
+              }
             }
           }
           if (set.email) {
