@@ -1836,10 +1836,11 @@
               <label class="form-label">Password</label>
               <input type="password" id="authPassword" class="form-control" value="EIA#Wexford2026!SecureCouncil" required placeholder="Password">
             </div>
-            <div style="margin-top:14px;">
+            <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center;">
               <label style="font-size:0.8rem; color:var(--text-dim); display:flex; align-items:center; gap:8px; cursor:pointer;">
                 <input type="checkbox" id="authRememberMe" checked> Remember sign in on this device
               </label>
+              <a href="#" id="btnForgotPassword" style="font-size:0.8rem; color:var(--gold); text-decoration:none;">Forgot password?</a>
             </div>
             <div style="margin-top:22px;">
               <button type="submit" class="btn btn-gold" id="loginBtn" style="width:100%; padding:13px; font-weight:700;">Sign In to Dashboard</button>
@@ -1865,6 +1866,7 @@
       <a href="index.html" target="_blank" class="btn btn-outline-gold btn-sm">Preview Live Site &rarr;</a>
       
       <span class="user-pill" id="userEmailBadge">Loading...</span>
+      <button class="btn btn-outline-gold btn-sm" id="btnOpenChangePassword" title="Change Admin Password">Change Password</button>
       <button class="btn btn-outline-gold btn-sm" id="logoutBtn">Sign Out</button>
     </div>
   </header>
@@ -3203,6 +3205,32 @@ Youth &amp; Cultural Programs</textarea>
     </div>
   </div>
 
+  <!-- Change Password Modal -->
+  <div class="modal" id="changePasswordModal">
+    <div class="modal-dialog" style="max-width:440px;">
+      <div class="modal-header">
+        <h3 style="font-family:'Fraunces', serif; color:#fff;">Change Admin Password</h3>
+        <button type="button" class="btn btn-outline-gold btn-xs" onclick="closeChangePasswordModal()">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">New Password</label>
+          <input type="password" id="inputNewPassword" class="form-control" placeholder="Enter new strong password" minlength="8">
+          <span style="font-size:11px; color:var(--text-dim); margin-top:4px; display:block;">Minimum 8 characters with letters, numbers &amp; symbols.</span>
+        </div>
+        <div class="form-group" style="margin-top:14px;">
+          <label class="form-label">Confirm New Password</label>
+          <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Re-enter new password">
+        </div>
+        <div id="passwordChangeMsg" style="font-size:12px; margin-top:10px; display:none;"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-gold" onclick="closeChangePasswordModal()">Cancel</button>
+        <button type="button" class="btn btn-gold" id="btnSubmitPasswordChange">Update Password</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
 
@@ -3573,6 +3601,108 @@ Youth &amp; Cultural Programs</textarea>
       authModal.style.display = 'flex';
       userEmailBadge.textContent = 'Signed out';
       showToast('Signed out', 'info');
+    });
+
+    // Change Password Modal logic
+    window.closeChangePasswordModal = function() {
+      const modal = document.getElementById('changePasswordModal');
+      if (modal) modal.classList.remove('active');
+      const p1 = document.getElementById('inputNewPassword');
+      const p2 = document.getElementById('inputConfirmPassword');
+      if (p1) p1.value = '';
+      if (p2) p2.value = '';
+      const msg = document.getElementById('passwordChangeMsg');
+      if (msg) msg.style.display = 'none';
+    };
+
+    document.getElementById('btnOpenChangePassword')?.addEventListener('click', () => {
+      const modal = document.getElementById('changePasswordModal');
+      if (modal) modal.classList.add('active');
+    });
+
+    document.getElementById('btnSubmitPasswordChange')?.addEventListener('click', async () => {
+      const newPwd = document.getElementById('inputNewPassword').value.trim();
+      const confirmPwd = document.getElementById('inputConfirmPassword').value.trim();
+      const msg = document.getElementById('passwordChangeMsg');
+      const btn = document.getElementById('btnSubmitPasswordChange');
+
+      if (!newPwd || newPwd.length < 8) {
+        if (msg) {
+          msg.textContent = 'Password must be at least 8 characters long.';
+          msg.style.color = '#ef4444';
+          msg.style.display = 'block';
+        }
+        return;
+      }
+      if (newPwd !== confirmPwd) {
+        if (msg) {
+          msg.textContent = 'Passwords do not match.';
+          msg.style.color = '#ef4444';
+          msg.style.display = 'block';
+        }
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Updating...';
+
+      try {
+        const token = getAdminToken();
+        const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+          method: 'PUT',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ password: newPwd })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.msg || data.message || data.error_description || 'Password update failed');
+        }
+
+        showToast('Password changed successfully!', 'success');
+        const authPass = document.getElementById('authPassword');
+        if (authPass) authPass.value = newPwd;
+        closeChangePasswordModal();
+      } catch (err) {
+        if (msg) {
+          msg.textContent = err.message;
+          msg.style.color = '#ef4444';
+          msg.style.display = 'block';
+        }
+        showToast(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Update Password';
+      }
+    });
+
+    // Forgot password recovery link
+    document.getElementById('btnForgotPassword')?.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const emailInput = document.getElementById('authEmail');
+      const email = (emailInput ? emailInput.value.trim() : '') || 'enniscorthyeia@gmail.com';
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/auth/v1/recover`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email })
+        });
+        if (res.ok) {
+          showToast(`Password reset email sent to ${email}`, 'success');
+        } else {
+          const data = await res.json();
+          throw new Error(data.msg || data.message || 'Failed to send reset link');
+        }
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
     });
 
     document.getElementById('btnPublishLive')?.addEventListener('click', async () => {
