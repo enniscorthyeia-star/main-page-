@@ -1,5 +1,5 @@
 /**
- * EIA Wexford — Sanity CMS Integration Layer
+ * EIA Wexford - Sanity CMS Integration Layer
  * Fetches content from Sanity Content Lake and injects into the existing HTML layout.
  * Falls back to hardcoded HTML content if Sanity is unreachable.
  * 
@@ -112,7 +112,7 @@
             sectionDescription: cData.sectionDescription || "Introducing the newly elected Executive Committee of Enniscorthy Indian Association for 2026, serving our community with unity, passion, and dedicated volunteer governance.",
             year: cData.year || 2026,
             quoteText: cData.quoteText || "We are proud to introduce the newly elected Executive Committee of Indian Association Enniscorthy for 2026. We look forward to serving our community with unity and dedication.",
-            quoteAttribution: cData.quoteAttribution || "— Enniscorthy Indian Association (EIA) Executive Team",
+            quoteAttribution: cData.quoteAttribution || "- Enniscorthy Indian Association (EIA) Executive Team",
             filterTabs: [
               { label: `All Members (${members.length})`, filterValue: "all" },
               { label: "Executive Officers", filterValue: "officer" },
@@ -475,7 +475,7 @@
         return `
           <div class="comm-card" data-cat="${esc(m.category)}" data-r>
             <div class="comm-photo-wrap">
-              <img src="${photoSrc}" alt="${esc(m.name)} — ${esc(m.role)}" loading="lazy">
+              <img src="${photoSrc}" alt="${esc(m.name)} - ${esc(m.role)}" loading="lazy">
               <span class="comm-role-badge${badgeClass}">${esc(m.role)}</span>
             </div>
             <div class="comm-info">
@@ -532,7 +532,7 @@
       if (descHtml.includes('EIA Sports and Arts Club (PPN-00677)')) {
         descHtml = descHtml.replace('EIA Sports and Arts Club (PPN-00677)', '<a href="#services" style="color:var(--amber);font-weight:600;">EIA Sports and Arts Club (PPN-00677)</a>');
       } else if (p.title && p.title.toLowerCase().includes('sports')) {
-        descHtml = `<a href="#services" style="color:var(--amber);font-weight:600;">EIA Sports and Arts Club (PPN-00677)</a> &mdash; ${descHtml}`;
+        descHtml = `<a href="#services" style="color:var(--amber);font-weight:600;">EIA Sports and Arts Club (PPN-00677)</a> - ${descHtml}`;
       }
       return `
         <div class="prog-card" data-r="${(i * 0.1).toFixed(1)}">

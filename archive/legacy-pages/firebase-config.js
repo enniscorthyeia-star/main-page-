@@ -1,5 +1,5 @@
 /**
- * EIA Wexford — Firebase Configuration & Initialization
+ * EIA Wexford - Firebase Configuration & Initialization
  */
 
 export const firebaseConfig = {
