@@ -2209,29 +2209,54 @@
 
       /* Header & Navigation */
       .nav {
-        padding: 10px 16px;
-        gap: 10px;
+        padding: 10px 14px;
+        gap: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
       }
       header.sc .nav {
-        padding: 8px 16px;
+        padding: 8px 14px;
       }
       .brand {
-        gap: 10px;
+        gap: 8px;
+        min-width: 0;
+        flex: 1;
       }
       .brand-logo {
-        width: 44px;
-        height: 44px;
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+      }
+      .brand-text {
+        min-width: 0;
       }
       .brand-text .name {
-        font-size: 16px;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .brand-text .sub {
-        font-size: 9.5px;
+        font-size: 9px;
         letter-spacing: 0.08em;
       }
-      .nav-cta {
-        padding: 6px 13px;
-        font-size: 12px;
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .nav-right .nav-cta {
+        display: none !important;
+      }
+      .hamburger {
+        display: flex !important;
+        flex-shrink: 0;
+        padding: 6px;
       }
 
       /* Drawer Mobile Overlay */
@@ -2453,6 +2478,29 @@
         justify-content: center;
       }
 
+      /* Patron Message Card */
+      .patron-message-card {
+        padding: 28px 18px !important;
+        margin-top: 24px !important;
+        margin-bottom: 24px !important;
+        border-radius: 16px !important;
+        box-sizing: border-box !important;
+      }
+      .patron-message-card .patron-photo {
+        width: 135px !important;
+        height: 135px !important;
+      }
+      .patron-message-card h3 {
+        font-size: 22px !important;
+        text-align: center;
+        margin-top: 8px;
+        margin-bottom: 12px !important;
+      }
+      .patron-message-card p {
+        font-size: 14px !important;
+        line-height: 1.65 !important;
+      }
+
       /* Membership Section */
       .membership-section {
         padding: 48px 0;
@@ -2461,9 +2509,13 @@
         padding: 24px 16px;
       }
       .membership-cta-card {
-        padding: 28px 18px !important;
-        border-radius: 16px !important;
-        gap: 22px !important;
+        padding: 30px 20px !important;
+        border-radius: 18px !important;
+        gap: 24px !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
       }
       .membership-cta-card h2 {
         font-size: 24px !important;
@@ -2479,10 +2531,15 @@
       .membership-cta-btns {
         width: 100% !important;
         min-width: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
       }
       .membership-cta-btns .btn {
         width: 100% !important;
         justify-content: center !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
       }
 
       /* Community Services */
@@ -3091,23 +3148,15 @@
 
       </div>
 
-      <!-- Past Executive Committees Button -->
-      <div style="text-align: center; margin: 36px 0 44px;" data-r>
-        <a href="past-committees.html?v=20261024" class="btn btn-amber" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 700; padding: 13px 30px; font-size: 15px; border-radius: 999px; text-decoration: none; box-shadow: var(--shadow-sm);">
-          <span>Past Executive Committees</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-      </div>
-
       <!-- Message from the Patron -->
       <div class="patron-message-card" data-r style="background: linear-gradient(135deg, #1C1917 0%, #2D2620 100%); color: #FAF0D0; border: 1.5px solid rgba(197, 155, 39, 0.45); border-radius: var(--r); padding: 40px 32px; margin-top: 36px; margin-bottom: 24px; box-shadow: var(--shadow);">
         <div style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
           <div style="flex-shrink: 0; text-align: center; margin: 0 auto;">
-            <img src="images/committee_sq/dr-george-leslie.webp" alt="Dr George Leslie Thomas - Patron" style="width: 190px; height: 190px; border-radius: 50%; object-fit: cover; border: 4px solid var(--amber); box-shadow: 0 10px 28px rgba(0,0,0,0.45);">
+            <img src="images/committee_sq/dr-george-leslie.webp" alt="Dr George Leslie Thomas - Patron" class="patron-photo" style="width: 190px; height: 190px; border-radius: 50%; object-fit: cover; border: 4px solid var(--amber); box-shadow: 0 10px 28px rgba(0,0,0,0.45);">
             <div style="margin-top: 14px; font-family: 'Outfit', sans-serif; font-weight: 700; color: #fff; font-size: 17px;">Dr. George Leslie Thomas</div>
             <div style="font-size: 13px; color: var(--amber); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px;">Patron</div>
           </div>
-          <div style="flex: 1; min-width: 280px;">
+          <div style="flex: 1; min-width: 260px;">
             <h3 style="font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700; color: #FFFFFF; margin-bottom: 16px; line-height: 1.25;">Message from the Patron</h3>
             <div style="font-size: 15.5px; line-height: 1.8; color: rgba(250, 240, 208, 0.94);">
               <p style="margin-bottom: 12px;">“I am delighted and honoured to be part of the Enniscorthy Indian Association as its Patron.</p>
@@ -3122,6 +3171,14 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Past Executive Committees Button -->
+      <div style="text-align: center; margin: 32px 0 10px;" data-r>
+        <a href="past-committees.html?v=20261024" class="btn btn-amber" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; padding: 13px 30px; font-size: 15px; border-radius: 999px; text-decoration: none; box-shadow: var(--shadow-sm);">
+          <span>Past Executive Committees</span>
+          <span aria-hidden="true">&rarr;</span>
+        </a>
       </div>
 
     </div>
@@ -3293,9 +3350,9 @@
           </div>
 
           <div class="membership-checklist">
-            <span>&bull; Family: &euro;10/yr | Single: &euro;5/yr</span>
-            <span>&bull; Official Membership 2027</span>
-            <span>&bull; Email: enniscorthyindianassociation@gmail.com</span>
+            <span>&bull; Full Access to All 2027 Festivals &amp; Celebrations</span>
+            <span>&bull; Family, Student &amp; Youth Community Welfare</span>
+            <span>&bull; Official Membership &amp; AGM Participation</span>
           </div>
         </div>
 
@@ -3304,8 +3361,8 @@
           <a href="https://forms.gle/G4cXah5Pa3G1YG9y7" target="_blank" rel="noopener" class="btn btn-amber" style="text-align: center; padding: 14px 28px; font-size: 15px; font-weight: 700;">
             Join Now &rarr;
           </a>
-          <a href="mailto:enniscorthyindianassociation@gmail.com" class="btn btn-outline" style="text-align: center; color: #fff; border-color: rgba(255,255,255,0.3); padding: 12px 24px;">
-            Email: enniscorthyindianassociation@gmail.com
+          <a href="#contact" class="btn btn-outline" style="text-align: center; color: #fff; border-color: rgba(255,255,255,0.3); padding: 12px 24px;">
+            Have Questions? Contact Us &rarr;
           </a>
         </div>
       </div>
