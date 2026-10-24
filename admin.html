@@ -5635,7 +5635,7 @@ Youth &amp; Cultural Programs</textarea>
               <h3>${ev.title}</h3>
               <p>${ev.description || ''}</p>
               <div class="pitch-event-foot">
-                <span>${ev.location || 'County Wexford'}</span>
+                <span>${ev.location || 'County Wexford'}${ev.time ? ` &bull; ${ev.time}` : ''}</span>
                 <span class="pitch-btn-amber-sm">${ev.rsvpEnabled ? (ev.rsvpMode === 'link' ? 'External Link' : 'RSVP Active') : 'Free Entry'}</span>
               </div>
             </div>
@@ -5680,7 +5680,7 @@ Youth &amp; Cultural Programs</textarea>
                 <span class="role-pill" style="margin:0;">${ev.badge || 'Event'}</span>
               </div>
               <div style="font-size:0.75rem; color:var(--gold); margin-top:3px;">
-                ${ev.displayDay} ${ev.displayMonth} &bull; ${ev.location || 'County Wexford'}
+                ${ev.displayDay} ${ev.displayMonth}${ev.time ? ` &bull; ${ev.time}` : ''} &bull; ${ev.location || 'County Wexford'}
               </div>
               <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:6px;">
                 <span class="role-pill" style="background:${ev.rsvpEnabled ? 'rgba(31,107,74,0.4)' : 'rgba(255,255,255,0.08)'}; color:${ev.rsvpEnabled ? '#6ee7b7' : 'var(--text-dim)'}; margin:0; font-size:0.68rem;">
