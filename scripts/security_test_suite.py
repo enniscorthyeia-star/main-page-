@@ -79,11 +79,14 @@ def test_secrets_and_git():
     tracked = subprocess.check_output(["git", "ls-files"], text=True).splitlines()
     record(".env excluded from git tracking", ".env" not in tracked)
 
-    scan_files = HTML_PAGES + glob.glob(".github/workflows/*.yml") + glob.glob("scripts/*.gs")
+    scan_files = [f for f in tracked if f != "scripts/security_test_suite.py"]
     leaked = []
     patterns = [
-        ("service_role JWT", r"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzb21waXJ6cmxiYWducXBkdW92Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSI"),
+        ("service_role JWT", r"InNlcnZpY2Vfcm9sZSI"),
+        ("service_role signature", r"tj2PEu25r12of9M8MnGH5RfZHPRFvypDf6G9gr5iyFs"),
         ("sb_secret key", r"sb_secret_"),
+        ("Brevo API key", r"xkeysib-"),
+        ("Brevo SMTP key", r"xsmtpsib-"),
         ("hardcoded password", r"EIA#Wexford2026"),
     ]
     for path in scan_files:
