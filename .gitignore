@@ -36,5 +36,8 @@ Thumbs.db
 # Temporary & Log files
 *.log
 scratch/
+scratch*.png
+node_modules/
+package*.json
 images/committee/WhatsApp*
 

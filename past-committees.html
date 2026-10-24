@@ -471,16 +471,10 @@
         Honouring every volunteer, executive officer, and community leader who helped build and nurture the Enniscorthy Indian Association since our founding in 2017.
       </p>
 
-      <div class="archive-controls">
-        <!-- Search -->
-        <div class="search-bar-wrap">
-          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="memberSearch" class="search-input" placeholder="Search past members or roles (e.g. Tom, President, Secretary)...">
-        </div>
-
+      <div class="archive-controls" style="justify-content: center;">
         <!-- Year Selector Buttons -->
         <div class="year-pills" id="yearPills">
-          <!-- Dynamically populated or static baseline -->
+          <!-- Populated with 2025 and 2024 -->
         </div>
       </div>
     </div>
@@ -567,56 +561,9 @@
         { name: "Raju Philip", role: "Executive Member" },
         { name: "Prince John", role: "Executive Member" },
         { name: "Vipin George", role: "Executive Member" }
-      ],
-      "2023": [
-        { role: "President", name: "Abin Varghese K" },
-        { role: "Vice President", name: "Sam Abraham" },
-        { role: "Secretary", name: "Bino Varavumkal" },
-        { role: "Treasurer", name: "Jobi Mathew" },
-        { role: "Auditor", name: "Tom Jose" },
-        { role: "Auditor", name: "Jomon K Paul" },
-        { role: "Executive Member", name: "Siby Varghese" }
-      ],
-      "2022": [
-        { role: "President", name: "Sam Abraham" },
-        { role: "Vice President", name: "Bino Varavumkal" },
-        { role: "Secretary", name: "Tom Jose" },
-        { role: "Treasurer", name: "Jobi Mathew" },
-        { role: "Auditor", name: "Abin Varghese K" }
-      ],
-      "2021": [
-        { role: "President", name: "Tom Jose" },
-        { role: "Vice President", name: "Late Bijumon Sreedharan" },
-        { role: "Secretary", name: "Bino Varavumkal" },
-        { role: "Treasurer", name: "Sam Abraham" }
-      ],
-      "2020": [
-        { role: "President", name: "Late Bijumon Sreedharan" },
-        { role: "Vice President", name: "Tom Jose" },
-        { role: "Secretary", name: "Bino Varavumkal" },
-        { role: "Treasurer", name: "Abin Varghese K" }
-      ],
-      "2019": [
-        { role: "President", name: "Tom Jose" },
-        { role: "Secretary", name: "Late Bijumon Sreedharan" },
-        { role: "Treasurer", name: "Bino Varavumkal" }
-      ],
-      "2018": [
-        { role: "President", name: "Tom Jose" },
-        { role: "Secretary", name: "Bino Varavumkal" },
-        { role: "Treasurer", name: "Sam Abraham" }
-      ],
-      "2017": [
-        { role: "Founding President", name: "Tom Jose" },
-        { role: "Founding Trustee", name: "Late Bijumon Sreedharan" },
-        { role: "Founding Trustee", name: "Bino Varavumkal" },
-        { role: "Founding Trustee", name: "Abin Varghese K" },
-        { role: "Founding Trustee", name: "Sam Abraham" },
-        { role: "Founding Trustee", name: "Jomon K Paul" }
       ]
     };
     let selectedYear = '2025';
-    let searchQuery = '';
 
     // Render year pill buttons
     function renderYearPills() {
@@ -636,8 +583,6 @@
         btn.textContent = year;
         btn.onclick = () => {
           selectedYear = year;
-          searchQuery = '';
-          document.getElementById('memberSearch').value = '';
           renderYearPills();
           renderRoster();
         };
@@ -651,52 +596,6 @@
       const title = document.getElementById('selectedYearTitle');
       const meta = document.getElementById('rosterMeta');
       grid.innerHTML = '';
-
-      const years = Object.keys(pastCommittees).sort((a, b) => b - a);
-      if (years.length === 0) {
-        title.textContent = 'Past Committees Archive';
-        meta.textContent = '0 Records';
-        grid.innerHTML = '<div class="no-results">No past committee records found.</div>';
-        return;
-      }
-
-      // Search Mode
-      if (searchQuery) {
-        title.textContent = `Search: "${searchQuery}"`;
-        const matches = [];
-
-        Object.keys(pastCommittees).forEach(year => {
-          (pastCommittees[year] || []).forEach(m => {
-            if (m.name.toLowerCase().includes(searchQuery) || m.role.toLowerCase().includes(searchQuery)) {
-              matches.push({ ...m, year });
-            }
-          });
-        });
-
-        meta.textContent = `${matches.length} matching result${matches.length === 1 ? '' : 's'}`;
-
-        if (matches.length === 0) {
-          grid.innerHTML = `<div class="no-results">No past committee members matching "${searchQuery}".</div>`;
-          return;
-        }
-
-        matches.forEach(m => {
-          const isPresident = m.role.toLowerCase().includes('president');
-          const isLate = m.name.toLowerCase().includes('late');
-          const cleanName = m.name.replace(/\s*\(?[Ll]ate\)?/g, '').trim();
-          const card = document.createElement('div');
-          card.className = `member-card ${isPresident ? 'president' : ''}`;
-          card.innerHTML = `
-            <div>
-              <span class="member-role-badge">${m.role}</span>
-              <div class="member-name">${cleanName}${isLate ? ' <span style="font-size:10px; font-weight:700; color:#FAF0D0; background:#2D2620; padding:1px 6px; border-radius:4px; margin-left:4px; vertical-align:middle; border:1px solid rgba(197,155,39,0.5);">Late</span>' : ''}</div>
-            </div>
-            <div class="member-year-tag">EIA Committee ${m.year}</div>
-          `;
-          grid.appendChild(card);
-        });
-        return;
-      }
 
       // Selected Year View
       title.textContent = `Executive Committee ${selectedYear}`;
@@ -724,12 +623,6 @@
         grid.appendChild(card);
       });
     }
-
-    // Search input handler
-    document.getElementById('memberSearch').oninput = (e) => {
-      searchQuery = e.target.value.trim().toLowerCase();
-      renderRoster();
-    };
 
     // Initialize
     renderYearPills();

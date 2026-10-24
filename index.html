@@ -2541,6 +2541,16 @@
         grid-template-columns: 1fr;
         gap: 0;
       }
+      .form-control {
+        font-size: 16px !important;
+      }
+      .patron-message-card {
+        padding: 28px 18px !important;
+      }
+      .patron-message-card img {
+        width: 150px !important;
+        height: 150px !important;
+      }
       .toast {
         left: 14px;
         right: 14px;
@@ -3047,24 +3057,23 @@
       </div>
 
       <!-- Message from the Patron -->
-      <div class="patron-message-card" data-r style="background: linear-gradient(135deg, #1C1917 0%, #2D2620 100%); color: #FAF0D0; border: 1.5px solid rgba(197, 155, 39, 0.45); border-radius: var(--r); padding: 36px 32px; margin-top: 48px; margin-bottom: 24px; box-shadow: var(--shadow);">
-        <div style="display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap;">
+      <div class="patron-message-card" data-r style="background: linear-gradient(135deg, #1C1917 0%, #2D2620 100%); color: #FAF0D0; border: 1.5px solid rgba(197, 155, 39, 0.45); border-radius: var(--r); padding: 40px 32px; margin-top: 36px; margin-bottom: 24px; box-shadow: var(--shadow);">
+        <div style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
           <div style="flex-shrink: 0; text-align: center; margin: 0 auto;">
-            <img src="images/committee_sq/dr-george-leslie.webp" alt="Dr George Leslie Thomas - Patron" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 3px solid var(--amber); box-shadow: 0 8px 24px rgba(0,0,0,0.4);">
-            <div style="margin-top: 10px; font-family: 'Outfit', sans-serif; font-weight: 700; color: #fff; font-size: 15px;">Dr. George Leslie Thomas</div>
-            <div style="font-size: 12px; color: var(--amber); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;">Patron &amp; Senior Advisor</div>
+            <img src="images/committee_sq/dr-george-leslie.webp" alt="Dr George Leslie Thomas - Patron" style="width: 190px; height: 190px; border-radius: 50%; object-fit: cover; border: 4px solid var(--amber); box-shadow: 0 10px 28px rgba(0,0,0,0.45);">
+            <div style="margin-top: 14px; font-family: 'Outfit', sans-serif; font-weight: 700; color: #fff; font-size: 17px;">Dr. George Leslie Thomas</div>
+            <div style="font-size: 13px; color: var(--amber); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px;">Patron</div>
           </div>
           <div style="flex: 1; min-width: 280px;">
-            <div style="display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--amber); background: rgba(197, 155, 39, 0.15); border: 1px solid rgba(197, 155, 39, 0.35); padding: 4px 12px; border-radius: 999px; margin-bottom: 12px;">Official Message</div>
-            <h3 style="font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700; color: #FFFFFF; margin-bottom: 16px; line-height: 1.25;">Message from the Patron</h3>
-            <div style="font-size: 15px; line-height: 1.75; color: rgba(250, 240, 208, 0.92);">
+            <h3 style="font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700; color: #FFFFFF; margin-bottom: 16px; line-height: 1.25;">Message from the Patron</h3>
+            <div style="font-size: 15.5px; line-height: 1.8; color: rgba(250, 240, 208, 0.94);">
               <p style="margin-bottom: 12px;">“I am delighted and honoured to be part of the Enniscorthy Indian Association as its Patron.</p>
               <p style="margin-bottom: 12px;">As Indians, we deeply value togetherness, kindness, compassion and respect for one another. Wherever we live, we believe in contributing positively to society, supporting our communities and working together to strengthen the economy of our adopted country.</p>
               <p style="margin-bottom: 12px;">Here in Ireland, we are proud to live in harmony, celebrate our shared cultures and build lasting friendships between the Indian and Irish communities.</p>
               <p style="margin-bottom: 12px;">As we say in India, <em>“Vasudhaiva Kutumbakam”</em> &mdash; the world is one family. This beautiful philosophy reminds us that, beyond our differences in culture, language and background, we are all part of one human family.</p>
               <p style="margin-bottom: 12px;">Let us continue to build bridges between our communities through friendship, mutual respect, peace and compassion.</p>
               <p style="margin-bottom: 16px;">Together, we can create a stronger, kinder and more inclusive society for everyone.”</p>
-              <div style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 15px; color: var(--amber); border-top: 1px solid rgba(197, 155, 39, 0.25); padding-top: 12px;">
+              <div style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 15px; color: var(--amber); border-top: 1px solid rgba(197, 155, 39, 0.25); padding-top: 14px;">
                 &mdash; Dr George Leslie Thomas, <span style="font-weight: 400; color: rgba(255,255,255,0.7);">Patron &bull; Enniscorthy Indian Association</span>
               </div>
             </div>
@@ -3677,6 +3686,9 @@
     }
     ham.addEventListener('click', toggleDrawer);
     if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeDrawer);
+    if (drawer) {
+      drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+    }
 
     // Reveal on scroll
     const revEls = document.querySelectorAll('[data-r]');
@@ -3796,11 +3808,41 @@
       updateFormSummary();
     }
 
-    function handleContactSubmit(e) {
+    // Google Sheets Contact Form Webhook (paste deployed Google Apps Script URL here)
+    const GOOGLE_SHEETS_CONTACT_URL = window.EIA_GOOGLE_SHEETS_URL || '';
+
+    async function handleContactSubmit(e) {
       e.preventDefault();
-      const name = document.getElementById('contactName').value;
+      const name = document.getElementById('contactName').value.trim();
+      const email = document.getElementById('contactEmail').value.trim();
+      const message = document.getElementById('contactMessage').value.trim();
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const origBtnText = submitBtn ? submitBtn.innerHTML : 'Send Message &rarr;';
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Sending Message...</span>';
+      }
+
+      if (GOOGLE_SHEETS_CONTACT_URL) {
+        try {
+          await fetch(GOOGLE_SHEETS_CONTACT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, message, userAgent: navigator.userAgent })
+          });
+        } catch (err) {
+          console.warn('Google Sheets enquiry dispatch notice:', err);
+        }
+      }
+
       showToast(`Thank you ${name}! Your message has been sent to the EIA Committee.`);
       e.target.reset();
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = origBtnText;
+      }
     }
 
     // Event Modal
