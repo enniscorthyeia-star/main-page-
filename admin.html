@@ -68,163 +68,57 @@
     .font-serif { font-family: 'Fraunces', Georgia, serif; }
     .font-mono { font-family: 'IBM Plex Mono', monospace; }
 
-    /* Auth Screen - Solid Architectural Style, Zero Glass */
+    /* Auth Screen - Solid Architectural Style, Zero Glass, Centered Focus */
     #authModal {
       position: fixed;
       inset: 0;
       display: flex;
+      align-items: center;
+      justify-content: center;
       z-index: 1000;
       background-color: #12100E;
+      padding: 24px;
       overflow-y: auto;
     }
 
-    .auth-split-wrapper {
-      display: flex;
+    .auth-card-clean {
       width: 100%;
-      min-height: 100vh;
+      max-width: 420px;
+      background: #1C1917;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 40px 32px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
     }
 
-    .auth-hero-pane {
-      flex: 1.15;
-      position: relative;
-      background: linear-gradient(145deg, #0D261B 0%, #171412 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 56px 48px;
-      border-right: 1px solid rgba(255, 255, 255, 0.08);
+    .auth-card-header {
+      text-align: center;
+      margin-bottom: 26px;
     }
 
-    .auth-hero-pane::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 20% 20%, rgba(197, 155, 39, 0.15), transparent 60%);
-      pointer-events: none;
-    }
-
-    .hero-pane-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-pane-header img {
-      width: 48px;
-      height: 48px;
+    .auth-card-logo {
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 14px;
+      display: block;
       border: 2px solid var(--gold);
       background: #fff;
     }
 
-    .hero-pane-header h3 {
-      font-size: 1.15rem;
+    .auth-card-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.75rem;
       font-weight: 700;
       color: #fff;
-      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+      line-height: 1.2;
     }
 
-    .hero-pane-header span {
-      display: block;
-      font-size: 0.76rem;
-      color: var(--gold);
-      font-family: 'IBM Plex Mono', monospace;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .hero-pane-center {
-      position: relative;
-      z-index: 2;
-      max-width: 520px;
-    }
-
-    .hero-kicker-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--gold);
-      background: rgba(197, 155, 39, 0.12);
-      border: 1px solid rgba(197, 155, 39, 0.3);
-      padding: 5px 12px;
-      border-radius: 999px;
-      margin-bottom: 20px;
-    }
-
-    .hero-pane-center h1 {
-      font-size: 2.5rem;
-      line-height: 1.15;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 18px;
-    }
-
-    .hero-pane-center p {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: rgba(247, 245, 240, 0.85);
-      margin-bottom: 28px;
-    }
-
-    .auth-stat-strip {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      border-top: 1px solid rgba(255, 255, 255, 0.12);
-      padding-top: 24px;
-    }
-
-    .stat-item .num {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--gold);
-    }
-
-    .stat-item .label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .auth-form-pane {
-      flex: 0.95;
-      background: #151311;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 48px 32px;
-    }
-
-    .auth-box {
-      width: 100%;
-      max-width: 420px;
-      background: #1C1917;
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      border-radius: 14px;
-      padding: 38px 32px;
-      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55);
-    }
-
-    .auth-box-title {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 1.85rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 8px;
-    }
-
-    .auth-box-sub {
+    .auth-card-sub {
+      font-size: 0.85rem;
       color: var(--text-dim);
-      font-size: 0.88rem;
-      margin-bottom: 24px;
       line-height: 1.5;
     }
 
@@ -1778,69 +1672,50 @@
 </head>
 <body>
 
-  <!-- AUTHENTICATION SCREEN -->
+  <!-- AUTHENTICATION SCREEN - CLEAN, ZERO GLASS, SOLID CENTERED -->
   <div id="authModal">
-    <div class="auth-split-wrapper">
-      <div class="auth-hero-pane">
-        <div class="hero-pane-header">
-          <img src="images/logo.webp" alt="EIA Wexford Emblem">
-          <div>
-            <h3>Enniscorthy Indian Association</h3>
-            <span>Executive Committee Portal &bull; Co. Wexford</span>
-          </div>
-        </div>
-
-        <div class="hero-pane-center">
-          <div class="hero-kicker-tag">Official Association Governance</div>
-          <h1 class="font-serif">Executive Administration Centre</h1>
-          <p>
-            Complete visual management system for Enniscorthy Indian Association. Update video, writings, 15 executive committee members, 12 attractions, festival calendars, and membership services with live layout feedback.
-          </p>
-          <div class="auth-stat-strip">
-            <div class="stat-item"><div class="num">15</div><div class="label">Officers &amp; Leaders</div></div>
-            <div class="stat-item"><div class="num">12</div><div class="label">Curated Spots</div></div>
-            <div class="stat-item"><div class="num">250+</div><div class="label">Families Connected</div></div>
-          </div>
-        </div>
-
-        <div style="font-family:'IBM Plex Mono', monospace; font-size:0.75rem; color:var(--text-dim); position:relative; z-index:2;">
-          Together, We Celebrate. Together, We Connect. Together, We Grow.
-        </div>
+    <div class="auth-card-clean">
+      <div class="auth-card-header">
+        <img src="images/logo.webp" alt="EIA Logo" class="auth-card-logo">
+        <h2 class="auth-card-title">Committee Sign In</h2>
+        <p class="auth-card-sub">Enniscorthy Indian Association &bull; Executive Portal</p>
       </div>
 
-      <div class="auth-form-pane">
-        <div class="auth-box">
-          <h2 class="auth-box-title">Committee Sign In</h2>
-          <p class="auth-box-sub">Enter verified executive credentials to access the management dashboard.</p>
-
-          <form id="loginForm" onsubmit="return false;">
-            <div class="form-group">
-              <label class="form-label">Committee Email</label>
-              <input type="email" id="authEmail" class="form-control" value="" required placeholder="enniscorthyeia@gmail.com" autocomplete="username">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Password</label>
-              <div style="position:relative; display:flex; align-items:center;">
-                <input type="password" id="authPassword" class="form-control" value="" required placeholder="Enter password" autocomplete="current-password" style="padding-right:42px;">
-                <button type="button" id="btnTogglePassword" aria-label="Toggle password visibility" style="position:absolute; right:10px; background:none; border:none; color:var(--text-dim); cursor:pointer; display:flex; align-items:center; justify-content:center; padding:4px;">
-                  <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center;">
-              <label style="font-size:0.8rem; color:var(--text-dim); display:flex; align-items:center; gap:8px; cursor:pointer;">
-                <input type="checkbox" id="authRememberMe" checked> Remember sign in on this device
-              </label>
-              <a href="#" id="btnForgotPassword" style="font-size:0.8rem; color:var(--gold); text-decoration:none;">Forgot password?</a>
-            </div>
-            <div style="margin-top:22px;">
-              <button type="submit" class="btn btn-gold" id="loginBtn" style="width:100%; padding:13px; font-weight:700;">Sign In to Dashboard</button>
-            </div>
-          </form>
+      <form id="loginForm" onsubmit="return false;">
+        <div class="form-group">
+          <label class="form-label">Committee Email</label>
+          <input type="email" id="authEmail" class="form-control" value="" required placeholder="enniscorthyeia@gmail.com" autocomplete="username">
         </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div style="position:relative; display:flex; align-items:center;">
+            <input type="password" id="authPassword" class="form-control" value="" required placeholder="Enter password" autocomplete="current-password" style="padding-right:42px;">
+            <button type="button" id="btnTogglePassword" aria-label="Toggle password visibility" style="position:absolute; right:10px; background:none; border:none; color:var(--text-dim); cursor:pointer; display:flex; align-items:center; justify-content:center; padding:4px;">
+              <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center;">
+          <label style="font-size:0.8rem; color:var(--text-dim); display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" id="authRememberMe" checked> Remember sign in
+          </label>
+          <a href="#" id="btnForgotPassword" style="font-size:0.8rem; color:var(--gold); text-decoration:none;">Forgot password?</a>
+        </div>
+
+        <div style="margin-top:22px;">
+          <button type="submit" class="btn btn-gold" id="loginBtn" style="width:100%; padding:13px; font-weight:700;">Sign In to Dashboard</button>
+        </div>
+      </form>
+
+      <div style="margin-top:24px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.08); text-align:center;">
+        <a href="index.html" style="font-size:0.8rem; color:var(--text-dim); text-decoration:none;">
+          &larr; Return to Public Website
+        </a>
       </div>
     </div>
   </div>
