@@ -1823,18 +1823,18 @@
 
           <div class="auth-credential-hint">
             <strong>Registered Admin Credentials:</strong><br>
-            Email: <code style="color:var(--gold);">admin@eiawexford.org</code><br>
-            Password: <code style="color:var(--gold);">EIAwexford2026!</code>
+            Email: <code style="color:var(--gold);">enniscorthyeia@gmail.com</code><br>
+            Password: <code style="color:var(--gold);">EIA#Wexford2026!SecureCouncil</code>
           </div>
 
           <form id="loginForm" onsubmit="return false;">
             <div class="form-group">
               <label class="form-label">Committee Email</label>
-              <input type="email" id="authEmail" class="form-control" value="admin@eiawexford.org" required placeholder="admin@eiawexford.org">
+              <input type="email" id="authEmail" class="form-control" value="enniscorthyeia@gmail.com" required placeholder="enniscorthyeia@gmail.com">
             </div>
             <div class="form-group">
               <label class="form-label">Password</label>
-              <input type="password" id="authPassword" class="form-control" value="EIAwexford2026!" required placeholder="Password">
+              <input type="password" id="authPassword" class="form-control" value="EIA#Wexford2026!SecureCouncil" required placeholder="Password">
             </div>
             <div style="margin-top:14px;">
               <label style="font-size:0.8rem; color:var(--text-dim); display:flex; align-items:center; gap:8px; cursor:pointer;">
@@ -3277,7 +3277,7 @@ Youth &amp; Cultural Programs</textarea>
             'apikey': SUPABASE_ANON_KEY,
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ email: 'admin@eiawexford.org', password: 'EIAwexford2026!' })
+          body: JSON.stringify({ email: 'enniscorthyeia@gmail.com', password: 'EIA#Wexford2026!SecureCouncil' })
         });
         if (res.ok) {
           const data = await res.json();
@@ -3639,7 +3639,7 @@ Youth &amp; Cultural Programs</textarea>
 
       const modal = document.getElementById('authModal');
       if (modal) modal.style.display = 'none';
-      if (userEmailBadge) userEmailBadge.textContent = localStorage.getItem('EIA_ADMIN_EMAIL') || 'admin@eiawexford.org';
+      if (userEmailBadge) userEmailBadge.textContent = localStorage.getItem('EIA_ADMIN_EMAIL') || 'enniscorthyeia@gmail.com';
       return token;
     }
 
